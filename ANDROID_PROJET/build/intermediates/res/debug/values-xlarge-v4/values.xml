@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values-xlarge/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="btn_level">50sp</dimen>
+    <dimen name="text_Normal">50sp</dimen>
+    <dimen name="text_Small">30sp</dimen>
+    <dimen name="title">80sp</dimen>
+
+</resources>

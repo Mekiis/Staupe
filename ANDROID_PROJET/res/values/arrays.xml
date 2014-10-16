@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<array name="entries">
+		<item>@drawable/select_monde_01</item>
+		<item>@drawable/select_monde_02</item>
+		<item>@drawable/select_monde_03</item>
+		<item>@drawable/select_monde_03</item>
+		<item>@drawable/select_monde_03</item>
+		<item>@drawable/select_monde_03</item>							
+	</array>	
+	<array name="names">
+	    <item>monde_1</item>
+	    <item>monde_2</item>
+	    <item>monde_3</item>
+	    <item>monde_3</item>
+	    <item>monde_3</item>
+	    <item>monde_3</item>
+	</array>
+</resources>

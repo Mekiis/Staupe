@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/statsViewItemValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/text_Normal"
+        android:text="Value here..." />
+
+    <TextView
+        android:id="@+id/statsViewItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/statsViewItemValue"
+        android:layout_alignBottom="@+id/statsViewItemValue"
+        android:layout_toRightOf="@+id/statsViewItemValue"
+        android:textSize="@dimen/text_Normal"
+        android:text="Name here..." />
+
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/layout/stats_item.xml -->

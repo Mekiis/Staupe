@@ -1,4 +1,0 @@
-Staupe
-======
-
-Project Staupe

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="D:\Documents\PROGRAMMATION\STAUPE\ANDROID_PROJET\assets" >
+            <file
+                name="fonts/Barthowheel Regular.ttf"
+                path="D:\Documents\PROGRAMMATION\STAUPE\ANDROID_PROJET\assets\fonts\Barthowheel Regular.ttf" />
+            <file
+                name="lvl.txt"
+                path="D:\Documents\PROGRAMMATION\STAUPE\ANDROID_PROJET\assets\lvl.txt" />
+        </source>
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="D:\Documents\PROGRAMMATION\STAUPE\ANDROID_PROJET\build-types\debug\assets" />
+    </dataSet>
+
+</merger>

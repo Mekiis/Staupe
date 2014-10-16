@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="text_Small">15sp</dimen>
+    <dimen name="text_Normal">25sp</dimen>
+    <dimen name="title">40sp</dimen>
+    <dimen name="btn_level">20sp</dimen>
+</resources>

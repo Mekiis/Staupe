@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values-normal/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="btn_level">20sp</dimen>
+    <dimen name="text_Normal">25sp</dimen>
+    <dimen name="text_Small">15sp</dimen>
+    <dimen name="title">40sp</dimen>
+
+</resources>

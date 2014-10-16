@@ -1,0 +1,166 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/staupe_bg_land"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/marge_bottom"
+    android:paddingLeft="@dimen/marge_left"
+    android:paddingRight="@dimen/marge_right"
+    android:paddingTop="@dimen/marge_top" >
+
+    <Button
+        android:id="@+id/btn_back_tutorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector"
+        android:onClick="actionClick"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/btn_retour"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_Normal" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/tuto_rl_anim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tuto_msg_p0_global"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Staupe est un jeu de réflexion où le but est de bloquer le minimum de case possible dans une grille pour que la formation de taupe ne puisse plus rentrer."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <TextView
+                    android:id="@+id/tuto_msg_p1_jeu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chaque niveau est constituté d&apos;une grille composé de cases pouvant être bloquée en tapotant dessus."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <GridLayout
+                    android:id="@+id/tuto_grille_p1_jeu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="3" >
+                </GridLayout>
+
+                <TextView
+                    android:id="@+id/tuto_msg_p2_taupe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chaque niveau possède une formation de taupe qu&apos;il faudrat empecher de rentrer en bloquant des cases. Attention la formation peux tourner dans le sens des aiguilles d&apos;une montre. Tapottez la formation pour la faire tourner."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <GridLayout
+                    android:id="@+id/tuto_grille_p2_taupe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="3"
+                    android:onClick="actionClick" >
+                </GridLayout>
+
+                <TextView
+                    android:id="@+id/tuto_msg_p3_bonus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pour vous aider, vous pouvez utuliser un bonus qui permet d&apos;afficher sur la grille les taupes qui peuvent encore se placer. Vous regagnez des bonus quand vous finissez un nouveau niveau ou quand vous améliorez votre score sur un niveau que vous avez déjà finis."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <GridLayout
+                    android:id="@+id/tuto_grille_p3_jeu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:columnCount="3" >
+                </GridLayout>
+
+                <GridLayout
+                    android:id="@+id/tuto_grille_p3_taupe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:columnCount="3" >
+                </GridLayout>
+
+                <TextView
+                    android:id="@+id/tuto_msg_p4_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chaque niveau possède son propre score allant de 0 à 3 étoiles en fonction du nombre de case bloquée pour arriver à vos fins."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/ImageView02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/star_on" />
+
+                    <ImageView
+                        android:id="@+id/ImageView01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/star_on" />
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/star_off" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tuto_msg_p5_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Moins vous bloquez de cases, plus vous améliorez votre score. En améliorant votre score, vous pourrez gagnez des rechages pour le bonus. Il existe un grand nombre de niveaux différents, essayez de tous les finir avec 3 étoiles pour finir le jeu..."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+
+                <TextView
+                    android:id="@+id/tuto_msg_p6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Bonne chance !"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_Normal" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

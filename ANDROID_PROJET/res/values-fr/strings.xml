@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Staupe</string>
+    <string name="action_settings">Options</string>
+    <string name="logo">Logo</string>
+    <string name="highscore">Scores</string>
+    <string name="menu_play">Jouer</string>
+    <string name="gameTitle">Staupe !</string>
+    <string name="btn_retour">Retour</string>
+    <string name="btn_check">Valider</string>
+    <string name="maulShape">Formation des taupes</string>
+    <string name="dlg_win_return">Retour à la sélection des niveaux</string>
+    <string name="dlg_win_continue">Continuer le niveau</string>
+    <string name="dlg_winTitle">Gagné !</string>
+    <string name="dlg_winMsg">Vous avez réussi le niveau, félicitation !</string>
+    <string name="dlg_loseTitle">Perdu</string>
+    <string name="dlg_loseMsg">Les taupes ont envahi le jardin...</string>
+    <string name="dlg_lose_continue">Continuer le niveau</string>
+    <string name="dlg_lose_quit">Retourner à la sélection des niveaux</string>
+    <string name="dlg_lose_retry">Recommencer</string>
+    <string name="msg_game_bonus_no_maule">Aucune taupe ne peux rentrer</string>
+    <string name="msg_game_bonus_gain_beat_part1">(Vous avez fait un meilleur score, vous gagnez</string>
+    <string name="msg_game_bonus_gain_max_part1">(Vous avez encore fait 3 étoiles, vous gagnez</string>
+    <string name="msg_game_bonus_gain_part2">bonus)</string>
+    <string name="msg_game_bonus_no_gain_max">(Vous avez déjà le nombre maximal de bonus)</string>
+    <string name="menu_stats">Stats</string>
+    <string name="stats_allStars">Nombre d\'étoiles collectées</string>
+    <string name="stats_allMine">Nombre de tondeuses posées</string>
+	<string name="stats_uniqueMaul">Nombre de taupes délogées</string>
+	<string name="stats_groupMaul">Nombre de groupes de taupes délogées</string>
+	<string name="stats_gameLost">Nombre d\'essais ratés</string>
+	<string name="stats_gameWin">Nombre de parties gagnées</string>
+	<string name="menu_story">Histoire</string>
+	<string name="rules_explain">Votre objectif, si vous l\'acceptez, est d\'empêcher les taupes d\'envahir le jardin !\n\nPour cela, vous disposez d\'un énorme stock de tondeuses à gazon qui feront fuir les taupes à coup sur.\n\nMais attention à vous, elles se promènent toujours en bande de 2 ou 3. \nIl faudra donc leur bloquer toutes les possibilités de sortir de terre en positionnant correctement vos tondeuses à gazon sur le terrain.\n\nSoyez économe, car les tondeuses coûtent chères. Moins vous en utiliserez, mieux vous serez notés par notre jury de professionel.\n\nBonne chance !\n\nSigné, un jardinier en colère.</string>
+	<string name="btn_reinitialise_stars">Réinitialiser les étoiles</string>
+	<string name="dlg_statsReinitialise">Les étoiles ont été correctement réinitialisées</string>
+	<string name="dlg_statsReinitialiseTitle">Etoiles réinitialisées</string>
+	<string name="dlg_statsReinitialiseOk">Accepter</string>
+	<string name="maulHelp">Cliquez pour tourner</string>
+	<string name="menu_options">Options</string>
+	<string name="menu_tutorial">Tutoriel</string>
+</resources>

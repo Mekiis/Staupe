@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="marge_right">5dp</dimen>
+    <dimen name="marge_bottom">5dp</dimen>
+    <dimen name="marge_left">5dp</dimen>
+    <dimen name="marge_top">5dp</dimen>
+</resources>

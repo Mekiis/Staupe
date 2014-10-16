@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/arrays.xml -->
+    <eat-comment />
+
+    <array name="entries">
+        <item>@drawable/select_monde_01</item>
+        <item>@drawable/select_monde_02</item>
+        <item>@drawable/select_monde_03</item>
+        <item>@drawable/select_monde_03</item>
+        <item>@drawable/select_monde_03</item>
+        <item>@drawable/select_monde_03</item>
+    </array>
+    <array name="names">
+        <item>monde_1</item>
+        <item>monde_2</item>
+        <item>monde_3</item>
+        <item>monde_3</item>
+        <item>monde_3</item>
+        <item>monde_3</item>
+    </array>
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/color.xml -->
+    <eat-comment />
+
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="Carousel">
+        <attr name="android:gravity" />
+        <attr name="android:animationDuration" />
+        <attr name="Names" format="integer" />
+        <attr name="UseReflection" format="boolean" />
+        <attr name="Items" format="integer" />
+        <attr name="SelectedItem" format="integer" />
+        <attr name="maxTheta" format="float" />
+        <attr name="minQuantity" format="integer" />
+        <attr name="maxQuantity" format="integer" />
+    </declare-styleable>
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Staupe</string>
+    <string name="btn_check">Validate</string>
+    <string name="btn_reinitialise_achievements">Reset achievements</string>
+    <string name="btn_reinitialise_stars">Reset stars</string>
+    <string name="btn_retour">Back</string>
+    <string name="cb_activate_optional_animations">Activate optional animations</string>
+    <string name="dlg_loseMsg">Moles have invaded the garden...</string>
+    <string name="dlg_loseTitle">You lose</string>
+    <string name="dlg_lose_continue">Continue the level</string>
+    <string name="dlg_lose_quit">Return to level selection</string>
+    <string name="dlg_lose_retry">Retry</string>
+    <string name="dlg_statsReinitialise">The stars are correctly reinitialised</string>
+    <string name="dlg_statsReinitialiseOk">Accept</string>
+    <string name="dlg_statsReinitialiseTitle">Stars reinitialised</string>
+    <string name="dlg_winMsg">You beat the level, congratulation !</string>
+    <string name="dlg_winTitle">You won !</string>
+    <string name="dlg_win_continue">Continue the level</string>
+    <string name="dlg_win_return">Return to level selection</string>
+    <string name="gameTitle">S\'taupe !</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="highscore">HighScore</string>
+    <string name="logo">Logo</string>
+    <string name="maulHelp">Click to rotate</string>
+    <string name="maulShape">Maul shape</string>
+    <string name="menu_options">Options</string>
+    <string name="menu_play">Play</string>
+    <string name="menu_stats">Stats</string>
+    <string name="menu_story">Story</string>
+    <string name="menu_tutorial">Tutorial</string>
+    <string name="msg_game_bonus_gain_beat_part1">(You beat your high score, you win</string>
+    <string name="msg_game_bonus_gain_max_part1">(You have 3 stars again, you win</string>
+    <string name="msg_game_bonus_gain_part2">bonus)</string>
+    <string name="msg_game_bonus_no_gain_max">(You already have the max bonus)</string>
+    <string name="msg_game_bonus_no_maule">No moles can fit</string>
+    <string name="rules_explain">Your goal, if you accept it, is to prevent moles from invading the garden! \n\nFor that, you have a huge stock of lawn mower that will flee moles for sure. \n\nBut be carefull, they are always around in bands of 2 or 3. \nIt will therefore block their all possibilities out of your land properly positionant lawnmowers on the ground. \n\nBe thrifty, because mowers costs very expensive. The less you use, the better you will be rated by our professional jury.\n\nGood luck! \n\nSigned, an angry gardener. </string>
+    <string name="stats_allMine">Number of mines laid</string>
+    <string name="stats_allStars">Number of stars collected</string>
+    <string name="stats_gameLost">Number of missed try</string>
+    <string name="stats_gameWin">Number of games win</string>
+    <string name="stats_groupMaul">Number of group of mols pulles out</string>
+    <string name="stats_uniqueMaul">Number of moles pulled out</string>
+    <string name="version">1.5.1</string>
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Jeu" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>
