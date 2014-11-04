@@ -1,35 +1,19 @@
 package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import fr.free.simon.jacquemin.staupe.Accueil.LauncherInsect;
-import fr.free.simon.jacquemin.staupe.utils.SGMMath;
-import fr.free.simon.jacquemin.staupe.utils.SGMTimer;
-import fr.free.simon.jacquemin.staupe.utils.UtilsGrille;
-import fr.free.simon.jacquemin.staupe.utils.UtilsLevel;
-import fr.free.simon.jacquemin.staupe.utils.UtilsReadLevelFile;
-import fr.free.simon.jacquemin.staupe.utils.UtilsTaupe;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
@@ -40,6 +24,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import fr.free.simon.jacquemin.staupe.utils.SGMMath;
+import fr.free.simon.jacquemin.staupe.utils.SGMTimer;
+import fr.free.simon.jacquemin.staupe.utils.UtilsGrille;
+import fr.free.simon.jacquemin.staupe.utils.UtilsLevel;
+import fr.free.simon.jacquemin.staupe.utils.UtilsReadLevelFile;
+import fr.free.simon.jacquemin.staupe.utils.UtilsTaupe;
 
 public class Jeu extends SGMScreenInterface {
 	private UtilsLevel levelActuel;
@@ -72,6 +62,11 @@ public class Jeu extends SGMScreenInterface {
 					SGMGameManager.STARS + levelActuel.id, "0"));
 		}
 		
+		if(getArray().length > 0){
+			arr = getArray();
+			constructGameFromArray();
+		}
+		
 		img = (ImageView) findViewById(R.id.anim_test);
 		activity = this;
 		ctx = getApplicationContext();
@@ -79,12 +74,43 @@ public class Jeu extends SGMScreenInterface {
 		taskInsect = new LauncherInsect();
 		timerInsect = new SGMTimer();
 		timerInsect.execute((float) SGMMath.randInt(5, 7), false, taskInsect);
+		
+		// TODO Restore instance level
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		setArray(constructArrayFromGame());
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
+		outState.putIntArray("TAB", constructArrayFromGame());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		if (!savedInstanceState.containsKey("TAB")) {
+			return;
+		}
+
+		arr = savedInstanceState.getIntArray("TAB");
+		constructGameFromArray();
+	}
+
+	public void setArray(int[] array)
+	{
+		for(int i = 0; i < array.length; i++){
+			setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+levelActuel.id+"_"+i, Integer.toString(array[i]));
+		}
+	}
+
+	public int[] constructArrayFromGame(){
 		int count = 0;
 		for (int i = 0; i < this.grilleActuelle.getGrille().length; i++) {
 			count += this.grilleActuelle.getGrille()[i].length;
@@ -96,23 +122,30 @@ public class Jeu extends SGMScreenInterface {
 						.getGrille()[i][j].getState();
 			}
 		}
-		outState.putIntArray("TAB", arr);
+		
+		return arr;
 	}
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		if (!savedInstanceState.containsKey("TAB")) {
-			return;
+	public int[] getArray()
+	{
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		for(int i = 0; i < array.size(); i++){
+			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+levelActuel.id+"_"+i, "0")));
 		}
+		
+		int[] arr = new int[array.size()];
+		for(int i = 0; i < array.size(); i++){
+			arr[i] = array.get(i);
+		}
+		
+		return arr;
+	}
 
-		Log.d("Simon", "Restaure instance");
-		arr = savedInstanceState.getIntArray("TAB");
+	public void constructGameFromArray(){
 		grille = (GridLayout) findViewById(R.id.grid);
 		grille.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
-
+	
 					@Override
 					public void onGlobalLayout() {
 						int count = 0;
@@ -123,13 +156,13 @@ public class Jeu extends SGMScreenInterface {
 								count++;
 							}
 						}
-
+	
 						// unregister listener (this is important)
 						grille.getViewTreeObserver()
 								.removeGlobalOnLayoutListener(this);
 					}
 				});
-
+	
 	}
 
 	@Override
@@ -144,7 +177,7 @@ public class Jeu extends SGMScreenInterface {
 		((Button) findViewById(R.id.btn_check_game)).setTypeface(font);
 	}
 
-	public void decodeLevel() {
+	private void decodeLevel() {
 		int levelID = -1;
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -213,7 +246,7 @@ public class Jeu extends SGMScreenInterface {
 		((TextView) findViewById(R.id.tv_Level)).setText(l.name);
 	}
 
-	public UtilsTaupe convertTaupeFromLevel(UtilsLevel level) {
+	private UtilsTaupe convertTaupeFromLevel(UtilsLevel level) {
 		UtilsTaupe t = new UtilsTaupe();
 		int[][] f = new int[level.heightTaupe][level.widthTaupe];
 		for (int i = 0; i < level.heightTaupe; i++) {
@@ -226,7 +259,7 @@ public class Jeu extends SGMScreenInterface {
 		return t;
 	}
 
-	public void displayTaupe(UtilsTaupe taupe, int largeur, int hauteur) {
+	private void displayTaupe(UtilsTaupe taupe, int largeur, int hauteur) {
 		GridLayout grilleTaupe = (GridLayout) findViewById(R.id.gridTaupe);
 		grilleTaupe.removeAllViews();
 
@@ -265,7 +298,6 @@ public class Jeu extends SGMScreenInterface {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			new Insecte().execute(img, activity, ctx,
 					metrics.heightPixels,
 					-500f, metrics.widthPixels + 1000f);
@@ -273,6 +305,11 @@ public class Jeu extends SGMScreenInterface {
 			timerInsect = new SGMTimer();
 			timerInsect.execute((float) SGMMath.randInt(5, 7), false, taskInsect);
 		}
+	}
+
+	private void resetTimerInsect(){
+		if(timerInsect != null)
+			timerInsect.resetTimer();
 	}
 
 	@Override
@@ -354,11 +391,6 @@ public class Jeu extends SGMScreenInterface {
 
 	}
 
-	private void resetTimerInsect(){
-		if(timerInsect != null)
-			timerInsect.resetTimer();
-	}
-	
 	private void displayNbBonusShowTaupe() {
 		((TextView) findViewById(R.id.game_btn_bonus_show_taupe_nb))
 				.setText(getPref(
@@ -367,7 +399,7 @@ public class Jeu extends SGMScreenInterface {
 						Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
 	}
 
-	public void verify() {
+	private void verify() {
 		boolean verif = grilleActuelle.verifGrille(taupeActuelle);
 		// 1. Instantiate an AlertDialog.Builder with its constructor
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -545,27 +577,6 @@ public class Jeu extends SGMScreenInterface {
 		dialog.show();
 	}
 
-	// Combine Multi Image Into One
-	private Bitmap combineImageIntoOne(ArrayList<Bitmap> bitmap) {
-		int w = 0, h = 0;
-		for (int i = 0; i < bitmap.size(); i++) {
-			if (i < bitmap.size() - 1) {
-				h = bitmap.get(i).getHeight() > bitmap.get(i + 1).getHeight() ? bitmap
-						.get(i).getHeight() : bitmap.get(i + 1).getHeight();
-			}
-			w += bitmap.get(i).getWidth();
-		}
-
-		Bitmap temp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(temp);
-		int left = 0;
-		for (int i = 0; i < bitmap.size(); i++) {
-			left = (i == 0 ? 0 : left + bitmap.get(i).getWidth());
-			canvas.drawBitmap(bitmap.get(i), left, 0f, null);
-		}
-		return temp;
-	}
-
 	private int checkNbStars(int nbMineMinimum, int nbMineActual) {
 		int nbStarsThisRound = 0;
 		
@@ -582,5 +593,26 @@ public class Jeu extends SGMScreenInterface {
 		}
 
 		return nbStarsThisRound;
+	}
+
+	// Combine Multi Image Into One
+	private Bitmap combineImageIntoOne(ArrayList<Bitmap> bitmap) {
+		int w = 0, h = 0;
+		for (int i = 0; i < bitmap.size(); i++) {
+			if (i < bitmap.size() - 1) {
+				h = bitmap.get(i).getHeight() > bitmap.get(i + 1).getHeight() ? bitmap
+						.get(i).getHeight() : bitmap.get(i + 1).getHeight();
+			}
+			w += bitmap.get(i).getWidth();
+		}
+	
+		Bitmap temp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(temp);
+		int left = 0;
+		for (int i = 0; i < bitmap.size(); i++) {
+			left = (i == 0 ? 0 : left + bitmap.get(i).getWidth());
+			canvas.drawBitmap(bitmap.get(i), left, 0f, null);
+		}
+		return temp;
 	}
 }

@@ -13,7 +13,6 @@ public class SGMTimer extends AsyncTask<Object, Float, Void>{
 	
 	@Override
 	protected Void doInBackground(Object... params) {
-		// TODO Auto-generated method stub
 		duration = (Float) params[0];
 		repeat = (Boolean) params[1];
 		task = (Runnable) params[2];
@@ -39,7 +38,6 @@ public class SGMTimer extends AsyncTask<Object, Float, Void>{
 		
 	@Override
 	protected void onProgressUpdate(Float... values) {
-		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
 	}
 

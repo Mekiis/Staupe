@@ -12,18 +12,15 @@
         android:id="@+id/rules_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|left"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_back_rules"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector"
-            android:onClick="actionClick"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal"
-            android:textColor="@color/black" />
+            android:background="@drawable/selector_btn_back"
+            android:onClick="actionClick" />
 
     </LinearLayout>
 

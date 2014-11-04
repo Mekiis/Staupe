@@ -9,25 +9,22 @@
     android:paddingLeft="@dimen/marge_left" >
 
     <LinearLayout
+        android:id="@+id/tutorial_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:id="@+id/tutorial_ll_back" >
+        android:gravity="center_horizontal|left"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_back_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector"
+            android:background="@drawable/selector_btn_back"
             android:onClick="actionClick"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal"
-            android:textColor="@color/black" />
+            android:paddingTop="10dp" />
 
     </LinearLayout>
 

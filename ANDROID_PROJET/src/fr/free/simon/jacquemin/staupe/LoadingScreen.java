@@ -3,25 +3,62 @@ package fr.free.simon.jacquemin.staupe;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Matrix;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
 public class LoadingScreen extends Activity {	
-	private Thread splashTread;
-	private ProgressBar loadingBar = null;
+	private ImageView loadingBg = null;
+	private float angle = 0f;
 
+	private Handler myHandler;
+	private Runnable myRunnable = new Runnable() {
+		@Override
+		public void run() {
+			// Code to execute periodically
+			float newAngle = (angle+1.5f)%360f;
+			rotate(angle, newAngle);
+			angle = newAngle;
+			myHandler.postDelayed(this,20);
+	    }
+	};
+	
+	private void rotate(float degreeInitial, float degree) {
+	    RotateAnimation rotateAnim = new RotateAnimation(degreeInitial, degree,
+	            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+	            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+
+	    rotateAnim.setDuration(0);
+	    rotateAnim.setFillAfter(true);
+	    loadingBg.startAnimation(rotateAnim);
+	}
+	
 	/** Chargement de l'Activity */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loading);
 		
-		loadingBar = (ProgressBar) findViewById(R.id.loading_bar);
+		loadingBg = (ImageView) findViewById(R.id.loading_bg);
+		
+		myHandler = new Handler();
+	    myHandler.postDelayed(myRunnable,10); // on redemande toute les 500ms
 		
 		new LoadingImages(getPackageName(), getResources()).execute();
+	}
+	
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    if(myHandler != null)
+	        myHandler.removeCallbacks(myRunnable); // On arrete le callback
 	}
 	
 	private class LoadingImages extends AsyncTask<Void, Integer, Void> {
@@ -62,11 +99,7 @@ public class LoadingScreen extends Activity {
         
         @Override
         protected void onProgressUpdate(Integer... values){
-        	super.onProgressUpdate(values);
-        	
-        	Log.d("Staupe", ""+(values[0] * loadingBar.getMax() / values[1]));
-        	
-        	loadingBar.setProgress(values[0] * loadingBar.getMax() / values[1]);
+        	super.onProgressUpdate(values);        	
         }
         
         @Override 
@@ -85,6 +118,8 @@ public class LoadingScreen extends Activity {
 				String nameLocal = name + (i + 1);
 				int globeId = resources.getIdentifier(nameLocal,
 						"drawable", packageName);
+				
+				Log.d("Staupe", ""+resources.getDrawable(globeId).getMinimumHeight());
 
 				container.addFrame(resources.getDrawable(globeId), 40);
 			}

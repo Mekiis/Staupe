@@ -12,7 +12,7 @@
         android:id="@+id/stats_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|left"
         android:orientation="vertical" >
 
         <Button
@@ -21,15 +21,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/selector"
+            android:background="@drawable/selector_btn_back"
             android:onClick="actionClick"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal"
-            android:textColor="@color/black" />
+            android:paddingTop="10dp"/>
 
     </LinearLayout>
 

@@ -21,7 +21,6 @@ public class SplashScreen extends Activity {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				Intent i = new Intent(getBaseContext(),
 						SGMGameManager.class);
 				i.putExtra(SGMGameManager.START_ACTION, "launch");

@@ -39,7 +39,6 @@ public class Accueil extends SGMScreenInterface {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			new Insecte().execute(img, activity, ctx,
 					metrics.heightPixels,
 					-500f, metrics.widthPixels + 1000f);
@@ -49,15 +48,12 @@ public class Accueil extends SGMScreenInterface {
 	}
 	
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		
+	protected void onPause() {		
 		super.onPause();
 	}
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		
 		super.onResume();
 	}

@@ -17,19 +17,20 @@ public class SGMGameManager extends Activity {
 	public static final int RESULT_OK = 1;
 	public static final int RESULT_CANCELED = -1;
 
+	public static final String START_ACTION = "SA";
+
+	public static final String LEVEL = "LEVEL_";
+	public static final String WORLD = "WORLD_";
+	
+	public static final String FILE_LEVELS = "F_LEVELS";
+	public static final String STARS = "LEVELS_STARS_";
+	public static final String STATE = "LEVEL_LAST_STATE_";
+	
+	public static final String FILE_BONUS = "F_BONUS";
 	public static final String BONUS_AFFICHE_TAUPE_NB = "BONUS_A_T";
 	public static final int BONUS_AFFICHE_TAUPE_DEFAULT = 10;
 
-	public static final String START_ACTION = "SA";
-
-	public static final String STARS = "STARS_LEVEL_";
-	public static final String LEVEL = "LEVEL_";
-	public static final String WORLD = "WORLD_";
-
 	public static final String FILE_STATS = "F_STATS";
-	public static final String FILE_LEVELS = "F_LEVELS";
-	public static final String FILE_BONUS = "F_BONUS";
-
 	public static final String STATS_ALL_STARS = "STATS_ALL_STARS";
 	public static final String STATS_ALL_MINES = "STATS_ALL_MINES";
 	public static final String STATS_ALL_UNIQUE_MAUL = "STATS_ALL_UNIQUE_TAUPE";

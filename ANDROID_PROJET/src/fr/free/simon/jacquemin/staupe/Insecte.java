@@ -92,7 +92,6 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					animatorLifeDone.stop();
 					
