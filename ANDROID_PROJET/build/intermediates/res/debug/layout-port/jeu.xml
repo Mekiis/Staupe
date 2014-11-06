@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/staupe_bg"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/marge_bottom"
+    android:paddingLeft="@dimen/marge_left"
+    android:paddingRight="@dimen/marge_right"
+    android:paddingTop="@dimen/marge_top" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/game_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <Button
+                        android:id="@+id/btn_back_game"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/selector"
+                        android:onClick="actionClick"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/btn_retour"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_Normal" />
+
+                    <Button
+                        android:id="@+id/btn_check_game"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/selector"
+                        android:onClick="actionClick"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/btn_check"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_Normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_normal"
+                    android:gravity="center" >
+
+                    <ImageButton
+                        android:id="@+id/game_btn_reset_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="actionReset"
+                        android:src="@drawable/btn_reset" />
+
+                    <ImageButton
+                        android:id="@+id/game_btn_best_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="actionBest"
+                        android:src="@drawable/btn_best" />
+
+                    <ImageButton
+                        android:id="@+id/game_btn_turn_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="actionTurn"
+                        android:src="@drawable/btn_turn" />
+
+                    <LinearLayout
+                        android:id="@+id/game_btn_bonus_show_taupe_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_help"
+                        android:gravity="center"
+                        android:onClick="actionBonusShowTaupe" >
+
+                        <ImageButton
+                            android:id="@+id/game_btn_bonus_show_taupe_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="actionBonusShowTaupe"
+                            android:src="@drawable/btn_help" />
+
+                        <TextView
+                            android:id="@+id/game_btn_bonus_show_taupe_nb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_Level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Level"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/title" />
+
+                <RelativeLayout
+                    android:id="@+id/game_rl_anim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/game_ll_display"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <GridLayout
+                            android:id="@+id/grid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:alignmentMode="alignMargins"
+                            android:columnCount="3" >
+                        </GridLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/lay_jeu_taupe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:onClick="actionTurn"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_maulShape"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/maulShape"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_Normal" />
+
+                    <GridLayout
+                        android:id="@+id/gridTaupe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:columnCount="3" >
+                    </GridLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/anim_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="center"
+        android:src="@drawable/case_none" />
+
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/jeu.xml -->

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:paddingTop="@dimen/marge_top"
+    android:paddingRight="@dimen/marge_right"
+    android:paddingBottom="@dimen/marge_bottom"
+    android:paddingLeft="@dimen/marge_left" >
 
-</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/layout-port/options.xml -->
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/options.xml -->

@@ -145,7 +145,8 @@
             android:layout_height="wrap_content"
             android:text="@string/version"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_Small" />
+            android:textSize="@dimen/text_Small"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
     <ImageView
@@ -155,4 +156,4 @@
         android:src="@drawable/case_none"
         android:scaleType="center" />
 
-</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/layout-port/accueil.xml -->
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/accueil.xml -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/values-land/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="marge_bottom">5dp</dimen>
+    <dimen name="marge_left">5dp</dimen>
+    <dimen name="marge_right">5dp</dimen>
+    <dimen name="marge_top">5dp</dimen>
+
+</resources>

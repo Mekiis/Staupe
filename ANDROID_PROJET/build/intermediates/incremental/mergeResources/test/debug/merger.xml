@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="D:\Documents\PROGRAMMATION\STAUPE\GIT\ANDROID_PROJET\src\androidTest\res" />
+        <source path="D:\Documents\PROGRAMMATION\STAUPE\GIT\ANDROID_PROJET\build\generated\res\rs\test\debug" />
+        <source path="D:\Documents\PROGRAMMATION\STAUPE\GIT\ANDROID_PROJET\build\generated\res\generated\test\debug" />
+    </dataSet>
+
+</merger>

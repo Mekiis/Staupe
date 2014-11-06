@@ -2,23 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/staupe_bg" >
+    android:background="@drawable/staupe_bg"
+    android:paddingTop="@dimen/marge_top"
+    android:paddingRight="@dimen/marge_right"
+    android:paddingBottom="@dimen/marge_bottom"
+    android:paddingLeft="@dimen/marge_left" >
 
     <LinearLayout
         android:id="@+id/rules_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|left"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_back_rules"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector"
-            android:onClick="actionClick"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal" />
+            android:background="@drawable/selector_btn_back"
+            android:onClick="actionClick" />
 
     </LinearLayout>
 
@@ -44,10 +46,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/rules_explain"
-                    android:textSize="@dimen/text_Normal" />
+                    android:textSize="@dimen/text_Normal"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
-</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/layout-land/story.xml -->
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-land/story.xml -->

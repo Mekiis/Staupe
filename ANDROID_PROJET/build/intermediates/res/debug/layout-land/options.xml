@@ -2,27 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/staupe_bg_land" >
+    android:background="@drawable/staupe_bg_land"
+    android:paddingTop="@dimen/marge_top"
+    android:paddingRight="@dimen/marge_right"
+    android:paddingBottom="@dimen/marge_bottom"
+    android:paddingLeft="@dimen/marge_left" >
 
     <LinearLayout
+        android:id="@+id/tutorial_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:id="@+id/tutorial_ll_back" >
+        android:gravity="center_horizontal|left"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_back_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector"
+            android:background="@drawable/selector_btn_back"
             android:onClick="actionClick"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal" />
+            android:paddingTop="10dp" />
 
     </LinearLayout>
 
@@ -67,7 +69,8 @@
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/btn_reinitialise_achievements"
-                    android:textSize="@dimen/text_Normal" />
+                    android:textSize="@dimen/text_Normal"
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/btn_reinitialise_stats"
@@ -82,9 +85,10 @@
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/btn_reinitialise_stars"
-                    android:textSize="@dimen/text_Normal" />
+                    android:textSize="@dimen/text_Normal"
+                    android:textColor="@color/black" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
-</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/ANDROID_PROJET/res/layout-land/options.xml -->
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-land/options.xml -->
