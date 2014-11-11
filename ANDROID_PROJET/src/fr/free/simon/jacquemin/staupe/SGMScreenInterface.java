@@ -7,13 +7,12 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.GridLayout;
 
-public class SGMScreenInterface extends Activity {
+public abstract class SGMScreenInterface extends Activity {
 	protected DisplayMetrics metrics = new DisplayMetrics();
 	protected Typeface font = null;
 	protected Intent intent = getIntent();
-	protected String nameActivity = "Generic";
+	private String nameActivity = "Generic";
 	protected int behaviorQuitButton = 0;
 
 	protected void init() {
@@ -65,7 +64,7 @@ public class SGMScreenInterface extends Activity {
 		intent = getIntent();
 
 		// Add the name of the Activity
-		intent.putExtra(SGMGameManager.RESPOND_NAME, nameActivity + msg);
+		intent.putExtra(SGMGameManager.RESPOND_NAME, getNameActivity() + msg);
 		
 		// Return a RESULT_OK as a result of the activity
 		setResult(SGMGameManager.RESULT_OK, intent);
@@ -86,4 +85,6 @@ public class SGMScreenInterface extends Activity {
 		editor.putString(key, value);
 		editor.commit();
 	}
+
+    abstract public String getNameActivity();
 }

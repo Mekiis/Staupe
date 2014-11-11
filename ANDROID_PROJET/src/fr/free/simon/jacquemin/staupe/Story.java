@@ -10,7 +10,7 @@ public class Story extends SGMScreenInterface {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.story);
-		this.nameActivity = "Story";
+
 		init();
 	}
 	
@@ -22,7 +22,12 @@ public class Story extends SGMScreenInterface {
 		}
 	}
 
-	public void init() {
+    @Override
+    public String getNameActivity() {
+        return "Story";
+    }
+
+    public void init() {
 		super.init();
 		
 		((TextView) findViewById(R.id.tv_rules)).setTypeface(font);

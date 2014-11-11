@@ -1,6 +1,7 @@
 package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,8 +53,7 @@ public class Jeu extends SGMScreenInterface {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.jeu);
-		
-		nameActivity = "Jeu";
+
 		init();
 		
 		decodeLevel();
@@ -74,15 +74,20 @@ public class Jeu extends SGMScreenInterface {
 		taskInsect = new LauncherInsect();
 		timerInsect = new SGMTimer();
 		timerInsect.execute((float) SGMMath.randInt(5, 7), false, taskInsect);
-		
-		// TODO Restore instance level
 	}
 	
 	@Override
-	protected void onDestroy() {
+	protected void onStop() {
 		setArray(constructArrayFromGame());
 		super.onDestroy();
 	}
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        arr = getArray();
+        constructGameFromArray();
+    }
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -128,9 +133,13 @@ public class Jeu extends SGMScreenInterface {
 
 	public int[] getArray()
 	{
-		ArrayList<Integer> array = new ArrayList<Integer>();
-		for(int i = 0; i < array.size(); i++){
-			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+levelActuel.id+"_"+i, "0")));
+		List<Integer> array = new ArrayList<Integer>();
+        int count = 0;
+        for (int i = 0; i < this.grilleActuelle.getGrille().length; i++) {
+            count += this.grilleActuelle.getGrille()[i].length;
+        }
+		for(int i = 0; i < count; i++){
+			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+levelActuel.id+"_"+i, "1")));
 		}
 		
 		int[] arr = new int[array.size()];
@@ -148,6 +157,9 @@ public class Jeu extends SGMScreenInterface {
 	
 					@Override
 					public void onGlobalLayout() {
+                        if(arr.length == 0)
+                            return;
+
 						int count = 0;
 						for (int i = 0; i < grilleActuelle.getGrille().length; i++) {
 							for (int j = 0; j < grilleActuelle.getGrille()[i].length; j++) {
@@ -184,16 +196,16 @@ public class Jeu extends SGMScreenInterface {
 			// On prends l'ID du level
 			levelID = intent.getIntExtra(SGMGameManager.LEVEL, -1);
 		} else {
-			// Si problème avec l'intent, on fait un back
+			// Si problï¿½me avec l'intent, on fait un back
 			endActivity("Return");
 		}
 		// On charge tous les niveau
 		allLevel = new UtilsReadLevelFile().buildLevel(getApplicationContext(),
 				"lvl.txt");
-		// On recherche si l'ID corresponds à un niveau
+		// On recherche si l'ID corresponds ï¿½ un niveau
 		for (int i = 0; i < allLevel.size(); i++) {
 			if (allLevel.get(i).id == levelID) {
-				// Si on le trouve, on créé le jeu
+				// Si on le trouve, on crï¿½ï¿½ le jeu
 				levelActuel = allLevel.get(i);
 				createGame(levelActuel);
 				return;
@@ -326,7 +338,12 @@ public class Jeu extends SGMScreenInterface {
 		}
 	}
 
-	public void actionTurn(View v) {
+    @Override
+    public String getNameActivity() {
+        return "Jeu";
+    }
+
+    public void actionTurn(View v) {
 		resetTimerInsect();
 		
 		int[][] f = this.taupeActuelle.rot90Hor();
@@ -453,7 +470,7 @@ public class Jeu extends SGMScreenInterface {
 					grilleActuelle.findBestSolution(taupeActuelle),
 					grilleActuelle.countNbMine(grilleActuelle.getGrille(), 2));
 
-			// Statistique : Nb de partie gagnée
+			// Statistique : Nb de partie gagnï¿½e
 			int nbGameWin = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_NB_GAMES_WIN, "0"));
 			setPref(SGMGameManager.FILE_STATS,
@@ -467,14 +484,14 @@ public class Jeu extends SGMScreenInterface {
 					Integer.toString(nbMineTot
 							+ grilleActuelle.countNbMine(
 									grilleActuelle.getGrille(), 2)));
-			// Statistique : Nb de taupe éliminée
+			// Statistique : Nb de taupe ï¿½liminï¿½e
 			int nbTaupeUniqueTot = Integer.parseInt(getPref(
 					SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0"));
 			setPref(SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_ALL_UNIQUE_MAUL,
 					Integer.toString(nbTaupeUniqueTot + taupeActuelle.getNb()));
-			// Statistique : Nb de taupe éliminée
+			// Statistique : Nb de taupe ï¿½liminï¿½e
 			int nbTaupeGroupeTot = Integer.parseInt(getPref(
 					SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_ALL_GROUP_MAUL, "0"));
@@ -521,7 +538,7 @@ public class Jeu extends SGMScreenInterface {
 			displayNbBonusShowTaupe();
 
 			if (nbStarThisRound > nbStars) {
-				// Statistique : Nb d'étoile
+				// Statistique : Nb d'ï¿½toile
 				int nbStarsTot = Integer.parseInt(getPref(
 						SGMGameManager.FILE_STATS,
 						SGMGameManager.STATS_ALL_STARS, "0"));

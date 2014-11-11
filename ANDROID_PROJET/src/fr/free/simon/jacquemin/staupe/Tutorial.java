@@ -135,11 +135,14 @@ public class Tutorial extends SGMScreenInterface {
 		}
 	}
 
-	protected void init() {
+    @Override
+    public String getNameActivity() {
+        return "Tutorial";
+    }
+
+    protected void init() {
 		super.init();
-		
-		nameActivity = "Tutorial";
-		
+
 		((TextView) findViewById(R.id.tuto_msg_p0_global)).setTypeface(font);
 		((TextView) findViewById(R.id.tuto_msg_p1_jeu)).setTypeface(font);
 		((TextView) findViewById(R.id.tuto_msg_p2_taupe)).setTypeface(font);

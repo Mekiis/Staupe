@@ -48,7 +48,7 @@ public class SelectLevel extends SGMScreenInterface {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.choix);
-		this.nameActivity = "Level";
+
 		init();
 		choixLevel();
 
@@ -81,7 +81,7 @@ public class SelectLevel extends SGMScreenInterface {
 		allLevels = filtreIdMonde(idWorld, allLevels);
 		LinearLayout linearLay = (LinearLayout) findViewById(R.id.levels);
 		Button btn = new Button(getApplicationContext());
-		// Création de la font
+		// Crï¿½ation de la font
 		Typeface tf = Typeface.createFromAsset(getAssets(),
 				"fonts/Barthowheel Regular.ttf");
 		for (int i = 0; i < allLevels.size(); i++) {
@@ -145,14 +145,14 @@ public class SelectLevel extends SGMScreenInterface {
 				btn.setSelected(true);
 			}
 
-			// Ajout du bouton à la liste
+			// Ajout du bouton ï¿½ la liste
 			linearLay.addView(btn);
 		}
 
-		// Fonction de scrolling jusqu'au précédent level (Si possible)
+		// Fonction de scrolling jusqu'au prï¿½cï¿½dent level (Si possible)
 		Intent intent = getIntent();
 		if (intent != null) {
-			// Récupération du nom du level
+			// Rï¿½cupï¿½ration du nom du level
 			idLevel = intent.getIntExtra(SGMGameManager.LEVEL, -1);
 
 			if (idLevel != -1) {
@@ -285,7 +285,12 @@ public class SelectLevel extends SGMScreenInterface {
 		}
 	}
 
-	@Override
+    @Override
+    public String getNameActivity() {
+        return "Level";
+    }
+
+    @Override
 	protected void init() {
 		super.init();
 		

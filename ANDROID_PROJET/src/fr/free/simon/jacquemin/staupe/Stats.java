@@ -27,7 +27,7 @@ public class Stats extends SGMScreenInterface {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
-		this.nameActivity = "Stats";
+
 		init();
 		affichage();
 	}
@@ -41,7 +41,12 @@ public class Stats extends SGMScreenInterface {
 		}
 	}
 
-	public void reinitialiseStats() {
+    @Override
+    public String getNameActivity() {
+        return "Stats";
+    }
+
+    public void reinitialiseStats() {
 		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
 		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);

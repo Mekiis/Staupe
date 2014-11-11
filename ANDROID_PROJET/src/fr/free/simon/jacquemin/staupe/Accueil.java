@@ -22,7 +22,7 @@ public class Accueil extends SGMScreenInterface {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accueil);
-		this.nameActivity = "Accueil";
+
 		this.behaviorQuitButton = 1;
 		init();
 
@@ -64,7 +64,12 @@ public class Accueil extends SGMScreenInterface {
 		super.endActivity(msg);
 	}
 
-	@Override
+    @Override
+    public String getNameActivity() {
+        return "Accueil";
+    }
+
+    @Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_home_play:
