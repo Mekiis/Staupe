@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg_land"
+    android:id="@+id/options_root"
     android:paddingTop="@dimen/marge_top"
     android:paddingRight="@dimen/marge_right"
     android:paddingBottom="@dimen/marge_bottom"
@@ -10,9 +11,9 @@
 
     <LinearLayout
         android:id="@+id/tutorial_ll_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal|left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <Button
@@ -29,31 +30,46 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/tutorial_ll_back"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/tutorial_ll_back"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <ScrollView
             android:id="@+id/tutorial_scroll"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:fillViewport="true" >
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal|center_vertical|left"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/options_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/options_title"
+                    android:textSize="@dimen/title"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cb_activate_animations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/options_cb_activate_animations"
+                    android:textSize="@dimen/text_Normal" />
 
                 <CheckBox
                     android:id="@+id/cb_activate_optional_animations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cb_activate_optional_animations"
+                    android:text="@string/options_cb_activate_optional_animations"
                     android:textSize="@dimen/text_Normal" />
 
                 <Button
@@ -68,7 +84,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/btn_reinitialise_achievements"
+                    android:text="@string/options_btn_reinitialise_achievements"
                     android:textSize="@dimen/text_Normal"
                     android:textColor="@color/black" />
 

@@ -1,20 +1,13 @@
 package fr.free.simon.jacquemin.staupe;
 
+import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
 import fr.free.simon.jacquemin.staupe.stats.StatsAdapter;
 import fr.free.simon.jacquemin.staupe.stats.StatsItem;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,13 +22,13 @@ public class Stats extends SGMScreenInterface {
 		setContentView(R.layout.stats);
 
 		init();
-		affichage();
+		displayStatistiques();
 	}
 
 	@Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_back_stats:
+		case R.id.stats_btn_back:
 			endActivity("Back");
 			break;
 		}
@@ -46,37 +39,13 @@ public class Stats extends SGMScreenInterface {
         return "Stats";
     }
 
-    public void reinitialiseStats() {
-		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
-		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		// win
-		// 2. Chain together various setter methods to set the dialog
-		// characteristics
-		builder.setMessage(R.string.dlg_statsReinitialise);
-		builder.setTitle(R.string.dlg_statsReinitialiseTitle);
-
-		// 3. Add the buttons
-		builder.setPositiveButton(R.string.dlg_statsReinitialiseOk,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// User clicked OK button
-						endActivity("Back");
-					}
-				});
-		
-		// 4. Get the AlertDialog from create()
-		AlertDialog dialog = builder.create();
-		dialog.show();
-	}
-
 	public void init() {
 		super.init();
 		
-		((Button) findViewById(R.id.btn_back_stats)).setTypeface(font);
+		((Button) findViewById(R.id.stats_btn_back)).setTypeface(font);
 	}
 
-	private void affichage() {
+	private void displayStatistiques() {
 		StatsItem[] items = new StatsItem[6];
 
 		// Get all the stats
@@ -121,7 +90,7 @@ public class Stats extends SGMScreenInterface {
 		listViewItems.setAdapter(adapter);
 
 		// Add the list to the main layout
-		LinearLayout layout = (LinearLayout) findViewById(R.id.lay_stats);
+		LinearLayout layout = (LinearLayout) findViewById(R.id.stats_ll_display_stats);
 		layout.addView(listViewItems);
 	}
 }

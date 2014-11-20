@@ -119,7 +119,7 @@ public class LoadingScreen extends Activity {
 				int globeId = resources.getIdentifier(nameLocal,
 						"drawable", packageName);
 				
-				Log.d("Staupe", ""+resources.getDrawable(globeId).getMinimumHeight());
+				Log.d("Staupe", "Size : "+resources.getDrawable(globeId).getMinimumHeight());
 
 				container.addFrame(resources.getDrawable(globeId), 40);
 			}

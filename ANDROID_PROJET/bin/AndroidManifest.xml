@@ -30,7 +30,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-	        android:name="fr.free.simon.jacquemin.staupe.Accueil"
+	        android:name=".Home"
 	        android:label="@string/app_name" >
 	    </activity>
 	    <activity
@@ -41,7 +41,7 @@
 	        </intent-filter>
 	    </activity>
 	    <activity
-	        android:name="fr.free.simon.jacquemin.staupe.Jeu"
+	        android:name=".Game"
 	        android:label="@string/app_name"
 	        android:theme="@style/Jeu" >
 	    </activity>

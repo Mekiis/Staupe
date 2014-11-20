@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
+@Deprecated
 public class SelectWorld extends Activity {
 	Carousel carousel;
 	int positionItem = 0;
@@ -62,18 +63,14 @@ public class SelectWorld extends Activity {
 	}
 	
 	private void actionGameManager(String msg, int world) {
-		// Création de l'intent
 		Intent intent = new Intent();
 
-		// On rajoute le nom saisie dans l'intent
 		intent.putExtra(SGMGameManager.RESPOND_NAME, "World" + msg);
 		
 		intent.putExtra(SGMGameManager.WORLD, Integer.toString(world));
 
-		// On retourne le résultat avec l'intent
 		setResult(SGMGameManager.RESULT_OK, intent);
 
-		// On termine cette activité
 		finish();
 	}
 

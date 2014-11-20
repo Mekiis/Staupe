@@ -40,9 +40,11 @@
     <string name="dlg_statsReinitialiseTitle">Stars reinitialised</string>
     <string name="dlg_statsReinitialiseOk">Accept</string>
     <string name="maulHelp">Click to rotate</string>
-    <string name="btn_reinitialise_achievements">Reset achievements</string>
-    <string name="cb_activate_optional_animations">Activate optional animations</string>
+    <string name="options_btn_reinitialise_achievements">Reset achievements</string>
+    <string name="options_cb_activate_optional_animations">Activate optional animations</string>
     <string name="menu_options">Options</string>
     <string name="menu_tutorial">Tutorial</string>
+    <string name="options_title">Options</string>
+    <string name="options_cb_activate_animations">Activate animation in game</string>
 
 </resources>

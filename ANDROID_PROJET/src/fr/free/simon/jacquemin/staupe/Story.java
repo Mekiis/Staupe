@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+
 public class Story extends SGMScreenInterface {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -17,7 +19,7 @@ public class Story extends SGMScreenInterface {
 	@Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_back_rules:
+		case R.id.rules_btn_back:
 			endActivity("Back");
 		}
 	}
@@ -27,10 +29,11 @@ public class Story extends SGMScreenInterface {
         return "Story";
     }
 
+    @Override
     public void init() {
 		super.init();
 		
-		((TextView) findViewById(R.id.tv_rules)).setTypeface(font);
-		((Button) findViewById(R.id.btn_back_rules)).setTypeface(font);
+		((TextView) findViewById(R.id.story_tv_display_story)).setTypeface(font);
+		((Button) findViewById(R.id.rules_btn_back)).setTypeface(font);
 	}
 }

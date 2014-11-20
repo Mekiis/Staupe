@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import fr.free.simon.jacquemin.staupe.utils.SGMTimer;
+import fr.free.simon.jacquemin.staupe.SGM.utils.SGMTimer;
 
 public class SplashScreen extends Activity {
 	protected float _splashTime = 5f;
@@ -35,7 +35,7 @@ public class SplashScreen extends Activity {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		/**
-		 * Si l'utilisateur fait un mouvement de haut en bas on passe à
+		 * Si l'utilisateur fait un mouvement de haut en bas on passe ï¿½
 		 * l'Activity principale
 		 */
 		if (event.getAction() == MotionEvent.ACTION_UP) {

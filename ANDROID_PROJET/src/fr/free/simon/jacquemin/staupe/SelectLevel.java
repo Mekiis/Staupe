@@ -1,12 +1,11 @@
 package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
-import fr.free.simon.jacquemin.staupe.utils.UtilsLevel;
-import fr.free.simon.jacquemin.staupe.utils.UtilsReadLevelFile;
+import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+import fr.free.simon.jacquemin.staupe.container.Level;
+import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,21 +19,14 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Debug;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 public class SelectLevel extends SGMScreenInterface {
@@ -47,7 +39,7 @@ public class SelectLevel extends SGMScreenInterface {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.choix);
+		setContentView(R.layout.select_level);
 
 		init();
 		choixLevel();
@@ -75,19 +67,18 @@ public class SelectLevel extends SGMScreenInterface {
 	}
 
 	public void choixLevel() {
-		UtilsReadLevelFile f = new UtilsReadLevelFile();
-		ArrayList<UtilsLevel> allLevels = f.buildLevel(getApplicationContext(),
+		ReadLevelFile f = new ReadLevelFile();
+		ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
 				"lvl.txt");
 		allLevels = filtreIdMonde(idWorld, allLevels);
 		LinearLayout linearLay = (LinearLayout) findViewById(R.id.levels);
 		Button btn = new Button(getApplicationContext());
 		// Cr�ation de la font
-		Typeface tf = Typeface.createFromAsset(getAssets(),
-				"fonts/Barthowheel Regular.ttf");
+
 		for (int i = 0; i < allLevels.size(); i++) {
 			btn = new Button(getApplicationContext());
 			// Ajout de la font
-			btn.setTypeface(tf);
+			btn.setTypeface(font);
 			btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
 					.getDimension(R.dimen.btn_level));
 			// Ajout de l'image du background
@@ -244,9 +235,9 @@ public class SelectLevel extends SGMScreenInterface {
 		return temp;
 	}
 
-	private ArrayList<UtilsLevel> filtreIdMonde(int id,
-			ArrayList<UtilsLevel> allLevels) {
-		ArrayList<UtilsLevel> levels = new ArrayList<UtilsLevel>();
+	private ArrayList<Level> filtreIdMonde(int id,
+			ArrayList<Level> allLevels) {
+		ArrayList<Level> levels = new ArrayList<Level>();
 
 		if (id == -1) {
 			return allLevels;
@@ -261,7 +252,7 @@ public class SelectLevel extends SGMScreenInterface {
 		return levels;
 	}
 	
-	private int getStars(UtilsLevel l) {
+	private int getStars(Level l) {
 		SharedPreferences preferences = getSharedPreferences(
 				SGMGameManager.FILE_LEVELS, 0);
 		return Integer.parseInt(preferences.getString(SGMGameManager.STARS

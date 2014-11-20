@@ -3,39 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg"
+    android:id="@+id/story_root"
     android:paddingTop="@dimen/marge_top"
     android:paddingRight="@dimen/marge_right"
     android:paddingBottom="@dimen/marge_bottom"
     android:paddingLeft="@dimen/marge_left" >
 
     <LinearLayout
-        android:id="@+id/rules_ll_back"
+        android:id="@+id/story_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/btn_back_rules"
+            android:id="@+id/rules_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/selector"
-            android:onClick="actionClick"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:text="@string/btn_retour"
-            android:textSize="@dimen/text_Normal" />
+            android:background="@drawable/selector_btn_back"
+            android:onClick="actionClick" />
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/tutorial_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rules_ll_back" >
+        android:layout_below="@+id/story_ll_back" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +38,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tv_rules"
+                android:id="@+id/story_tv_display_story"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rules_explain"

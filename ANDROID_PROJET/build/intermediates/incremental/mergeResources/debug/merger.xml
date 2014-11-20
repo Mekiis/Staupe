@@ -1786,8 +1786,6 @@ monde_3
                 </string>
                 <string name="dlg_statsReinitialise" >The stars are correctly reinitialised
                 </string>
-                <string name="cb_activate_optional_animations" >Activate optional animations
-                </string>
                 <string name="menu_options" >Options
                 </string>
                 <string name="dlg_lose_quit" >Return to level selection
@@ -1824,8 +1822,6 @@ monde_3
                 </string>
                 <string name="hello_world" >Hello world!
                 </string>
-                <string name="btn_reinitialise_achievements" >Reset achievements
-                </string>
                 <string name="dlg_statsReinitialiseOk" >Accept
                 </string>
                 <string name="action_settings" >Settings
@@ -1834,17 +1830,25 @@ monde_3
                 </string>
                 <string name="dlg_win_continue" >Continue the level
                 </string>
+                <string name="options_cb_activate_optional_animations" >Activate optional animations
+                </string>
                 <string name="menu_story" >Story
                 </string>
                 <string name="stats_uniqueMaul" >Number of moles pulled out
                 </string>
                 <string name="btn_reinitialise_stars" >Reset stars
                 </string>
+                <string name="options_btn_reinitialise_achievements" >Reset achievements
+                </string>
                 <string name="dlg_lose_retry" >Retry
+                </string>
+                <string name="options_title" >Options
                 </string>
                 <string name="msg_game_bonus_gain_max_part1" >(You have 3 stars again, you win
                 </string>
                 <string name="maulHelp" >Click to rotate
+                </string>
+                <string name="options_cb_activate_animations" >Activate animation in game
                 </string>
                 <string name="btn_retour" >Back
                 </string>
@@ -1944,6 +1948,8 @@ true
                 </string>
                 <string name="rules_explain" >Votre objectif, si vous l\'acceptez, est d\'empêcher les taupes d\'envahir le jardin !\n\nPour cela, vous disposez d\'un énorme stock de tondeuses à gazon qui feront fuir les taupes à coup sur.\n\nMais attention à vous, elles se promènent toujours en bande de 2 ou 3. \nIl faudra donc leur bloquer toutes les possibilités de sortir de terre en positionnant correctement vos tondeuses à gazon sur le terrain.\n\nSoyez économe, car les tondeuses coûtent chères. Moins vous en utiliserez, mieux vous serez notés par notre jury de professionel.\n\nBonne chance !\n\nSigné, un jardinier en colère.
                 </string>
+                <string name="options_cb_activate_animations" >Activate animation in game
+                </string>
                 <string name="msg_game_bonus_no_gain_max" >(Vous avez déjà le nombre maximal de bonus)
                 </string>
                 <string name="maulHelp" >Cliquez pour tourner
@@ -1967,6 +1973,8 @@ true
                 <string name="dlg_loseTitle" >Perdu
                 </string>
                 <string name="msg_game_bonus_gain_part2" >bonus)
+                </string>
+                <string name="options_title" >Options
                 </string>
                 <string name="btn_check" >Valider
                 </string>

@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 public class SGMGameManager extends Activity {
 
@@ -55,7 +53,7 @@ public class SGMGameManager extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Lancement de l'accueil uniquement si la demande viens du splashscreen
+		// Lancement de l'home uniquement si la demande viens du splashscreen
 		Intent i = getIntent();
 		if (i != null) {
 			String s = i.getStringExtra(SGMGameManager.START_ACTION);
@@ -70,16 +68,13 @@ public class SGMGameManager extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		// Vérification du code de retour
 		if (requestCode == CODE_RETOUR) {
 
-			// Vérifie que le résultat est OK
 			if (resultCode == RESULT_OK) {
 
 				if (data == null) {
 					return;
 				}
-				// On récupére le paramètre "Nom" de l'intent
 				String nom = data.getStringExtra(SGMGameManager.RESPOND_NAME);
 				if (data.hasExtra(SGMGameManager.LEVEL)) {
 					level = data.getIntExtra(SGMGameManager.LEVEL, -1);
@@ -90,10 +85,8 @@ public class SGMGameManager extends Activity {
 
 				launchIntent(nom);
 
-				// Si l'activité est annulé
 			} else if (resultCode == RESULT_CANCELED) {
 
-				// On affiche que l'opération est annulée
 
 			}
 		}
@@ -118,12 +111,12 @@ public class SGMGameManager extends Activity {
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			intent.putExtra(SGMGameManager.WORLD, world);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("Jeu") == true
+		} else if (nom.equalsIgnoreCase("Game") == true
 				|| nom.equalsIgnoreCase("LevelOk") == true) {
-			Intent intent = new Intent(this, Jeu.class);
+			Intent intent = new Intent(this, Game.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("Accueil") == true
+		} else if (nom.equalsIgnoreCase("Home") == true
 				|| nom.equalsIgnoreCase("StatsBack") == true
 				|| nom.equalsIgnoreCase("StoryBack") == true
 				|| nom.equalsIgnoreCase("WorldReturn") == true
@@ -131,7 +124,7 @@ public class SGMGameManager extends Activity {
 				|| nom.equalsIgnoreCase("TutorialBack") == true
 				|| nom.equalsIgnoreCase("LevelReturn") == true
 				|| nom.equalsIgnoreCase("LoadingOk") == true) {
-			Intent intent = new Intent(this, Accueil.class);
+			Intent intent = new Intent(this, Home.class);
 			startActivityForResult(intent, CODE_RETOUR);
 		} else if (nom.equalsIgnoreCase("AccueilRules") == true) {
 			Intent intent = new Intent(this, Story.class);

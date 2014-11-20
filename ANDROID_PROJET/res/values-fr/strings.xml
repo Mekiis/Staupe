@@ -39,4 +39,6 @@
 	<string name="maulHelp">Cliquez pour tourner</string>
 	<string name="menu_options">Options</string>
 	<string name="menu_tutorial">Tutoriel</string>
+    <string name="options_title">Options</string>
+    <string name="options_cb_activate_animations">Activate animation in game</string>
 </resources>

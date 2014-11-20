@@ -1,5 +1,6 @@
 package fr.free.simon.jacquemin.staupe;
 
+import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
 import fr.free.simon.jacquemin.staupe.stats.StatsAdapter;
 import fr.free.simon.jacquemin.staupe.stats.StatsItem;
 import android.app.Activity;
@@ -20,8 +21,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class Options extends Activity {
+public class Options extends SGMScreenInterface {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,14 @@ public class Options extends Activity {
 		init();
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+    @Override
+    protected void init() {
+        super.init();
+
+        ((Button) findViewById(R.id.btn_back_options)).setTypeface(font);
+        ((Button) findViewById(R.id.btn_reinitialise_stats)).setTypeface(font);
+        ((TextView) findViewById(R.id.options_title)).setTypeface(font);
+    }
 
 	// 2.0 and above
 	@Override
@@ -51,6 +57,7 @@ public class Options extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
+    @Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_back_options:
@@ -64,7 +71,12 @@ public class Options extends Activity {
 		}
 	}
 
-	public void reinitialiseStats() {
+    @Override
+    public String getNameActivity() {
+        return "Options";
+    }
+
+    public void reinitialiseStats() {
 		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
 		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -88,39 +100,4 @@ public class Options extends Activity {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
-
-	public String getPref(String file, String key, String defaulValue) {
-		String s = key;
-		SharedPreferences preferences = getSharedPreferences(file, 0);
-		return preferences.getString(s, defaulValue);
-	}
-
-	public void setPref(String file, String key, String value) {
-		SharedPreferences preferences = getSharedPreferences(file, 0);
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(key, value);
-		editor.commit();
-	}
-
-	public void init() {
-		Typeface tf = Typeface.createFromAsset(getAssets(),
-				"fonts/Barthowheel Regular.ttf");
-		((Button) findViewById(R.id.btn_back_options)).setTypeface(tf);
-		((Button) findViewById(R.id.btn_reinitialise_stats)).setTypeface(tf);
-	}
-
-	private void endActivity(String msg) {
-		// Création de l'intent
-		Intent IntentParent = getIntent();
-
-		// On rajoute le nom saisie dans l'intent
-		IntentParent.putExtra(SGMGameManager.RESPOND_NAME, "Options" + msg);
-
-		// On retourne le résultat avec l'intent
-		setResult(SGMGameManager.RESULT_OK, IntentParent);
-
-		// On termine cette activité
-		finish();
-	}
-
 }

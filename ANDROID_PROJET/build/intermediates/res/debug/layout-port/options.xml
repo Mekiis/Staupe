@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg"
+    android:id="@+id/options_root"
     android:paddingTop="@dimen/marge_top"
     android:paddingRight="@dimen/marge_right"
     android:paddingBottom="@dimen/marge_bottom"
