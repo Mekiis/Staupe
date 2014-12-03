@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 
-public class Story extends SGMScreenInterface {
+public class Story extends SGMActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

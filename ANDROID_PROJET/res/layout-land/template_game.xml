@@ -13,47 +13,34 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/game_btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/game_btn_check"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/selector_btn_back"
                     android:onClick="actionClick" />
 
                 <Button
-                    android:id="@+id/game_btn_check"
+                    android:id="@+id/game_btn_best"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/selector_btn_validate"
-                    android:onClick="actionClick" />
+                    android:layout_centerVertical="true"
+                    android:onClick="actionBest"
+                    android:background="@drawable/selector_btn_best"
+                    android:layout_alignParentRight="true" />
+
+
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_normal"
+                android:orientation="vertical"
                 android:gravity="center" >
-
-                <ImageButton
-                    android:id="@+id/game_btn_reset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="actionReset"
-                    android:src="@drawable/btn_reset" />
-
-                <ImageButton
-                    android:id="@+id/game_btn_best"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="actionBest"
-                    android:src="@drawable/btn_best" />
 
                 <LinearLayout
                     android:id="@+id/game_ll_bonus"
@@ -63,21 +50,31 @@
                     android:gravity="center"
                     android:onClick="actionBonusShowTaupe" >
 
-                    <ImageButton
-                        android:id="@+id/game_btn_bonus_show_taupe_img"
+                    <Button
+                        android:id="@+id/game_btn_hint_maul"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="actionBonusShowTaupe"
-                        android:src="@drawable/btn_help" />
+                        android:background="@drawable/selector_btn_hint_maul" />
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/game_btn_bonus_show_taupe_nb"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/black" />
+                        android:src="@drawable/number_1"
+                        android:padding="7dp"
+                        android:background="@drawable/hint_center"/>
+
+                    <Button
+                        android:id="@+id/game_btn_hint_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="actionBonusShowTaupe"
+                        android:background="@drawable/selector_btn_hint_stars" />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -112,14 +109,6 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_Normal" />
 
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_below="@+id/game_tv_maul_shape_title"
-                                android:layout_centerHorizontal="true"
-                                android:background="@drawable/selector_btn_rotate"
-                                android:onClick="actionTurn" />
                         </RelativeLayout>
 
                         <GridLayout
@@ -144,8 +133,25 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/game_btn_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_btn_reset"
+                    android:onClick="actionReset"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/game_tv_level_name" />
+
+                <Button
+                    android:id="@+id/game_btn_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_btn_validate"
+                    android:onClick="actionClick"
+                    android:layout_toRightOf="@+id/game_tv_level_name"/>
 
                 <TextView
                     android:id="@+id/game_tv_level_name"
@@ -154,6 +160,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:text="Level"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title" />

@@ -6,10 +6,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
 
-public class Home extends SGMScreenInterface {
+public class Home extends SGMActivity {
 	private static ImageView UIimageViewInsectContainer = null;
 	private static LauncherInsect insectLauncher = null;
 
@@ -21,7 +21,7 @@ public class Home extends SGMScreenInterface {
 		this.behaviorQuitButton = 1;
 		init();
 
-        UIimageViewInsectContainer = (ImageView) findViewById(R.id.anim_test);
+        UIimageViewInsectContainer = createImageView();
 	}
 	
 	@Override
@@ -75,5 +75,4 @@ public class Home extends SGMScreenInterface {
 		((Button) findViewById(R.id.btn_home_tutorial)).setTypeface(font);
 		((Button) findViewById(R.id.btn_home_options)).setTypeface(font);
 	}
-
 }

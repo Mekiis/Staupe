@@ -3,11 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg"
-    android:id="@+id/story_root"
-    android:paddingTop="@dimen/marge_top"
-    android:paddingRight="@dimen/marge_right"
-    android:paddingBottom="@dimen/marge_bottom"
-    android:paddingLeft="@dimen/marge_left" >
+    android:id="@+id/story_root" >
+
+    <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
+        android:id="@+id/stretchyImageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/bg_deco_port_top" />
+
+    <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
+        android:id="@+id/stretchyImageView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/bg_deco_port_bot" />
 
     <LinearLayout
         android:id="@+id/story_ll_back"
@@ -16,7 +27,7 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/rules_btn_back"
+            android:id="@+id/story_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -26,10 +37,10 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/tutorial_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/story_ll_back" >
+        android:layout_below="@+id/stretchyImageView1"
+        android:layout_above="@+id/stretchyImageView2">
 
         <LinearLayout
             android:layout_width="match_parent"

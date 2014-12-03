@@ -27,12 +27,7 @@
     <string name="msg_game_bonus_gain_part2">bonus)</string>
     <string name="msg_game_bonus_no_gain_max">(You already have the max bonus)</string>
     <string name="menu_stats">Stats</string>
-    <string name="stats_allStars">Number of stars collected</string>
-    <string name="stats_allMine">Number of mines laid</string>
-    <string name="stats_uniqueMaul">Number of moles pulled out</string>
-    <string name="stats_groupMaul">Number of group of mols pulles out</string>
-    <string name="stats_gameLost">Number of missed try</string>
-    <string name="stats_gameWin">Number of games win</string>
+
     <string name="menu_story">Story</string>
     <string name="rules_explain">Your goal, if you accept it, is to prevent moles from invading the garden! \n\nFor that, you have a huge stock of lawn mower that will flee moles for sure. \n\nBut be carefull, they are always around in bands of 2 or 3. \nIt will therefore block their all possibilities out of your land properly positionant lawnmowers on the ground. \n\nBe thrifty, because mowers costs very expensive. The less you use, the better you will be rated by our professional jury.\n\nGood luck! \n\nSigned, an angry gardener. </string>
     <string name="btn_reinitialise_stars">Reset stars</string>
@@ -46,5 +41,12 @@
     <string name="menu_tutorial">Tutorial</string>
     <string name="options_title">Options</string>
     <string name="options_cb_activate_animations">Activate animation in game</string>
+    <string name="msg_game_bonus_no_avaible">No hint avaible</string>
+    <string name="stats_ratioMaulPerLevel">Infestation</string>
+    <string name="stats_ratioWinLose">Gardener mark</string>
+    <string name="stats_nbLevelWin">Garden saved</string>
+    <string name="stats_nbUniqueMaul">Maul encountered</string>
+    <string name="stats_ratioInsectKill">Insecticide</string>
+    <string name="stats_timeOnGame">Time in game</string>
 
 </resources>

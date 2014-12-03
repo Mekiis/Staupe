@@ -2,7 +2,7 @@ package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 
@@ -29,7 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class SelectLevel extends SGMScreenInterface {
+public class SelectLevel extends SGMActivity {
 	private int index;
 	private int idLevel = -1;
 	private int idWorld = -1;
@@ -50,11 +50,11 @@ public class SelectLevel extends SGMScreenInterface {
 			public void run() {
 				if (scrollLevel != -1) {
 					lay.scrollTo(0,
-							(int) ((LinearLayout) findViewById(R.id.levels))
+							(int) ((LinearLayout) findViewById(R.id.select_level_sv_list))
 									.getChildAt(scrollLevel).getY());
 					Animation anim = new AlphaAnimation((float) 0.5, 1);
 					anim.setDuration(2500);
-					((Button) ((LinearLayout) findViewById(R.id.levels))
+					((Button) ((LinearLayout) findViewById(R.id.select_level_sv_list))
 							.getChildAt(scrollLevel)).startAnimation(anim);
 				}
 			}
@@ -71,7 +71,7 @@ public class SelectLevel extends SGMScreenInterface {
 		ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
 				"lvl.txt");
 		allLevels = filtreIdMonde(idWorld, allLevels);
-		LinearLayout linearLay = (LinearLayout) findViewById(R.id.levels);
+		LinearLayout linearLay = (LinearLayout) findViewById(R.id.select_level_sv_list);
 		Button btn = new Button(getApplicationContext());
 		// Cr�ation de la font
 
@@ -88,7 +88,7 @@ public class SelectLevel extends SGMScreenInterface {
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if (Integer.parseInt(getPref(
+			if (Integer.parseInt(SGMGameManager.instance().getPref(
 					SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
 					"0")) >= allLevels.get(i).lock) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
@@ -124,7 +124,7 @@ public class SelectLevel extends SGMScreenInterface {
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - Integer.parseInt(getPref(
+				int numberMiss = allLevels.get(i).lock - Integer.parseInt(SGMGameManager.instance().getPref(
 						SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
 						"0"));
 				Drawable image = new BitmapDrawable(getResources(),
@@ -271,7 +271,7 @@ public class SelectLevel extends SGMScreenInterface {
 	@Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_back_choix:
+		case R.id.select_level_btn_back:
 			endActivity("Return", -1);
 		}
 	}
@@ -285,7 +285,7 @@ public class SelectLevel extends SGMScreenInterface {
 	protected void init() {
 		super.init();
 		
-		((Button) findViewById(R.id.btn_back_choix)).setTypeface(font);
+		((Button) findViewById(R.id.select_level_btn_back)).setTypeface(font);
 
 		Intent intent = this.getIntent();
 		idWorld = intent.getIntExtra(SGMGameManager.WORLD, -1);

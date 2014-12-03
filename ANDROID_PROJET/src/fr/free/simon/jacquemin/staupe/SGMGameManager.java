@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-public class SGMGameManager extends Activity {
+import fr.free.simon.jacquemin.staupe.SGM.SGMStatisticsManager;
+
+public class SGMGameManager extends SGMStatisticsManager {
 
 	public static final String RESPOND_NAME = "RESPOND_NAME";
 	
@@ -21,22 +23,26 @@ public class SGMGameManager extends Activity {
 	public static final String WORLD = "WORLD_";
 	
 	public static final String FILE_LEVELS = "F_LEVELS";
-	public static final String STARS = "LEVELS_STARS_";
-	public static final String STATE = "LEVEL_LAST_STATE_";
+	public static final String STARS = "L_STARS_LEVEL_";
+	public static final String STATE = "L_LAST_STATE_";
 	
 	public static final String FILE_BONUS = "F_BONUS";
-	public static final String BONUS_AFFICHE_TAUPE_NB = "BONUS_A_T";
+	public static final String BONUS_AFFICHE_TAUPE_NB = "B_A_T";
 	public static final int BONUS_AFFICHE_TAUPE_DEFAULT = 10;
 
 	public static final String FILE_STATS = "F_STATS";
-	public static final String STATS_ALL_STARS = "STATS_ALL_STARS";
-	public static final String STATS_ALL_MINES = "STATS_ALL_MINES";
-	public static final String STATS_ALL_UNIQUE_MAUL = "STATS_ALL_UNIQUE_TAUPE";
-	public static final String STATS_ALL_GROUP_MAUL = "STATS_ALL_GROUP_TAUPE";
-	public static final String STATS_NB_GAMES_LOST = "STATS_NB_GAMES_LOST";
-	public static final String STATS_NB_GAMES_WIN = "STATS_NB_GAMES_WIN";
+	public static final String STATS_ALL_STARS = "S_ALL_STARS";
+	public static final String STATS_ALL_MINES = "S_ALL_MINES";
+	public static final String STATS_ALL_UNIQUE_MAUL = "S_ALL_UNIQUE_TAUPE";
+	public static final String STATS_NB_GAMES_LOST = "S_NB_GAMES_LOST";
+	public static final String STATS_NB_GAMES_WIN = "S_NB_GAMES_WIN";
+    public static final String STATS_NB_INSECT_KILL = "S_NB_INSECT_KILL";
+    public static final String STATS_NB_INSECT_NOT_KILL = "S_NB_INSECT_NOT_KILL";
+    public static final String STATS_DATE_INSTALLATION = "S_DATE_INSTALLATION";
 
-	public static int[] listWorld = { 1, 1, 1 };
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static int[] listWorld = { 1, 1, 1 };
 	public static String[] listNom = { "pot_fleur_", "tondeuse_", "grenouille_" };
 	public static int[] listDuration = { 25, 18, 39 };
 	public static double[] listRatio = { 1.46, 1.46, 1.46 };
@@ -137,4 +143,8 @@ public class SGMGameManager extends Activity {
 			startActivityForResult(intent, CODE_RETOUR);
 		}
 	}
+
+    public static SGMGameManager instance(){
+        return new SGMGameManager();
+    }
 }

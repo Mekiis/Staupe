@@ -3,13 +3,8 @@
     android:id="@+id/tutorial_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/staupe_bg"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/marge_bottom"
-    android:paddingLeft="@dimen/marge_left"
-    android:paddingRight="@dimen/marge_right"
-    android:paddingTop="@dimen/marge_top" >
+    android:background="@drawable/staupe_bg" >
 
-
+    <include layout="@layout/template_game"/>
 
 </LinearLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/tutorial.xml -->

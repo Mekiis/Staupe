@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,7 +17,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
 import fr.free.simon.jacquemin.staupe.container.Grid;
 import fr.free.simon.jacquemin.staupe.container.Level;
@@ -32,7 +32,7 @@ import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import fr.free.simon.jacquemin.staupe.container.Maul;
 
-public class Game extends SGMScreenInterface {
+public class Game extends SGMActivity {
 	private static Level actualLevel;
 	private static Grid actualGrid;
 	private static Maul actualMaul;
@@ -55,7 +55,7 @@ public class Game extends SGMScreenInterface {
 		
 		decodeLevel();
 		
-		UIimageViewInsectContainer = (ImageView) findViewById(R.id.anim_test);
+		UIimageViewInsectContainer = createImageView();
         UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
 	}
 
@@ -98,7 +98,7 @@ public class Game extends SGMScreenInterface {
 	public void setArray(int[] array)
 	{
 		for(int i = 0; i < array.length; i++){
-			setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
+			SGMGameManager.instance().setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
 		}
 	}
 
@@ -126,7 +126,7 @@ public class Game extends SGMScreenInterface {
             count += this.actualGrid.getGrille()[i].length;
         }
 		for(int i = 0; i < count; i++){
-			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, "1")));
+			array.add(Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, "1")));
 		}
 		
 		int[] arr = new int[array.size()];
@@ -167,12 +167,10 @@ public class Game extends SGMScreenInterface {
 	protected void init() {
 		super.init();
 		
-		displayNbBonusShowTaupe();
+		displayNbHint();
 
 		((TextView) findViewById(R.id.game_tv_level_name)).setTypeface(font);
 		((TextView) findViewById(R.id.game_tv_maul_shape_title)).setTypeface(font);
-		((Button) findViewById(R.id.game_btn_back)).setTypeface(font);
-		((Button) findViewById(R.id.game_btn_check)).setTypeface(font);
 	}
 
 	private void decodeLevel() {
@@ -362,7 +360,7 @@ public class Game extends SGMScreenInterface {
 	public void actionBonusShowTaupe(View v) {
 		resetTimerInsect();
 		
-		int nbBonus = Integer.parseInt(getPref(SGMGameManager.FILE_BONUS,
+		int nbBonus = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_BONUS,
 				SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
 				Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
 		if (nbBonus > 0) {
@@ -372,36 +370,42 @@ public class Game extends SGMScreenInterface {
 						R.string.msg_game_bonus_no_maule, Toast.LENGTH_SHORT)
 						.show();
 			} else {
-				setPref(SGMGameManager.FILE_BONUS,
+                SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
 						SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
 						Integer.toString(nbBonus - 1));
-				displayNbBonusShowTaupe();
+				displayNbHint();
 			}
 		} else {
-			// TODO Message no bonus
+            Toast.makeText(getApplicationContext(),
+                    R.string.msg_game_bonus_no_avaible, Toast.LENGTH_SHORT)
+                    .show();
 		}
 
 	}
 
-	private void displayNbBonusShowTaupe() {
-		((TextView) findViewById(R.id.game_btn_bonus_show_taupe_nb))
-				.setText(getPref(
-						SGMGameManager.FILE_BONUS,
-						SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
-						Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
+	private void displayNbHint() {
+        int nbHint = Integer.parseInt(SGMGameManager.instance().getPref(
+                SGMGameManager.FILE_BONUS,
+                SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
+		((ImageView) findViewById(R.id.game_btn_bonus_show_taupe_nb)).setImageDrawable(GetImage(getApplicationContext(), "number_"+nbHint));
 	}
 
+    public static Drawable GetImage(Context c, String ImageName) {
+        return c.getResources().getDrawable(c.getResources().getIdentifier(ImageName, "drawable", c.getPackageName()));
+    }
+
 	private void verify() {
-		boolean verif = actualGrid.verifGrille(actualMaul);
+		boolean isGridComplete = actualGrid.verifGrille(actualMaul);
 		// 1. Instantiate an AlertDialog.Builder with its constructor
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		if (!verif) {
+		if (!isGridComplete) {
 			// LOSE
 			// Statistique : Nb de partie perdue
-			int nbGameLost = Integer.parseInt(getPref(
+			int nbGameLost = Integer.parseInt(SGMGameManager.instance().getPref(
 					SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_NB_GAMES_LOST, "0"));
-			setPref(SGMGameManager.FILE_STATS,
+            SGMGameManager.instance().setPref(SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_NB_GAMES_LOST,
 					Integer.toString(nbGameLost + 1));
 
@@ -442,7 +446,7 @@ public class Game extends SGMScreenInterface {
 			// WIN
             int nbStars = 0;
             if (actualLevel != null) {
-                nbStars = Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS,
+                nbStars = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_LEVELS,
                         SGMGameManager.STARS + actualLevel.id, "0"));
             }
 			// 2. Chain together various setter methods to set the dialog
@@ -450,86 +454,23 @@ public class Game extends SGMScreenInterface {
                     actualGrid.findBestSolution(actualMaul),
                     actualGrid.countNbMine(actualGrid.getGrille(), 2));
 
-			// Statistique : Nb de partie gagn�e
-			int nbGameWin = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_NB_GAMES_WIN, "0"));
-			setPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_NB_GAMES_WIN,
-					Integer.toString(nbGameWin + 1));
-			// Statistique : Nb de mines
-			int nbMineTot = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_MINES, "0"));
-			setPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_MINES,
-					Integer.toString(nbMineTot
-							+ actualGrid.countNbMine(
-									actualGrid.getGrille(), 2)));
-			// Statistique : Nb de taupe �limin�e
-			int nbTaupeUniqueTot = Integer.parseInt(getPref(
-					SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0"));
-			setPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_UNIQUE_MAUL,
-					Integer.toString(nbTaupeUniqueTot + actualMaul.getNb()));
-			// Statistique : Nb de taupe �limin�e
-			int nbTaupeGroupeTot = Integer.parseInt(getPref(
-					SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_GROUP_MAUL, "0"));
-			setPref(SGMGameManager.FILE_STATS,
-					SGMGameManager.STATS_ALL_GROUP_MAUL,
-					Integer.toString(nbTaupeGroupeTot + 1));
+			// Statistics : Nb of games win
+            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_NB_GAMES_WIN, "0", 1);
+			// Statistics : Nb of mines
+            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_MINES, "0", actualGrid.countNbMine(actualGrid.getGrille(), 2));
+			// Statistics : Nb of maul blocked
+            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getNb());
 
-			String msgWinNbBonusShowTaupe = "";
-			int nbBonus = Integer
-					.parseInt(getPref(
-							SGMGameManager.FILE_BONUS,
-							SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
-							Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
+			String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
+			displayNbHint();
 
-			if (nbBonus >= SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
-				msgWinNbBonusShowTaupe = " "
-						+ getString(R.string.msg_game_bonus_no_gain_max);
-			} else if (nbStarThisRound > nbStars) {
-				nbBonus += nbStarThisRound - nbStars;
-				if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
-					nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
-				}
-				setPref(SGMGameManager.FILE_BONUS,
-						SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
-						Integer.toString(nbBonus));
-				msgWinNbBonusShowTaupe = " "
-						+ getString(R.string.msg_game_bonus_gain_beat_part1)
-						+ " " + (nbStarThisRound - nbStars) + " "
-						+ getString(R.string.msg_game_bonus_gain_part2);
-			} else if (nbStarThisRound == 3) {
-				nbBonus += 1;
-				if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
-					nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
-				}
-				setPref(SGMGameManager.FILE_BONUS,
-						SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
-						Integer.toString(nbBonus));
-				msgWinNbBonusShowTaupe = " "
-						+ getString(R.string.msg_game_bonus_gain_max_part1)
-						+ " " + 1 + " "
-						+ getString(R.string.msg_game_bonus_gain_part2);
-
-			}
-			displayNbBonusShowTaupe();
-
+            // New best score
 			if (nbStarThisRound > nbStars) {
-				// Statistique : Nb d'�toile
-				int nbStarsTot = Integer.parseInt(getPref(
-						SGMGameManager.FILE_STATS,
-						SGMGameManager.STATS_ALL_STARS, "0"));
-				setPref(SGMGameManager.FILE_STATS,
-						SGMGameManager.STATS_ALL_STARS,
-						Integer.toString(nbStarsTot - nbStars + nbStarThisRound));
+				// Statistics : Nb of stars
+                SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_STARS, "0", - nbStars + nbStarThisRound);
 
-				nbStars = nbStarThisRound;
-				// Save : Stars pour ce niveau
-				setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STARS
-						+ actualLevel.id, Integer.toString(nbStarThisRound));
+				// Save : Stars for this level
+                SGMGameManager.instance().setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STARS + actualLevel.id, Integer.toString(nbStarThisRound));
 
 			}
 
@@ -573,6 +514,48 @@ public class Game extends SGMScreenInterface {
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
+
+    private String constructMsgHint(int nbStarInLevelThisRound, int nbStarsInLevel){
+        String msg = "";
+
+        int nbBonus = Integer
+                .parseInt(SGMGameManager.instance().getPref(
+                        SGMGameManager.FILE_BONUS,
+                        SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                        Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
+
+        if (nbBonus >= SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
+            msg = " "
+                    + getString(R.string.msg_game_bonus_no_gain_max);
+        } else if (nbStarInLevelThisRound > nbStarsInLevel) {
+            nbBonus += nbStarInLevelThisRound - nbStarsInLevel;
+            if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
+                nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
+            }
+            SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
+                    SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                    Integer.toString(nbBonus));
+            msg = " "
+                    + getString(R.string.msg_game_bonus_gain_beat_part1)
+                    + " " + (nbStarInLevelThisRound - nbStarsInLevel) + " "
+                    + getString(R.string.msg_game_bonus_gain_part2);
+        } else if (nbStarInLevelThisRound == 3) {
+            nbBonus += 1;
+            if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
+                nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
+            }
+            SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
+                    SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                    Integer.toString(nbBonus));
+            msg = " "
+                    + getString(R.string.msg_game_bonus_gain_max_part1)
+                    + " " + 1 + " "
+                    + getString(R.string.msg_game_bonus_gain_part2);
+
+        }
+
+        return msg;
+    }
 
 	private int checkNbStars(int nbMineMinimum, int nbMineActual) {
 		int nbStarsThisRound = 0;

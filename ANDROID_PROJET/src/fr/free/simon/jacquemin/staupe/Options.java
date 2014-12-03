@@ -1,29 +1,17 @@
 package fr.free.simon.jacquemin.staupe;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
-import fr.free.simon.jacquemin.staupe.stats.StatsAdapter;
-import fr.free.simon.jacquemin.staupe.stats.StatsItem;
-import android.app.Activity;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Point;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-public class Options extends SGMScreenInterface {
+public class Options extends SGMActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +66,7 @@ public class Options extends SGMScreenInterface {
 
     public void reinitialiseStats() {
 		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
-		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
+		SGMGameManager.instance().setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		// win
 		// 2. Chain together various setter methods to set the dialog

@@ -1,25 +1,14 @@
 package fr.free.simon.jacquemin.staupe;
 
-import java.util.ArrayList;
-
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMScreenInterface;
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
-import fr.free.simon.jacquemin.staupe.container.Grid;
-import fr.free.simon.jacquemin.staupe.container.Level;
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.Maul;
 
-public class Tutorial extends SGMScreenInterface {
+public class Tutorial extends SGMActivity {
 	Maul taupe;
 	
 	@Override

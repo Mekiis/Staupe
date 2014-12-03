@@ -52,7 +52,7 @@ public class StatsAdapter extends ArrayAdapter<StatsItem> {
 
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView statsViewItemValue = (TextView) convertView.findViewById(R.id.statsViewItemValue);
-        statsViewItemValue.setText(Integer.toString(objectItem.itemId) + " : ");
+        statsViewItemValue.setText(objectItem.itemId + " : ");
         statsViewItemValue.setTypeface(tf);
         TextView statsViewItemName = (TextView) convertView.findViewById(R.id.statsViewItemName);
         statsViewItemName.setText(objectItem.itemName); 

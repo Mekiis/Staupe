@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/btn_hint_stars_pushed" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/btn_hint_stars_pushed" android:state_focused="true"></item>
+    <item android:drawable="@drawable/btn_hint_stars_pushed" android:state_selected="true"></item>
+    <item android:drawable="@drawable/btn_hint_stars_normal"></item>
+
+</selector><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/drawable/selector_btn_hint_stars.xml -->

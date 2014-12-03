@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.free.simon.jacquemin.staupe"
+    android:versionCode="1"
+    android:versionName="@string/version" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/staupe_icone"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.LoadingScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Home"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.SGMGameManager"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Game"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.SelectLevel"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Stats"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Story"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+        <!-- <activity -->
+        <!-- android:name="fr.free.simon.jacquemin.staupe.SelectWorld" -->
+        <!-- android:label="@string/app_name" > -->
+        <!-- </activity> -->
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Tutorial"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+        <activity
+            android:name="fr.free.simon.jacquemin.staupe.Options"
+            android:label="@string/app_name"
+            android:theme="@style/Jeu" >
+        </activity>
+    </application>
+
+</manifest>
