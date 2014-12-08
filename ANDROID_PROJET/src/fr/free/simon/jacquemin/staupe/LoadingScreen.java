@@ -73,25 +73,25 @@ public class LoadingScreen extends Activity {
 		
         @Override
         protected Void doInBackground(Void... params) {
-        	if(SGMGameManager.listAnimation.size() > 0 )
+        	if(SGMGameManager.instance().listAnimation.size() > 0 )
         		return null;
         	
-        	for (int i = 0; i < SGMGameManager.listNom.length; i++) {
-				SGMGameManager.listAnimation.add(loadAnim(
-						SGMGameManager.listDuration[i],
-						SGMGameManager.listNom[i]));
-				publishProgress(i, SGMGameManager.listNom.length+SGMGameManager.listInsectNom.length*2);
+        	for (int i = 0; i < SGMGameManager.instance().listNom.length; i++) {
+				SGMGameManager.instance().listAnimation.add(loadAnim(
+						SGMGameManager.instance().listDuration[i],
+						SGMGameManager.instance().listNom[i]));
+				publishProgress(i, SGMGameManager.instance().listNom.length+SGMGameManager.instance().listInsectNom.length*2);
 			}
 
-			for (int i = 0; i < SGMGameManager.listInsectNom.length; i++) {
-				SGMGameManager.listAnimation.add(loadAnim(
-						SGMGameManager.listInsectDurationLife[i],
-						SGMGameManager.listInsectNom[i]));
-				publishProgress(SGMGameManager.listNom.length+i*2, SGMGameManager.listNom.length+SGMGameManager.listInsectNom.length*2);
-				SGMGameManager.listAnimation.add(loadAnim(
-						SGMGameManager.listInsectDurationDeath[i],
-						"sprotch_" + SGMGameManager.listInsectNom[i]));
-				publishProgress(SGMGameManager.listNom.length+i*2+1, SGMGameManager.listNom.length+SGMGameManager.listInsectNom.length*2);
+			for (int i = 0; i < SGMGameManager.instance().listInsectNom.length; i++) {
+				SGMGameManager.instance().listAnimation.add(loadAnim(
+						SGMGameManager.instance().listInsectDurationLife[i],
+						SGMGameManager.instance().listInsectNom[i]));
+				publishProgress(SGMGameManager.instance().listNom.length+i*2, SGMGameManager.instance().listNom.length+SGMGameManager.instance().listInsectNom.length*2);
+				SGMGameManager.instance().listAnimation.add(loadAnim(
+						SGMGameManager.instance().listInsectDurationDeath[i],
+						"sprotch_" + SGMGameManager.instance().listInsectNom[i]));
+				publishProgress(SGMGameManager.instance().listNom.length+i*2+1, SGMGameManager.instance().listNom.length+SGMGameManager.instance().listInsectNom.length*2);
 			}
 		
             return null;
@@ -134,10 +134,10 @@ public class LoadingScreen extends Activity {
 		Intent intent = getIntent();
 
 		// Add the name of the Activity
-		intent.putExtra(SGMGameManager.RESPOND_NAME, "Loading" + msg);
+		intent.putExtra(SGMGameManager.instance().RESPOND_NAME, "Loading" + msg);
 		
 		// Return a RESULT_OK as a result of the activity
-		setResult(SGMGameManager.RESULT_OK, intent);
+		setResult(SGMGameManager.instance().RESULT_OK, intent);
 
 		// Finish the current activity
 		finish();

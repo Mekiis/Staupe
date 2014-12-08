@@ -57,6 +57,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:src="@drawable/number_1"
+                        android:padding="7dp"
                         android:background="@drawable/hint_center"/>
 
                     <Button
