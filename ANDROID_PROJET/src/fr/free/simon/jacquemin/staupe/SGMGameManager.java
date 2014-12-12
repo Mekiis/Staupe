@@ -10,9 +10,6 @@ import android.os.Bundle;
 import fr.free.simon.jacquemin.staupe.SGM.SGMStatisticsManager;
 
 public class SGMGameManager extends SGMStatisticsManager {
-    private static SGMGameManager mInstance = null;
-
-
 	public static final String RESPOND_NAME = "RESPOND_NAME";
 	
 	public static final int CODE_RETOUR = 0;
@@ -44,16 +41,16 @@ public class SGMGameManager extends SGMStatisticsManager {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    public int[] listWorld = { 1, 1, 1 };
-	public String[] listNom = { "pot_fleur_", "tondeuse_", "grenouille_" };
-	public int[] listDuration = { 25, 18, 39 };
-	public double[] listRatio = { 1.46, 1.46, 1.46 };
+    public static int[] listWorld = { 1, 1, 1 };
+	public static String[] listNom = { "pot_fleur_", "tondeuse_", "grenouille_" };
+	public static int[] listDuration = { 25, 18, 39 };
+	public static double[] listRatio = { 1.46, 1.46, 1.46 };
 	
-	public String[] listInsectNom = { "mouche_", "abeille_", "libellule_", "papillon_" };
-	public int[] listInsectDurationLife = { 27, 30, 30, 72 };
-	public int[] listInsectDurationDeath = { 7, 7, 7, 7 };
+	public static String[] listInsectNom = { "mouche_", "abeille_", "libellule_", "papillon_" };
+	public static int[] listInsectDurationLife = { 27, 30, 30, 72 };
+	public static int[] listInsectDurationDeath = { 7, 7, 7, 7 };
 	
-	public ArrayList<AnimationDrawable> listAnimation = new ArrayList<AnimationDrawable>();
+	public static ArrayList<AnimationDrawable> listAnimation = new ArrayList<AnimationDrawable>();
 	
 	private int world = -1;
     private int level = -1;
@@ -145,11 +142,4 @@ public class SGMGameManager extends SGMStatisticsManager {
 			startActivityForResult(intent, CODE_RETOUR);
 		}
 	}
-
-    public static SGMGameManager instance(){
-        if(mInstance == null)
-            mInstance = new SGMGameManager();
-
-        return mInstance;
-    }
 }

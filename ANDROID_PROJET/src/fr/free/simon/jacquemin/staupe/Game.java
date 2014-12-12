@@ -98,7 +98,7 @@ public class Game extends SGMActivity {
 	public void setArray(int[] array)
 	{
 		for(int i = 0; i < array.length; i++){
-			SGMGameManager.instance().setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
+			setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
 		}
 	}
 
@@ -126,7 +126,7 @@ public class Game extends SGMActivity {
             count += this.actualGrid.getGrille()[i].length;
         }
 		for(int i = 0; i < count; i++){
-			array.add(Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, "1")));
+			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, "1")));
 		}
 		
 		int[] arr = new int[array.size()];
@@ -360,7 +360,7 @@ public class Game extends SGMActivity {
 	public void actionBonusShowTaupe(View v) {
 		resetTimerInsect();
 		
-		int nbBonus = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_BONUS,
+		int nbBonus = Integer.parseInt(getPref(SGMGameManager.FILE_BONUS,
 				SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
 				Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
 		if (nbBonus > 0) {
@@ -370,7 +370,7 @@ public class Game extends SGMActivity {
 						R.string.msg_game_bonus_no_maule, Toast.LENGTH_SHORT)
 						.show();
 			} else {
-                SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
+                setPref(SGMGameManager.FILE_BONUS,
 						SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
 						Integer.toString(nbBonus - 1));
 				displayNbHint();
@@ -384,7 +384,7 @@ public class Game extends SGMActivity {
 	}
 
 	private void displayNbHint() {
-        int nbHint = Integer.parseInt(SGMGameManager.instance().getPref(
+        int nbHint = Integer.parseInt(getPref(
                 SGMGameManager.FILE_BONUS,
                 SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
                 Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
@@ -402,10 +402,10 @@ public class Game extends SGMActivity {
 		if (!isGridComplete) {
 			// LOSE
 			// Statistique : Nb de partie perdue
-			int nbGameLost = Integer.parseInt(SGMGameManager.instance().getPref(
+			int nbGameLost = Integer.parseInt(getPref(
 					SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_NB_GAMES_LOST, "0"));
-            SGMGameManager.instance().setPref(SGMGameManager.FILE_STATS,
+            setPref(SGMGameManager.FILE_STATS,
 					SGMGameManager.STATS_NB_GAMES_LOST,
 					Integer.toString(nbGameLost + 1));
 
@@ -446,7 +446,7 @@ public class Game extends SGMActivity {
 			// WIN
             int nbStars = 0;
             if (actualLevel != null) {
-                nbStars = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_LEVELS,
+                nbStars = Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS,
                         SGMGameManager.STARS + actualLevel.id, "0"));
             }
 			// 2. Chain together various setter methods to set the dialog
@@ -455,11 +455,11 @@ public class Game extends SGMActivity {
                     actualGrid.countNbMine(actualGrid.getGrille(), 2));
 
 			// Statistics : Nb of games win
-            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_NB_GAMES_WIN, "0", 1);
+            addStatistics(SGMGameManager.STATS_NB_GAMES_WIN, "0", 1);
 			// Statistics : Nb of mines
-            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_MINES, "0", actualGrid.countNbMine(actualGrid.getGrille(), 2));
+            addStatistics(SGMGameManager.STATS_ALL_MINES, "0", actualGrid.countNbMine(actualGrid.getGrille(), 2));
 			// Statistics : Nb of maul blocked
-            SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getNb());
+            addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getNb());
 
 			String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
 			displayNbHint();
@@ -467,10 +467,10 @@ public class Game extends SGMActivity {
             // New best score
 			if (nbStarThisRound > nbStars) {
 				// Statistics : Nb of stars
-                SGMGameManager.instance().addStatistics(SGMGameManager.STATS_ALL_STARS, "0", - nbStars + nbStarThisRound);
+                addStatistics(SGMGameManager.STATS_ALL_STARS, "0", - nbStars + nbStarThisRound);
 
 				// Save : Stars for this level
-                SGMGameManager.instance().setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STARS + actualLevel.id, Integer.toString(nbStarThisRound));
+                setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STARS + actualLevel.id, Integer.toString(nbStarThisRound));
 
 			}
 
@@ -519,7 +519,7 @@ public class Game extends SGMActivity {
         String msg = "";
 
         int nbBonus = Integer
-                .parseInt(SGMGameManager.instance().getPref(
+                .parseInt(getPref(
                         SGMGameManager.FILE_BONUS,
                         SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
                         Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
@@ -532,7 +532,7 @@ public class Game extends SGMActivity {
             if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
                 nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
             }
-            SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
+            setPref(SGMGameManager.FILE_BONUS,
                     SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
                     Integer.toString(nbBonus));
             msg = " "
@@ -544,7 +544,7 @@ public class Game extends SGMActivity {
             if (nbBonus > SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT) {
                 nbBonus = SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT;
             }
-            SGMGameManager.instance().setPref(SGMGameManager.FILE_BONUS,
+            setPref(SGMGameManager.FILE_BONUS,
                     SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
                     Integer.toString(nbBonus));
             msg = " "

@@ -66,7 +66,7 @@ public class Options extends SGMActivity {
 
     public void reinitialiseStats() {
 		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
-		SGMGameManager.instance().setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
+		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		// win
 		// 2. Chain together various setter methods to set the dialog

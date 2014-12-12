@@ -88,7 +88,7 @@ public class SelectLevel extends SGMActivity {
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if (Integer.parseInt(SGMGameManager.instance().getPref(
+			if (Integer.parseInt(getPref(
 					SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
 					"0")) >= allLevels.get(i).lock) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
@@ -124,7 +124,7 @@ public class SelectLevel extends SGMActivity {
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - Integer.parseInt(SGMGameManager.instance().getPref(
+				int numberMiss = allLevels.get(i).lock - Integer.parseInt(getPref(
 						SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
 						"0"));
 				Drawable image = new BitmapDrawable(getResources(),

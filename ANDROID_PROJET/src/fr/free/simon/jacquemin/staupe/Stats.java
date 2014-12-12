@@ -51,19 +51,19 @@ public class Stats extends SGMActivity {
 		StatsItem[] items = new StatsItem[6];
 
 		// Get all the stats
-        int nbMaul = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        int nbMaul = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0"));
-        int nbLevelWin = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        int nbLevelWin = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_NB_GAMES_WIN, "0"));
-        int nbLevelLose = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        int nbLevelLose = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_NB_GAMES_LOST, "0"));
-        int nbInsectKill = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        int nbInsectKill = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_NB_INSECT_KILL, "0"));
-        int nbInsectNotKill = Integer.parseInt(SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        int nbInsectNotKill = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_NB_INSECT_NOT_KILL, "0"));
 
         String date = now();
-        String dateInstallation = SGMGameManager.instance().getPref(SGMGameManager.FILE_STATS,
+        String dateInstallation = getPref(SGMGameManager.FILE_STATS,
                 SGMGameManager.STATS_DATE_INSTALLATION, date);
 		items[0] = new StatsItem((nbLevelWin > 0f ? Float.toString(nbMaul/nbLevelWin*1f) : "0"),
 				getString(R.string.stats_ratioMaulPerLevel));
