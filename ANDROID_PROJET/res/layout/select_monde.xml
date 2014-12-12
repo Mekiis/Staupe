@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" >
         
-                <fr.free.simon.jacquemin.staupe.carousel.Carousel xmlns:pj="http://schemas.android.com/apk/res/fr.free.simon.jacquemin.staupe"
+                <fr.free.simon.jacquemin.staupe.utils.carousel.Carousel xmlns:pj="http://schemas.android.com/apk/res/fr.free.simon.jacquemin.staupe"
                     android:id="@+id/carousel"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"

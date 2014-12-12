@@ -1,17 +1,14 @@
 package fr.free.simon.jacquemin.staupe;
 
-import fr.free.simon.jacquemin.staupe.carousel.Carousel;
-import fr.free.simon.jacquemin.staupe.carousel.CarouselAdapter;
-import fr.free.simon.jacquemin.staupe.carousel.CarouselAdapter.OnItemClickListener;
-import fr.free.simon.jacquemin.staupe.carousel.CarouselItem;
+import fr.free.simon.jacquemin.staupe.utils.carousel.Carousel;
+import fr.free.simon.jacquemin.staupe.utils.carousel.CarouselAdapter;
+import fr.free.simon.jacquemin.staupe.utils.carousel.CarouselAdapter.OnItemClickListener;
+import fr.free.simon.jacquemin.staupe.utils.carousel.CarouselItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.widget.Toast;
 
 @Deprecated
 public class SelectWorld extends Activity {
