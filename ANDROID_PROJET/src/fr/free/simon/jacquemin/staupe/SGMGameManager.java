@@ -23,7 +23,8 @@ public class SGMGameManager extends SGMStatisticsManager {
 	
 	public static final String FILE_LEVELS = "F_LEVELS";
 	public static final String STARS = "L_STARS_LEVEL_";
-	public static final String STATE = "L_LAST_STATE_";
+	public static final String LAST_STATE = "L_LAST_STATE_";
+    public static final String BEST_STATE = "L_BEST_STATE_";
 	
 	public static final String FILE_BONUS = "F_BONUS";
 	public static final String BONUS_AFFICHE_TAUPE_NB = "B_A_T";
@@ -99,25 +100,18 @@ public class SGMGameManager extends SGMStatisticsManager {
 
 	public void launchIntent(String nom) {
 
-//		if (nom.equalsIgnoreCase("Choix") == true
-//				|| nom.equalsIgnoreCase("AccueilPlay") == true
-//				|| nom.equalsIgnoreCase("LevelReturn") == true) {
-//			Intent intent = new Intent(this, SelectWorld.class);
-//			startActivityForResult(intent, CODE_RETOUR);
-//		} else
 		if (nom.equalsIgnoreCase("Loading") == true) {
 			Intent intent = new Intent(this, LoadingScreen.class);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("JeuReturn") == true
+		} else if (nom.equalsIgnoreCase("GameBack") == true
 				|| nom.equalsIgnoreCase("WorldChoose") == true
-				|| nom.equalsIgnoreCase("Choix") == true
-				|| nom.equalsIgnoreCase("AccueilPlay") == true) {
+				|| nom.equalsIgnoreCase("HomePlay") == true) {
 			Intent intent = new Intent(this, SelectLevel.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			intent.putExtra(SGMGameManager.WORLD, world);
 			startActivityForResult(intent, CODE_RETOUR);
 		} else if (nom.equalsIgnoreCase("Game") == true
-				|| nom.equalsIgnoreCase("LevelOk") == true) {
+				|| nom.equalsIgnoreCase("SelectLevelOk") == true) {
 			Intent intent = new Intent(this, Game.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			startActivityForResult(intent, CODE_RETOUR);
@@ -127,19 +121,23 @@ public class SGMGameManager extends SGMStatisticsManager {
 				|| nom.equalsIgnoreCase("WorldReturn") == true
 				|| nom.equalsIgnoreCase("OptionsBack") == true
 				|| nom.equalsIgnoreCase("TutorialBack") == true
-				|| nom.equalsIgnoreCase("LevelReturn") == true
+				|| nom.equalsIgnoreCase("SelectLevelBack") == true
+                || nom.equalsIgnoreCase("TutorialBack") == true
 				|| nom.equalsIgnoreCase("LoadingOk") == true) {
 			Intent intent = new Intent(this, Home.class);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("AccueilRules") == true) {
+		} else if (nom.equalsIgnoreCase("HomeRules")) {
 			Intent intent = new Intent(this, Story.class);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("AccueilStats") == true) {
+		} else if (nom.equalsIgnoreCase("HomeStats")) {
 			Intent intent = new Intent(this, Stats.class);
 			startActivityForResult(intent, CODE_RETOUR);
-		} else if (nom.equalsIgnoreCase("AccueilTutorial") == true) {
+		} else if (nom.equalsIgnoreCase("HomeTutorial")) {
 			Intent intent = new Intent(this, Tutorial.class);
 			startActivityForResult(intent, CODE_RETOUR);
-		}
+		} else if (nom.equalsIgnoreCase("HomeOptions")) {
+            Intent intent = new Intent(this, Options.class);
+            startActivityForResult(intent, CODE_RETOUR);
+        }
 	}
 }

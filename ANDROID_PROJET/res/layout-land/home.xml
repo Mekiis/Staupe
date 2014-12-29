@@ -7,7 +7,7 @@
 
     <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
         android:id="@+id/stretchyImageViewTop"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
@@ -16,22 +16,20 @@
     <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
         android:id="@+id/stretchyImageViewLeft"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:adjustViewBounds="true"
+        android:layout_height="match_parent"
         android:src="@drawable/bg_deco_land_left" />
 
     <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
         android:id="@+id/stretchyImageViewRight"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
         android:src="@drawable/bg_deco_land_right" />
 
     <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
         android:id="@+id/stretchyImageView2"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
@@ -40,10 +38,13 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/acceuil_ll_version"
-        android:layout_alignParentTop="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/stretchyImageViewTop"
+        android:layout_toRightOf="@+id/stretchyImageViewLeft"
+        android:layout_toLeftOf="@+id/stretchyImageViewRight"
+        android:layout_toStartOf="@+id/stretchyImageViewRight"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:id="@+id/linearLayout1"

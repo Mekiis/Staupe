@@ -1,10 +1,62 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tutorial_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/staupe_bg" >
 
-    <include layout="@layout/template_game"/>
+    <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
+        android:id="@+id/stretchyImageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/bg_deco_port_top" />
 
-</LinearLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/tutorial.xml -->
+    <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
+        android:id="@+id/stretchyImageView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/bg_deco_port_bot" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/stretchyImageView1"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/game_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/game_btn_check"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/selector_btn_back"
+            android:onClick="actionClick" />
+
+        <Button
+            android:id="@+id/game_btn_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/selector_btn_validate"
+            android:onClick="actionClick" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/game_sv_body"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/stretchyImageView1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/template_game"/>
+
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/tutorial.xml -->

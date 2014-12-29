@@ -24,7 +24,10 @@
         android:id="@+id/story_ll_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_alignBottom="@+id/stretchyImageView1"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/story_btn_back"

@@ -60,6 +60,9 @@
     <string name="msg_game_bonus_no_avaible">No hint avaible</string>
     <string name="msg_game_bonus_no_gain_max">(You already have the max bonus)</string>
     <string name="msg_game_bonus_no_maule">No moles can fit</string>
+    <string name="msg_game_hint_stars_body">You need to place %d or less objects to block the mauls</string>
+    <string name="msg_game_hint_stars_ok">Okay</string>
+    <string name="msg_game_hint_stars_title">Number of mauls</string>
     <string name="options_btn_reinitialise_achievements">Reset achievements</string>
     <string name="options_cb_activate_animations">Activate animation in game</string>
     <string name="options_cb_activate_optional_animations">Activate optional animations</string>
@@ -85,7 +88,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowNoTitle">true</item>
     </style>
-    <style name="Jeu" parent="AppBaseTheme">
+    <style name="GameTheme" parent="AppBaseTheme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowFullscreen">true</item>
 	</style>

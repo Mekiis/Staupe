@@ -49,7 +49,7 @@ public class LoadingScreen extends Activity {
 		loadingBg = (ImageView) findViewById(R.id.loading_bg);
 		
 		myHandler = new Handler();
-	    myHandler.postDelayed(myRunnable,10); // on redemande toute les 500ms
+	    myHandler.postDelayed(myRunnable,10);
 		
 		new LoadingImages(getPackageName(), getResources()).execute();
 	}

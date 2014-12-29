@@ -24,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/options_ll_back" >
+        android:id="@+id/options_ll_back"
+        android:layout_alignBottom="@+id/stretchyImageView1"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/options_btn_back"
@@ -32,6 +35,70 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_btn_back"
             android:onClick="actionClick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/stretchyImageView1"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/options_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_title"
+            android:textSize="@dimen/title"
+            android:gravity="center"/>
+
+        <CheckBox
+            android:id="@+id/options_cb_activate_animations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_cb_activate_animations"
+            android:textSize="@dimen/text_Normal" />
+
+        <CheckBox
+            android:id="@+id/options_cb_activate_optional_animations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_cb_activate_optional_animations"
+            android:textSize="@dimen/text_Normal" />
+
+        <Button
+            android:id="@+id/options_btn_reinitialise_achievement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector"
+            android:onClick="actionClick"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/options_btn_reinitialise_achievements"
+            android:textSize="@dimen/text_Normal"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/options_btn_reinitialise_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector"
+            android:onClick="actionClick"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/btn_reinitialise_stars"
+            android:textSize="@dimen/text_Normal"
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </RelativeLayout><!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/layout-port/options.xml -->

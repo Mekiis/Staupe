@@ -55,7 +55,7 @@ public class Grid {
 						nbTaupeCanFit++;
 					}
 					// Rotation de la taupe
-					t.setForme(t.rot90Hor(), false);
+					t.setShape(t.rot90Hor(), false);
 				}
 			}
 		}
@@ -89,8 +89,8 @@ public class Grid {
 					if (taupeCanFit(t, i, j, getGrille(), hauteur, largeur) == true) {
 						
 						if(listTaupe.contains(idTaupe)){
-							for (int iTaupe = 0; iTaupe < t.getHauteur(); iTaupe++) {
-								for (int jTaupe = 0; jTaupe < t.getLargeur(); jTaupe++) {
+							for (int iTaupe = 0; iTaupe < t.getHeight(); iTaupe++) {
+								for (int jTaupe = 0; jTaupe < t.getWidth(); jTaupe++) {
 									if(t.getCase(iTaupe, jTaupe) == 1){
 										getGrille()[i + iTaupe][j + jTaupe].setState(5);
 									}
@@ -101,7 +101,7 @@ public class Grid {
 						idTaupe++;
 					}
 					// Rotation de la taupe
-					t.setForme(t.rot90Hor(), false);
+					t.setShape(t.rot90Hor(), false);
 				}
 			}
 		}
@@ -143,7 +143,7 @@ public class Grid {
 						hasFindSolution = true;
 					}
 					// Rotation de la taupe
-					t.setForme(t.rot90Hor(), false);
+					t.setShape(t.rot90Hor(), false);
 				}
 
 				if (hasFindSolution == true) {
@@ -161,8 +161,8 @@ public class Grid {
 	private boolean taupeCanFit(Maul t, int x, int y, Case[][] g, int h, int l) {
 		boolean canFit = true;
 				
-		for (int iTaupe = 0; iTaupe < t.getHauteur(); iTaupe++) {
-			for (int jTaupe = 0; jTaupe < t.getLargeur(); jTaupe++) {
+		for (int iTaupe = 0; iTaupe < t.getHeight(); iTaupe++) {
+			for (int jTaupe = 0; jTaupe < t.getWidth(); jTaupe++) {
 				if (x + iTaupe >= h || y + jTaupe >= l) {
 					// La case actuelle de la taupe est en dehors de la grille
 					canFit = false;
@@ -204,7 +204,7 @@ public class Grid {
 						hasFindSolution = true;
 					}
 					// Rotation de la taupe
-					t.setForme(t.rot90Hor(), false);
+					t.setShape(t.rot90Hor(), false);
 				}
 
 				if (hasFindSolution == true) {
@@ -226,7 +226,7 @@ public class Grid {
 							hasFindSolution = true;
 						}
 						// Rotation de la taupe
-						t.setForme(t.rot90Hor(), false);
+						t.setShape(t.rot90Hor(), false);
 					}
 
 					if (hasFindSolution == true) {

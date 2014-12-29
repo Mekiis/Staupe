@@ -3,42 +3,42 @@ package fr.free.simon.jacquemin.staupe.container;
 import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
 
 public class Maul {
-	private int[][] forme;
-	private int[][] formeOriginelle;
-	private int largeur;
-	private int hauteur;
+	private int[][] shape;
+	private int[][] shapePure;
+	private int width;
+	private int height;
 
 	public Maul() {
-		largeur = 0;
-		hauteur = 0;
+		width = 0;
+		height = 0;
 	}
 
-	public void setFormeAle(int l, int h, boolean completeForme) {
-		largeur = l;
-		hauteur = h;
+	public void randomizeShape(int l, int h, boolean needCompleteShape) {
+		width = l;
+		height = h;
 
-		setFormeVide();
+		setNullShape();
 
-		for (int i = 0; i < largeur; i++) {
-			for (int j = 0; j < hauteur; j++) {
-				forme[j][i] = SGMMath.randInt(0, 1);
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				shape[j][i] = SGMMath.randInt(0, 1);
 			}
 		}
 		
-		formeOriginelle = forme;
+		shapePure = shape;
 		
-		if(completeForme){
-			forme = completeForme(forme);
-			calculTailleForme();
+		if(needCompleteShape){
+			shape = completeForme(shape);
+			getSize();
 		}
 	}
 
-	public int getNb() {
+	public int getWeight() {
 		int nb = 0;
 
-		for (int i = 0; i < largeur; i++) {
-			for (int j = 0; j < hauteur; j++) {
-				if (forme[j][i] == 1) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (shape[j][i] == 1) {
 					nb++;
 				}
 			}
@@ -47,24 +47,24 @@ public class Maul {
 		return nb;
 	}
 
-	public void setForme(int[][] f, boolean completeForme) {
-		forme = f;
-		formeOriginelle = f;
-		calculTailleForme();
+	public void setShape(int[][] f, boolean completeForme) {
+		shape = f;
+		shapePure = f;
+		getSize();
 		
 		if(completeForme){
-			forme = completeForme(forme);
-			calculTailleForme();
+			shape = completeForme(shape);
+			getSize();
 		}
 	}
 	
 	public void setOriginaleTaupe(boolean a_value){
 		if(a_value){
-			forme = formeOriginelle;
-			calculTailleForme();
+			shape = shapePure;
+			getSize();
 		} else {
-			forme = completeForme(forme);
-			calculTailleForme();
+			shape = completeForme(shape);
+			getSize();
 		}
 	}
 	
@@ -73,12 +73,15 @@ public class Maul {
 		if(f.length == 0){
 			return null;
 		}
-		int maxTaille = Math.max(f.length, f[0].length);
+
+        return shapePure;
+        /*
+		int maxSize = Math.max(f.length, f[0].length);
 		
-		int[][] formeCarre = new int[maxTaille][maxTaille];
+		int[][] formeCarre = new int[maxSize][maxSize];
 		for(int i = 0; i < f.length; i++){
 			for(int j = 0; j < f[i].length; j++){
-				if(i > hauteur || j > largeur){
+				if(i > height || j > width){
 					formeCarre[i][j] = 0;
 				} else {
 					formeCarre[i][j] = f[i][j];
@@ -88,47 +91,49 @@ public class Maul {
 		}
 		
 		return formeCarre;
+        */
+
 	}
 
-	public int[][] getForme() {
-		return forme;
+	public int[][] getShape() {
+		return shape;
 	}
 
-	public int getLargeur() {
-		return largeur;
+	public int getWidth() {
+		return width;
 	}
 
-	public int getHauteur() {
-		return hauteur;
+	public int getHeight() {
+		return height;
 	}
 
-	private void setFormeVide() {
-		forme = new int[hauteur][largeur];
-		for (int i = 0; i < largeur; i++) {
-			for (int j = 0; j < hauteur; j++) {
-				forme[j][i] = 0;
+	private void setNullShape() {
+		shape = new int[height][width];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				shape[j][i] = 0;
 			}
 		}
 	}
 
-	private void calculTailleForme() {
-		hauteur = forme.length;
-		largeur = 0;
-		if (hauteur != 0) {
-			largeur = forme[0].length;
+	private void getSize() {
+		height = shape.length;
+		width = 0;
+		if (height != 0) {
+			width = shape[0].length;
 		}
 	}
 
-	public int getCase(int hauteur, int largeur) {
-		return forme[hauteur][largeur];
+	public int getCase(int height, int width) {
+		return shape[height][width];
 	}
 
 	public int[][] rot90Hor() {
-		int[][] rotate = new int[forme[0].length][forme.length];
+		int[][] rotate = new int[shapePure[0].length][shapePure.length];
 
-		for (int i = 0; i < forme[0].length; i++) {
-			for (int j = 0; j < forme.length; j++) {
-				rotate[i][forme.length - 1 - j] = forme[j][i];
+		for (int i = 0; i < shapePure[0].length; i++) {
+			for (int j = 0; j < shapePure.length; j++) {
+				rotate[i][shapePure.length - 1 - j] = shapePure[j][i];
 			}
 		}
 

@@ -17,7 +17,7 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/btn_back_options"
+            android:id="@+id/options_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_btn_back"
@@ -59,21 +59,21 @@
                     android:gravity="center"/>
 
                 <CheckBox
-                    android:id="@+id/cb_activate_animations"
+                    android:id="@+id/options_cb_activate_animations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/options_cb_activate_animations"
                     android:textSize="@dimen/text_Normal" />
 
                 <CheckBox
-                    android:id="@+id/cb_activate_optional_animations"
+                    android:id="@+id/options_cb_activate_optional_animations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/options_cb_activate_optional_animations"
                     android:textSize="@dimen/text_Normal" />
 
                 <Button
-                    android:id="@+id/btn_reinitialise_achievement"
+                    android:id="@+id/options_btn_reinitialise_achievement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -89,7 +89,7 @@
                     android:textColor="@color/black" />
 
                 <Button
-                    android:id="@+id/btn_reinitialise_stats"
+                    android:id="@+id/options_btn_reinitialise_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

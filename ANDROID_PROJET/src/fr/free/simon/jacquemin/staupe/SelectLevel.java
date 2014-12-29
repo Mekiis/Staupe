@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,11 +60,6 @@ public class SelectLevel extends SGMActivity {
 				}
 			}
 		});
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
 	}
 
 	public void choixLevel() {
@@ -262,23 +258,37 @@ public class SelectLevel extends SGMActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			endActivity("Return", -1);
+			endActivity("Back", -1);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
+    @Override
+    public void onBackPressed() {
+        endActivity("Back");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            endActivity("Back");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
 		case R.id.select_level_btn_back:
-			endActivity("Return", -1);
+			endActivity("Back", -1);
 		}
 	}
 
     @Override
     public String getNameActivity() {
-        return "Level";
+        return "SelectLevel";
     }
 
     @Override
@@ -290,7 +300,7 @@ public class SelectLevel extends SGMActivity {
 		Intent intent = this.getIntent();
 		idWorld = intent.getIntExtra(SGMGameManager.WORLD, -1);
 	}
-	
+
 	protected void endActivity(String msg, int idLevel) {
 		Intent intent = getIntent();
 		

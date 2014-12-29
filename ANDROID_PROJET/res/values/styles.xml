@@ -22,7 +22,7 @@
 		<item name="android:windowNoTitle">true</item>
 	</style>
 	
-	<style name="Jeu" parent="AppBaseTheme">
+	<style name="GameTheme" parent="AppBaseTheme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowFullscreen">true</item>
 	</style>

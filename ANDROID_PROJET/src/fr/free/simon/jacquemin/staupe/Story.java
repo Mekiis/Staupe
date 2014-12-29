@@ -1,6 +1,7 @@
 package fr.free.simon.jacquemin.staupe;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,10 +20,24 @@ public class Story extends SGMActivity {
 	@Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
-		case R.id.rules_btn_back:
+		case R.id.story_btn_back:
 			endActivity("Back");
 		}
 	}
+
+    @Override
+    public void onBackPressed() {
+        endActivity("Back");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            endActivity("Back");
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String getNameActivity() {
@@ -34,6 +49,5 @@ public class Story extends SGMActivity {
 		super.init();
 		
 		((TextView) findViewById(R.id.story_tv_display_story)).setTypeface(font);
-		((Button) findViewById(R.id.rules_btn_back)).setTypeface(font);
 	}
 }

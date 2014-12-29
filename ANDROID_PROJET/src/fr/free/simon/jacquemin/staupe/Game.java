@@ -14,12 +14,15 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +35,7 @@ import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import fr.free.simon.jacquemin.staupe.container.Maul;
 
-public class Game extends SGMActivity {
+public class Game extends SGMActivity implements View.OnTouchListener {
 	private static Level actualLevel;
 	private static Grid actualGrid;
 	private static Maul actualMaul;
@@ -55,21 +58,21 @@ public class Game extends SGMActivity {
 		
 		decodeLevel();
 		
-		UIimageViewInsectContainer = createImageView();
+		UIimageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.game_root));
         UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
 	}
 
     @Override
     protected void onPause() {
         super.onPause();
-        setArray(constructArrayFromGame());
+        setArray(SGMGameManager.LAST_STATE, constructArrayFromGame());
         insectLauncher.stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if((arr = getArray()).length > 0){
+        if((arr = getArray(SGMGameManager.LAST_STATE)).length > 0){
             constructGameFromArray();
         }
         insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIimageViewInsectContainer, this, metrics);
@@ -95,10 +98,10 @@ public class Game extends SGMActivity {
 		constructGameFromArray();
 	}
 
-	public void setArray(int[] array)
+	public void setArray(String key, int[] array)
 	{
 		for(int i = 0; i < array.length; i++){
-			setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
+			setPref(SGMGameManager.FILE_LEVELS, key +"_"+ actualLevel.id+"_"+i, Integer.toString(array[i]));
 		}
 	}
 
@@ -111,25 +114,28 @@ public class Game extends SGMActivity {
 		for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
 			for (int j = 0; j < this.actualGrid.getGrille()[i].length; j++) {
 				arr[i * this.actualGrid.getGrille()[i].length + j] = this.actualGrid
-						.getGrille()[i][j].getState();
+						.getCase(i, j).getState();
 			}
 		}
 		
 		return arr;
 	}
 
-	public int[] getArray()
+	public int[] getArray(String key)
 	{
 		List<Integer> array = new ArrayList<Integer>();
+        int[] arr = new int[0];
         int count = 0;
         for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
             count += this.actualGrid.getGrille()[i].length;
         }
 		for(int i = 0; i < count; i++){
-			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STATE+"_"+ actualLevel.id+"_"+i, "1")));
+			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, key +"_"+ actualLevel.id+"_"+i, "-1")));
+            if(array.get(i) == -1)
+                return arr;
 		}
-		
-		int[] arr = new int[array.size()];
+
+		arr = new int[array.size()];
 		for(int i = 0; i < array.size(); i++){
 			arr[i] = array.get(i);
 		}
@@ -146,14 +152,12 @@ public class Game extends SGMActivity {
                         if(arr.length == 0)
                             return;
 
-						int count = 0;
-						for (int i = 0; i < actualGrid.getGrille().length; i++) {
-							for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-								actualGrid.getCase(i, j).setState(
-										arr[count]);
-								count++;
-							}
-						}
+                        for (int i = 0; i < actualGrid.getGrille().length; i++) {
+                            for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
+                                actualGrid.getCase(i, j).setState(
+                                        arr[i*actualGrid.getGrille()[i].length+j]);
+                            }
+                        }
 	
 						// unregister listener (this is important)
 						UIgridLevelContainer.getViewTreeObserver()
@@ -171,9 +175,26 @@ public class Game extends SGMActivity {
 
 		((TextView) findViewById(R.id.game_tv_level_name)).setTypeface(font);
 		((TextView) findViewById(R.id.game_tv_maul_shape_title)).setTypeface(font);
+
+        findViewById(R.id.game_root).setOnTouchListener(this);
+        findViewById(R.id.game_sub_root).setOnTouchListener(this);
 	}
 
-	private void decodeLevel() {
+    @Override
+    public void onBackPressed() {
+        endActivity("Back");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            endActivity("Back");
+            return true;
+        }
+        return false;
+    }
+
+    private void decodeLevel() {
 		int levelID = -1;
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -181,7 +202,7 @@ public class Game extends SGMActivity {
 			levelID = intent.getIntExtra(SGMGameManager.LEVEL, -1);
 		} else {
 			// Si probl�me avec l'intent, on fait un back
-			endActivity("Return");
+			endActivity("Back");
 		}
 		// On charge tous les niveau
 		allLevel = new ReadLevelFile().buildLevel(getApplicationContext(),
@@ -196,35 +217,35 @@ public class Game extends SGMActivity {
 			}
 		}
 		// Si on le trouve pas, on fait un back
-		endActivity("Return");
+		endActivity("Back");
 	}
 
 	private void createGame(Level l) {
-		int hauteur = l.height;
-		int largeur = l.width;
-		actualGrid = new Grid(hauteur, largeur, this,
+		int levelHeight = l.height;
+		int levelWidth = l.width;
+		actualGrid = new Grid(levelHeight, levelWidth, this,
 				getApplicationContext());
 		GridLayout grille = (GridLayout) findViewById(R.id.game_grid_level);
 		RelativeLayout rlAnim = (RelativeLayout) findViewById(R.id.game_rl_anim);
 		grille.removeAllViews();
-		grille.setColumnCount(largeur);
+		grille.setColumnCount(levelWidth);
 
 		int A = 0;
 		int B = 0;
 
 		if (Configuration.ORIENTATION_LANDSCAPE == getResources()
 				.getConfiguration().orientation) {
-			A = metrics.widthPixels / (largeur * 2 + 2);
-			B = metrics.heightPixels / (hauteur + 1);
+			A = metrics.widthPixels / (levelWidth * 2 + 2);
+			B = metrics.heightPixels / (levelHeight + 1);
 		} else {
-			A = metrics.widthPixels / (largeur + 1);
-			B = metrics.heightPixels / (hauteur * 2 + 2);
+			A = metrics.widthPixels / (levelWidth + 1);
+			B = metrics.heightPixels / (levelHeight * 2 + 2);
 		}
 
 		int size = (A < B) ? (A) : (B);
 
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
+		for (int i = 0; i < levelHeight; i++) {
+			for (int j = 0; j < levelWidth; j++) {
 				actualGrid.getCaseArchive(i, j).setState(
 						l.rep.get(i).get(j));
 				actualGrid.getCase(i, j).setState(l.rep.get(i).get(j));
@@ -237,26 +258,27 @@ public class Game extends SGMActivity {
 			}
 		}
 		actualMaul = convertTaupeFromLevel(l);
-		displayTaupe(actualMaul, largeur, hauteur);
+		displayTaupe(actualMaul, levelWidth, levelHeight);
 
 		((TextView) findViewById(R.id.game_tv_level_name)).setText(l.name);
 	}
 
-	private Maul convertTaupeFromLevel(Level level) {
+	private Maul convertTaupeFromLevel(Level l) {
 		Maul t = new Maul();
-		int[][] f = new int[level.heightTaupe][level.widthTaupe];
-		for (int i = 0; i < level.heightTaupe; i++) {
-			for (int j = 0; j < level.widthTaupe; j++) {
-				f[i][j] = level.taupe.get(i).get(j);
+		int[][] f = new int[l.heightTaupe][l.widthTaupe];
+		for (int i = 0; i < l.heightTaupe; i++) {
+			for (int j = 0; j < l.widthTaupe; j++) {
+				f[i][j] = l.taupe.get(i).get(j);
 			}
 		}
-		t.setForme(f, true);
+		t.setShape(f, true);
 
 		return t;
 	}
 
-	private void displayTaupe(Maul taupe, int largeur, int hauteur) {
+	private void displayTaupe(Maul m, int maulWidth, int maulHeight) {
 		GridLayout grilleTaupe = (GridLayout) findViewById(R.id.game_grid_maul);
+        LinearLayout llTaupe = (LinearLayout) findViewById(R.id.game_ll_maul);
 		grilleTaupe.removeAllViews();
 
 		int A = 0;
@@ -264,21 +286,23 @@ public class Game extends SGMActivity {
 
 		if (Configuration.ORIENTATION_LANDSCAPE == getResources()
 				.getConfiguration().orientation) {
-			A = metrics.widthPixels / (2 * largeur + 2);
-			B = metrics.heightPixels / (hauteur + 2);
+			A = metrics.widthPixels / (2 * maulWidth + 2);
+			B = metrics.heightPixels / (maulHeight + 1);
 		} else {
-			A = metrics.widthPixels / (largeur + 1);
-			B = metrics.heightPixels / (2 * hauteur + 2);
+			A = metrics.widthPixels / (maulWidth + 1);
+			B = metrics.heightPixels / (2 * maulHeight + 2);
 		}
 
 		int size = (A < B) ? (A) : (B);
 
-		grilleTaupe.setColumnCount(taupe.getLargeur());
-		for (int i = 0; i < taupe.getHauteur(); i++) {
-			for (int j = 0; j < taupe.getLargeur(); j++) {
+        int height = 0;
+
+		grilleTaupe.setColumnCount(m.getWidth());
+		for (int i = 0; i < m.getHeight(); i++) {
+			for (int j = 0; j < m.getWidth(); j++) {
 				ImageView img = new ImageView(getApplicationContext());
 				img.setLayoutParams(new LayoutParams(size, size));
-				if (taupe.getForme()[i][j] == 0) {
+				if (m.getShape()[i][j] == 0) {
 					img.setBackgroundResource(R.drawable.case_none);
 				} else {
 					img.setBackgroundResource(getResources().getIdentifier(
@@ -286,29 +310,19 @@ public class Game extends SGMActivity {
 							getApplicationContext().getPackageName()));
 				}
 				grilleTaupe.addView(img);
+
+                ImageView imageView = img;
+                GridLayout.LayoutParams lp =
+                        (GridLayout.LayoutParams) imageView.getLayoutParams();
+                height = lp.topMargin + lp.bottomMargin;
 			}
 		}
-	}
-	
 
 
-	private void resetTimerInsect(){
-		if(insectLauncher != null)
-            insectLauncher.resetTime();
-	}
-
-	@Override
-	public void actionClick(View v) {
-		resetTimerInsect();
-		
-		switch (v.getId()) {
-		case R.id.game_btn_back:
-			endActivity("Return");
-			break;
-		case R.id.game_btn_check:
-			verify();
-			break;
-		}
+        int caseSize = (m.getHeight() > m.getWidth()) ? (m.getHeight()) : (m.getWidth());
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llTaupe.getLayoutParams();
+        params.height = size * (caseSize + height) ; // In dp
+        llTaupe.setLayoutParams(params);
 	}
 
     @Override
@@ -316,11 +330,30 @@ public class Game extends SGMActivity {
         return "Game";
     }
 
+	private void resetTimerInsect(){
+		if(insectLauncher != null)
+            insectLauncher.resetTime();
+	}
+
+    @Override
+	public void actionClick(View v) {
+		resetTimerInsect();
+		
+		switch (v.getId()) {
+		case R.id.game_btn_back:
+			endActivity("Back");
+			break;
+		case R.id.game_btn_check:
+			verify();
+			break;
+		}
+	}
+
     public void actionTurn(View v) {
 		resetTimerInsect();
 		
 		int[][] f = this.actualMaul.rot90Hor();
-		this.actualMaul.setForme(f, true);
+		this.actualMaul.setShape(f, true);
 		displayTaupe(this.actualMaul, actualLevel.width, actualLevel.height);
 
 		UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
@@ -355,9 +388,18 @@ public class Game extends SGMActivity {
 
 	public void actionBest(View v) {
 		resetTimerInsect();
+
+        if((arr = getArray(SGMGameManager.BEST_STATE)).length > 0){
+            for (int i = 0; i < actualGrid.getGrille().length; i++) {
+                for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
+                    actualGrid.getCase(i, j).setState(
+                            arr[i*actualGrid.getGrille()[i].length+j]);
+                }
+            }
+        }
 	}
 
-	public void actionBonusShowTaupe(View v) {
+	public void actionHintMaul(View v) {
 		resetTimerInsect();
 		
 		int nbBonus = Integer.parseInt(getPref(SGMGameManager.FILE_BONUS,
@@ -382,6 +424,37 @@ public class Game extends SGMActivity {
 		}
 
 	}
+
+    public void actionHintStars(View v){
+        int nbBonus = Integer.parseInt(getPref(SGMGameManager.FILE_BONUS,
+                SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                Integer.toString(SGMGameManager.BONUS_AFFICHE_TAUPE_DEFAULT)));
+        if (nbBonus > 0) {
+            setPref(SGMGameManager.FILE_BONUS,
+                    SGMGameManager.BONUS_AFFICHE_TAUPE_NB,
+                    Integer.toString(nbBonus - 1));
+            displayNbHint();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.msg_game_hint_stars_title);
+            builder.setMessage(String.format(getResources().getString(R.string.msg_game_hint_stars_body), actualGrid.findBestSolution(actualMaul)));
+
+            // 3. Add the buttons
+            builder.setNeutralButton(R.string.msg_game_hint_stars_ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+
+                        }
+                    });
+            // 4. Get the AlertDialog from create()
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    R.string.msg_game_bonus_no_avaible, Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
 
 	private void displayNbHint() {
         int nbHint = Integer.parseInt(getPref(
@@ -419,7 +492,7 @@ public class Game extends SGMActivity {
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							// User clicked Continue button
-							endActivity("Return");
+							endActivity("Back");
 						}
 					});
 			builder.setNeutralButton(R.string.dlg_lose_continue,
@@ -459,7 +532,7 @@ public class Game extends SGMActivity {
 			// Statistics : Nb of mines
             addStatistics(SGMGameManager.STATS_ALL_MINES, "0", actualGrid.countNbMine(actualGrid.getGrille(), 2));
 			// Statistics : Nb of maul blocked
-            addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getNb());
+            addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getWeight());
 
 			String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
 			displayNbHint();
@@ -472,6 +545,7 @@ public class Game extends SGMActivity {
 				// Save : Stars for this level
                 setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.STARS + actualLevel.id, Integer.toString(nbStarThisRound));
 
+                setArray(SGMGameManager.BEST_STATE, constructArrayFromGame());
 			}
 
 			// characteristics
@@ -498,7 +572,12 @@ public class Game extends SGMActivity {
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							// User clicked OK button
-							endActivity("Return");
+                            for (int i = 0; i < actualGrid.getGrille().length; i++) {
+                                for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
+                                    actualGrid.getCase(i, j).setState(actualGrid.getCaseArchive(i, j).getState());
+                                }
+                            }
+							endActivity("Back");
 						}
 					});
 			builder.setNegativeButton(R.string.dlg_win_continue,
@@ -595,4 +674,11 @@ public class Game extends SGMActivity {
 		}
 		return temp;
 	}
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        this.resetTimerInsect();
+
+        return false;
+    }
 }

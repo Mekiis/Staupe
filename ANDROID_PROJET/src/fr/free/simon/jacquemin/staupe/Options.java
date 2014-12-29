@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class Options extends SGMActivity {
@@ -24,8 +25,10 @@ public class Options extends SGMActivity {
     protected void init() {
         super.init();
 
-        ((Button) findViewById(R.id.btn_back_options)).setTypeface(font);
-        ((Button) findViewById(R.id.btn_reinitialise_stats)).setTypeface(font);
+        ((Button) findViewById(R.id.options_btn_reinitialise_stats)).setTypeface(font);
+        ((Button) findViewById(R.id.options_btn_reinitialise_achievement)).setTypeface(font);
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations)).setTypeface(font);
+        ((CheckBox) findViewById(R.id.options_cb_activate_optional_animations)).setTypeface(font);
         ((TextView) findViewById(R.id.options_title)).setTypeface(font);
     }
 
@@ -42,19 +45,19 @@ public class Options extends SGMActivity {
 			endActivity("Back");
 			return true;
 		}
-		return super.onKeyDown(keyCode, event);
+		return false;
 	}
 
     @Override
 	public void actionClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_back_options:
+		case R.id.options_btn_back:
 			endActivity("Back");
 			break;
-		case R.id.btn_reinitialise_stats:
+		case R.id.options_btn_reinitialise_stats:
 			reinitialiseStats();
 			break;
-		case R.id.btn_reinitialise_achievement:
+		case R.id.options_btn_reinitialise_achievement:
 			break;
 		}
 	}

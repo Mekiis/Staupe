@@ -25,7 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/select_level_ll_back" >
+        android:id="@+id/select_level_ll_back"
+        android:layout_alignBottom="@+id/stretchyImageView1"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/select_level_btn_back"
@@ -38,8 +41,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:id="@+id/tutorial_scroll"
         android:layout_below="@+id/stretchyImageView1"
-        android:layout_above="@+id/stretchyImageView2" >
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:id="@+id/select_level_sv_list"

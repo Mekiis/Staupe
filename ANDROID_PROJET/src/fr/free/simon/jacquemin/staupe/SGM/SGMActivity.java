@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +23,7 @@ public abstract class SGMActivity extends SGMStatisticsManager {
 	protected static DisplayMetrics metrics = new DisplayMetrics();
 	protected static Typeface font = null;
 	protected Intent intent = getIntent();
-	protected static int behaviorQuitButton = 0;
+	protected int behaviorQuitButton = 0;
 
     private static String nameActivity = "Generic";
 
@@ -36,34 +38,11 @@ public abstract class SGMActivity extends SGMStatisticsManager {
 
 	// 2.0 and above
 	@Override
-	public void onBackPressed() {
-		switch(behaviorQuitButton){
-		case 0:
-			endActivity("Back");
-			break;
-		case 1:
-			moveTaskToBack(true);
-			break;
-		}
-		
-	}
+	abstract public void onBackPressed();
 
 	// Before 2.0
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			switch(behaviorQuitButton){
-			case 0:
-				endActivity("Back");
-				break;
-			case 1:
-				moveTaskToBack(true);
-				break;
-			}
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+	abstract public boolean onKeyDown(int keyCode, KeyEvent event);
 
 	public void actionClick(View v) {
 		// Need to be override to react to the click
@@ -104,8 +83,13 @@ public abstract class SGMActivity extends SGMStatisticsManager {
 
     abstract public String getNameActivity();
 
-    protected ImageView createImageView(){
-        // TODO : Create ImageView
-        return null;
+    protected ImageView createImageView(RelativeLayout root){
+        ImageView imageView = new ImageView(this);
+        RelativeLayout.LayoutParams vp =
+                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        imageView.setLayoutParams(vp);
+        root.addView(imageView);
+        return imageView;
     }
 }

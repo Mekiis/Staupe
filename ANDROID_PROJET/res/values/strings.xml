@@ -48,5 +48,8 @@
     <string name="stats_nbUniqueMaul">Maul encountered</string>
     <string name="stats_ratioInsectKill">Insecticide</string>
     <string name="stats_timeOnGame">Time in game</string>
+    <string name="msg_game_hint_stars_title">Number of mauls</string>
+    <string name="msg_game_hint_stars_body">You need to place %d or less objects to block the mauls</string>
+    <string name="msg_game_hint_stars_ok">Okay</string>
 
 </resources>

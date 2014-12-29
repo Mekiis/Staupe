@@ -1,6 +1,7 @@
 package fr.free.simon.jacquemin.staupe;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,11 +24,25 @@ public class Tutorial extends SGMActivity {
     public void actionClick(View v) {
         switch (v.getId()) {
             case R.id.game_btn_back:
-                endActivity("Return");
+                endActivity("Back");
                 break;
             case R.id.game_btn_check:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        endActivity("Back");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            endActivity("Back");
+            return true;
+        }
+        return false;
     }
 
     @Override

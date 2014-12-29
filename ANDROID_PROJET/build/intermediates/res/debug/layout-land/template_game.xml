@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/game_sub_root">
 
         <LinearLayout
             android:id="@+id/game_left"
@@ -46,7 +47,6 @@
                     android:id="@+id/game_ll_bonus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_help"
                     android:gravity="center"
                     android:onClick="actionBonusShowTaupe" >
 
@@ -54,7 +54,7 @@
                         android:id="@+id/game_btn_hint_maul"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="actionBonusShowTaupe"
+                        android:onClick="actionHintMaul"
                         android:background="@drawable/selector_btn_hint_maul" />
 
                     <ImageView
@@ -70,7 +70,7 @@
                         android:id="@+id/game_btn_hint_stars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="actionBonusShowTaupe"
+                        android:onClick="actionHintStars"
                         android:background="@drawable/selector_btn_hint_stars" />
 
                 </LinearLayout>
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content" >
 
                     <LinearLayout
-                        android:id="@+id/game_ll_maul"
+                        android:id="@+id/game_ll_maul_global"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -105,23 +105,34 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
-                                android:text="@string/maulShape"
+                                android:text="@string/maulShape"                                android:gravity="center"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_Normal" />
 
                         </RelativeLayout>
 
-                        <GridLayout
-                            android:id="@+id/game_grid_maul"
+                        <LinearLayout
+                            android:id="@+id/game_ll_maul"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
                             android:layout_marginTop="10dp"
-                            android:columnCount="3" >
-                        </GridLayout>
+                            android:gravity="center">
+
+                            <GridLayout
+                                android:id="@+id/game_grid_maul"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                            </GridLayout>
+
+                        </LinearLayout>
+
                     </LinearLayout>
+
                 </ScrollView>
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

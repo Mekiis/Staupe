@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -39,6 +40,20 @@ public class Stats extends SGMActivity {
     @Override
     public String getNameActivity() {
         return "Stats";
+    }
+
+    @Override
+    public void onBackPressed() {
+        endActivity("Back");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            endActivity("Back");
+            return true;
+        }
+        return false;
     }
 
 	public void init() {

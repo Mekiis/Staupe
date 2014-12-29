@@ -1,15 +1,18 @@
 package fr.free.simon.jacquemin.staupe;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
 
-public class Home extends SGMActivity {
+public class Home extends SGMActivity implements View.OnTouchListener{
 	private static ImageView UIimageViewInsectContainer = null;
 	private static LauncherInsect insectLauncher = null;
 
@@ -21,7 +24,7 @@ public class Home extends SGMActivity {
 		this.behaviorQuitButton = 1;
 		init();
 
-        UIimageViewInsectContainer = createImageView();
+        UIimageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.home_root));
 	}
 	
 	@Override
@@ -74,5 +77,33 @@ public class Home extends SGMActivity {
 		((Button) findViewById(R.id.btn_home_rules)).setTypeface(font);
 		((Button) findViewById(R.id.btn_home_tutorial)).setTypeface(font);
 		((Button) findViewById(R.id.btn_home_options)).setTypeface(font);
+
+        findViewById(R.id.home_root).setOnTouchListener(this);
 	}
+
+    private void resetTimerInsect(){
+        if(insectLauncher != null)
+            insectLauncher.resetTime();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        this.resetTimerInsect();
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return false;
+    }
 }

@@ -45,6 +45,7 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 	
 	private int eventX;
 	private int eventY;
+    private boolean isClicked = false;
 
 	@Override
 	protected Void doInBackground(Object... params) {
@@ -89,7 +90,9 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN && !isClicked) {
+                    isClicked = true;
+
 					animatorLifeDone.stop();
 					
 					eventX = (int) event.getX();
@@ -109,6 +112,8 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 							animatorDeathDone.checkIfAnimationDone();
 						}
 					});
+
+                    return true;
 				}
 
 				return false;

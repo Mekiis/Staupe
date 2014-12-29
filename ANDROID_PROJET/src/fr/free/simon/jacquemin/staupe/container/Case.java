@@ -136,7 +136,6 @@ public class Case {
 
 	public void refreshImg() {
 		if (imgBtn == null) {
-			// Si le btn n'existe pas
 			return;
 		}
 
