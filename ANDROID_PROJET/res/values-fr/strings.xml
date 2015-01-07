@@ -28,9 +28,9 @@
 	<string name="menu_story">Histoire</string>
 	<string name="rules_explain">Votre objectif, si vous l\'acceptez, est d\'empêcher les taupes d\'envahir le jardin !\n\nPour cela, vous disposez d\'un énorme stock de tondeuses à gazon qui feront fuir les taupes à coup sur.\n\nMais attention à vous, elles se promènent toujours en bande de 2 ou 3. \nIl faudra donc leur bloquer toutes les possibilités de sortir de terre en positionnant correctement vos tondeuses à gazon sur le terrain.\n\nSoyez économe, car les tondeuses coûtent chères. Moins vous en utiliserez, mieux vous serez notés par notre jury de professionel.\n\nBonne chance !\n\nSigné, un jardinier en colère.</string>
 	<string name="btn_reinitialise_stars">Réinitialiser les étoiles</string>
-	<string name="dlg_statsReinitialise">Les étoiles ont été correctement réinitialisées</string>
-	<string name="dlg_statsReinitialiseTitle">Etoiles réinitialisées</string>
-	<string name="dlg_statsReinitialiseOk">Accepter</string>
+	<string name="dlg_starsReinitialise">Les étoiles ont été correctement réinitialisées</string>
+	<string name="dlg_starsReinitialiseTitle">Etoiles réinitialisées</string>
+	<string name="dlg_starsReinitialiseOk">Accepter</string>
 	<string name="maulHelp">Cliquez pour tourner</string>
 	<string name="menu_options">Options</string>
 	<string name="menu_tutorial">Tutoriel</string>

@@ -2,7 +2,6 @@ package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -22,13 +21,13 @@ public class SGMGameManager extends SGMStatisticsManager {
 	public static final String WORLD = "WORLD_";
 	
 	public static final String FILE_LEVELS = "F_LEVELS";
-	public static final String STARS = "L_STARS_LEVEL_";
-	public static final String LAST_STATE = "L_LAST_STATE_";
-    public static final String BEST_STATE = "L_BEST_STATE_";
+	public static final String LVL_STARS = "L_STARS_LEVEL_";
+	public static final String LVL_LAST_STATE = "L_LAST_STATE_";
+    public static final String LVL_BEST_STATE = "L_BEST_STATE_";
 	
 	public static final String FILE_BONUS = "F_BONUS";
-	public static final String BONUS_AFFICHE_TAUPE_NB = "B_A_T";
-	public static final int BONUS_AFFICHE_TAUPE_DEFAULT = 10;
+	public static final String BONUS_DISPLAY_MAUL_NB = "B_A_T";
+	public static final int BONUS_DISPLAY_MAUL_DEFAULT = 10;
 
 	public static final String FILE_STATS = "F_STATS";
 	public static final String STATS_ALL_STARS = "S_ALL_STARS";
@@ -39,6 +38,10 @@ public class SGMGameManager extends SGMStatisticsManager {
     public static final String STATS_NB_INSECT_KILL = "S_NB_INSECT_KILL";
     public static final String STATS_NB_INSECT_NOT_KILL = "S_NB_INSECT_NOT_KILL";
     public static final String STATS_DATE_INSTALLATION = "S_DATE_INSTALLATION";
+
+    public static final String FILE_OPTIONS = "F_OPTIONS";
+    public static final String OPTION_ANIM_IG = "OPTION_ANIM_IG";
+    public static final String OPTION_ANIM_MENU = "OPTION_ANIM_MENU";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -112,7 +115,7 @@ public class SGMGameManager extends SGMStatisticsManager {
 			startActivityForResult(intent, CODE_RETOUR);
 		} else if (nom.equalsIgnoreCase("Game") == true
 				|| nom.equalsIgnoreCase("SelectLevelOk") == true) {
-			Intent intent = new Intent(this, Game.class);
+			Intent intent = new Intent(this, InGame.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			startActivityForResult(intent, CODE_RETOUR);
 		} else if (nom.equalsIgnoreCase("Home") == true

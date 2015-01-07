@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="fr.free.simon.jacquemin.staupe.Game"
+            android:name="fr.free.simon.jacquemin.staupe.InGame"
             android:label="@string/app_name"
             android:theme="@style/GameTheme" >
         </activity>

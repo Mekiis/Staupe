@@ -36,9 +36,13 @@
     <string name="dlg_lose_continue">Continue the level</string>
     <string name="dlg_lose_quit">Return to level selection</string>
     <string name="dlg_lose_retry">Retry</string>
-    <string name="dlg_statsReinitialise">The stars are correctly reinitialised</string>
-    <string name="dlg_statsReinitialiseOk">Accept</string>
-    <string name="dlg_statsReinitialiseTitle">Stars reinitialised</string>
+    <string name="dlg_starsReinitialise">The stars are correctly reinitialised</string>
+    <string name="dlg_starsReinitialiseConfirm">Do you really want to reset your stars ?</string>
+    <string name="dlg_starsReinitialiseConfirmNo">No</string>
+    <string name="dlg_starsReinitialiseConfirmYes">Yes</string>
+    <string name="dlg_starsReinitialiseOk">Accept</string>
+    <string name="dlg_starsReinitialiseTitle">Stars reinitialised</string>
+    <string name="dlg_starsReinitialiseTitleConfirm">Confirm to reset stars</string>
     <string name="dlg_winMsg">You beat the level, congratulation !</string>
     <string name="dlg_winTitle">You won !</string>
     <string name="dlg_win_continue">Continue the level</string>
@@ -65,7 +69,8 @@
     <string name="msg_game_hint_stars_title">Number of mauls</string>
     <string name="options_btn_reinitialise_achievements">Reset achievements</string>
     <string name="options_cb_activate_animations">Activate animation in game</string>
-    <string name="options_cb_activate_optional_animations">Activate optional animations</string>
+    <string name="options_cb_activate_animations_IG">Activate animations in game</string>
+    <string name="options_cb_activate_animations_menu">Activate animations in menu</string>
     <string name="options_title">Options</string>
     <string name="rules_explain">Your goal, if you accept it, is to prevent moles from invading the garden! \n\nFor that, you have a huge stock of lawn mower that will flee moles for sure. \n\nBut be carefull, they are always around in bands of 2 or 3. \nIt will therefore block their all possibilities out of your land properly positionant lawnmowers on the ground. \n\nBe thrifty, because mowers costs very expensive. The less you use, the better you will be rated by our professional jury.\n\nGood luck! \n\nSigned, an angry gardener. </string>
     <string name="stats_nbLevelWin">Garden saved</string>

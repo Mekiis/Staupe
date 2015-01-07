@@ -251,7 +251,7 @@ public class SelectLevel extends SGMActivity {
 	private int getStars(Level l) {
 		SharedPreferences preferences = getSharedPreferences(
 				SGMGameManager.FILE_LEVELS, 0);
-		return Integer.parseInt(preferences.getString(SGMGameManager.STARS
+		return Integer.parseInt(preferences.getString(SGMGameManager.LVL_STARS
 				+ l.id, "0"));
 	}
 

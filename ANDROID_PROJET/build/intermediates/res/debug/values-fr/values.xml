@@ -12,9 +12,9 @@
     <string name="dlg_lose_continue">Continuer le niveau</string>
     <string name="dlg_lose_quit">Retourner à la sélection des niveaux</string>
     <string name="dlg_lose_retry">Recommencer</string>
-    <string name="dlg_statsReinitialise">Les étoiles ont été correctement réinitialisées</string>
-    <string name="dlg_statsReinitialiseOk">Accepter</string>
-    <string name="dlg_statsReinitialiseTitle">Etoiles réinitialisées</string>
+    <string name="dlg_starsReinitialise">Les étoiles ont été correctement réinitialisées</string>
+    <string name="dlg_starsReinitialiseOk">Accepter</string>
+    <string name="dlg_starsReinitialiseTitle">Etoiles réinitialisées</string>
     <string name="dlg_winMsg">Vous avez réussi le niveau, félicitation !</string>
     <string name="dlg_winTitle">Gagné !</string>
     <string name="dlg_win_continue">Continuer le niveau</string>

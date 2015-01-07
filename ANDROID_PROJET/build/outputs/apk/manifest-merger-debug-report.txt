@@ -71,7 +71,7 @@ ADDED from AndroidManifest.xml:36:6
 		ADDED from AndroidManifest.xml:37:10
 intent-filter#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:39:10
-activity#fr.free.simon.jacquemin.staupe.Game
+activity#fr.free.simon.jacquemin.staupe.InGame
 ADDED from AndroidManifest.xml:43:6
 	android:label
 		ADDED from AndroidManifest.xml:45:10

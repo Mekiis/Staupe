@@ -5,11 +5,11 @@ import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 public class Options extends SGMActivity {
@@ -25,11 +25,45 @@ public class Options extends SGMActivity {
     protected void init() {
         super.init();
 
-        ((Button) findViewById(R.id.options_btn_reinitialise_stats)).setTypeface(font);
+        ((Button) findViewById(R.id.options_btn_reinitialise_stars)).setTypeface(font);
         ((Button) findViewById(R.id.options_btn_reinitialise_achievement)).setTypeface(font);
-        ((CheckBox) findViewById(R.id.options_cb_activate_animations)).setTypeface(font);
-        ((CheckBox) findViewById(R.id.options_cb_activate_optional_animations)).setTypeface(font);
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_IG)).setTypeface(font);
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_menu)).setTypeface(font);
         ((TextView) findViewById(R.id.options_title)).setTypeface(font);
+
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_IG)).setOnCheckedChangeListener(new OnChangeListener());
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_menu)).setOnCheckedChangeListener(new OnChangeListener());
+
+        String value = "1";
+
+        value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_IG, "1");
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_IG)).setChecked(value == "1" ? true : false);
+
+        value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_MENU, "1");
+        ((CheckBox) findViewById(R.id.options_cb_activate_animations_menu)).setChecked(value == "1" ? true : false);
+
+
+    }
+
+    public class OnChangeListener implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            String key = "";
+            String value = "0";
+
+            if(isChecked)
+                value = "1";
+            else
+                value = "0";
+
+            if(buttonView.getId() == R.id.options_cb_activate_animations_IG)
+                key = SGMGameManager.OPTION_ANIM_IG;
+
+            if(buttonView.getId() == R.id.options_cb_activate_animations_menu)
+                key = SGMGameManager.OPTION_ANIM_MENU;
+
+            setPref(SGMGameManager.FILE_OPTIONS, key, value);
+        }
     }
 
 	// 2.0 and above
@@ -54,8 +88,8 @@ public class Options extends SGMActivity {
 		case R.id.options_btn_back:
 			endActivity("Back");
 			break;
-		case R.id.options_btn_reinitialise_stats:
-			reinitialiseStats();
+		case R.id.options_btn_reinitialise_stars:
+            confirmReinitialiseStars();
 			break;
 		case R.id.options_btn_reinitialise_achievement:
 			break;
@@ -67,18 +101,17 @@ public class Options extends SGMActivity {
         return "Options";
     }
 
-    public void reinitialiseStats() {
+    public void reinitialiseStars() {
 		getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
 		setPref(SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS, "0");
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		// win
 		// 2. Chain together various setter methods to set the dialog
 		// characteristics
-		builder.setMessage(R.string.dlg_statsReinitialise);
-		builder.setTitle(R.string.dlg_statsReinitialiseTitle);
+        builder.setTitle(R.string.dlg_starsReinitialiseTitle);
+        builder.setMessage(R.string.dlg_starsReinitialise);
 
 		// 3. Add the buttons
-		builder.setPositiveButton(R.string.dlg_statsReinitialiseOk,
+		builder.setPositiveButton(R.string.dlg_starsReinitialiseOk,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						// User clicked OK button
@@ -86,9 +119,36 @@ public class Options extends SGMActivity {
 					}
 				});
 		
-		Log.d("Simon", "Dialog");
 		// 4. Get the AlertDialog from create()
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
+
+    public void confirmReinitialiseStars() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // 2. Chain together various setter methods to set the dialog
+        // characteristics
+        builder.setTitle(R.string.dlg_starsReinitialiseTitleConfirm);
+        builder.setMessage(R.string.dlg_starsReinitialiseConfirm);
+
+        // 3. Add the buttons
+        builder.setPositiveButton(R.string.dlg_starsReinitialiseConfirmYes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked Yes button
+                        reinitialiseStars();
+                    }
+                });
+
+        builder.setPositiveButton(R.string.dlg_starsReinitialiseConfirmNo,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        // 4. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

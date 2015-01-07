@@ -59,17 +59,17 @@
                     android:gravity="center"/>
 
                 <CheckBox
-                    android:id="@+id/options_cb_activate_animations"
+                    android:id="@+id/options_cb_activate_animations_IG"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/options_cb_activate_animations"
+                    android:text="@string/options_cb_activate_animations_IG"
                     android:textSize="@dimen/text_Normal" />
 
                 <CheckBox
-                    android:id="@+id/options_cb_activate_optional_animations"
+                    android:id="@+id/options_cb_activate_animations_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/options_cb_activate_optional_animations"
+                    android:text="@string/options_cb_activate_animations_menu"
                     android:textSize="@dimen/text_Normal" />
 
                 <Button
@@ -89,7 +89,7 @@
                     android:textColor="@color/black" />
 
                 <Button
-                    android:id="@+id/options_btn_reinitialise_stats"
+                    android:id="@+id/options_btn_reinitialise_stars"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

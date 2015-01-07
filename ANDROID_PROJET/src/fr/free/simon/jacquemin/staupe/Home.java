@@ -36,7 +36,10 @@ public class Home extends SGMActivity implements View.OnTouchListener{
 	@Override
 	protected void onResume() {
 		super.onResume();
-        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIimageViewInsectContainer, this, metrics);
+
+        String value = "1";
+        value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_MENU, value);
+        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIimageViewInsectContainer, this, metrics, value == "1" ? true : false);
         insectLauncher.run();
 	}
 	

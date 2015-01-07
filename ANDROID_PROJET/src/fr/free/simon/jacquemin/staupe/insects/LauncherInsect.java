@@ -21,15 +21,21 @@ public class LauncherInsect{
     private static Activity activity = null;
     private static DisplayMetrics metrics = null;
 
-    public LauncherInsect(int timeMin, int timeMax, ImageView UIimageViewInsectContainer, Activity activity, DisplayMetrics metrics){
+    private static boolean isActive = false;
+
+    public LauncherInsect(int timeMin, int timeMax, ImageView UIimageViewInsectContainer, Activity activity, DisplayMetrics metrics, boolean isActive){
         this.timeMin = timeMin;
         this.timeMax = timeMax;
         this.UIimageViewInsectContainer = UIimageViewInsectContainer;
         this.activity = activity;
         this.metrics = metrics;
+        this.isActive = isActive;
     }
 
     public void run(){
+        if(!isActive)
+            return;
+
         insectTask = new RunnerInsect();
         insectTimer = new SGMTimer();
         insectTimer.execute((float) SGMMath.randInt(timeMin, timeMax), false, insectTask);
@@ -40,6 +46,9 @@ public class LauncherInsect{
 
         @Override
         public void run() {
+            if(!isActive)
+                return;
+
             new Insecte().execute(UIimageViewInsectContainer, activity, activity.getApplicationContext(),
                     metrics.heightPixels,
                     -500f, metrics.widthPixels + 1000f);
@@ -50,6 +59,9 @@ public class LauncherInsect{
     }
 
     public void resetTime(){
+        if(!isActive)
+            return;
+
         insectTimer.resetTimer();
     }
 

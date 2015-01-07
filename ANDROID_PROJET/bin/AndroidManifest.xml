@@ -41,7 +41,7 @@
 	        </intent-filter>
 	    </activity>
 	    <activity
-	        android:name=".Game"
+	        android:name=".InGame"
 	        android:label="@string/app_name"
 	        android:theme="@style/GameTheme" >
 	    </activity>
