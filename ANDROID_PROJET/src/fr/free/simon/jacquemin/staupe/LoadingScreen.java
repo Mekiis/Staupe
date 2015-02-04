@@ -9,12 +9,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
-public class LoadingScreen extends Activity {	
+import java.text.SimpleDateFormat;
+
+import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
+
+public class LoadingScreen extends SGMActivity {
 	private ImageView loadingBg = null;
 	private float angle = 0f;
 
@@ -50,6 +56,11 @@ public class LoadingScreen extends Activity {
 		
 		myHandler = new Handler();
 	    myHandler.postDelayed(myRunnable,10);
+
+        long dateInstallation = StatsSet.getStats(this).get(StatsSet.EStats.STATS_DATE_INSTALLATION);
+        if(dateInstallation == 0){
+            StatsSet.setStat(this, StatsSet.EStats.STATS_DATE_INSTALLATION, (int) dateToLong(now()));
+        }
 		
 		new LoadingImages(getPackageName(), getResources()).execute();
 	}
@@ -128,8 +139,22 @@ public class LoadingScreen extends Activity {
 		}
         
     }
-	
-	public void endActivity(String msg) {
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return false;
+    }
+
+    public void endActivity(String msg) {
 		// Get the instance of the Intent
 		Intent intent = getIntent();
 
@@ -142,4 +167,9 @@ public class LoadingScreen extends Activity {
 		// Finish the current activity
 		finish();
 	}
+
+    @Override
+    public String getNameActivity() {
+        return "Loading";
+    }
 }

@@ -30,6 +30,7 @@ import fr.free.simon.jacquemin.staupe.R;
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
+import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 
 public class Game extends SGMActivity{
@@ -380,13 +381,8 @@ public class Game extends SGMActivity{
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (!isGridComplete) {
             // LOSE
-            // Statistique : Nb de partie perdue
-            int nbGameLost = Integer.parseInt(getPref(
-                    SGMGameManager.FILE_STATS,
-                    SGMGameManager.STATS_NB_GAMES_LOST, "0"));
-            setPref(SGMGameManager.FILE_STATS,
-                    SGMGameManager.STATS_NB_GAMES_LOST,
-                    Integer.toString(nbGameLost + 1));
+            // Statistics : Nb of games lose
+            StatsSet.addStat(this, StatsSet.EStats.STATS_NB_GAMES_LOST, 1);
 
             // 2. Chain together various setter methods to set the dialog
             // characteristics
@@ -434,11 +430,11 @@ public class Game extends SGMActivity{
                     actualGrid.countNbMine(actualGrid.getGrille(), 2));
 
             // Statistics : Nb of games win
-            addStatistics(SGMGameManager.STATS_NB_GAMES_WIN, "0", 1);
+            StatsSet.addStat(this, StatsSet.EStats.STATS_NB_GAMES_WIN, 1);
             // Statistics : Nb of mines
-            addStatistics(SGMGameManager.STATS_ALL_MINES, "0", actualGrid.countNbMine(actualGrid.getGrille(), 2));
+            StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_MINES, actualGrid.countNbMine(actualGrid.getGrille(), 2));
             // Statistics : Nb of maul blocked
-            addStatistics(SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0", actualMaul.getWeight());
+            StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_UNIQUE_MAUL, actualMaul.getWeight());
 
             String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
             displayNbHint();
@@ -446,7 +442,8 @@ public class Game extends SGMActivity{
             // New best score
             if (nbStarThisRound > nbStars) {
                 // Statistics : Nb of stars
-                addStatistics(SGMGameManager.STATS_ALL_STARS, "0", - nbStars + nbStarThisRound);
+
+                StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_STARS, nbStars - nbStarThisRound);
 
                 // Save : Stars for this level
                 setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.LVL_STARS + actualLevel.id, Integer.toString(nbStarThisRound));

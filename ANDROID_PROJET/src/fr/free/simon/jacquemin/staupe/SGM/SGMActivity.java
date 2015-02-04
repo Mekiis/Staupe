@@ -19,7 +19,7 @@ import java.util.Date;
 
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
 
-public abstract class SGMActivity extends SGMStatisticsManager {
+public abstract class SGMActivity extends SGMPreferenceManager {
 	protected static DisplayMetrics metrics = new DisplayMetrics();
 	protected static Typeface font = null;
 	protected Intent intent = getIntent();

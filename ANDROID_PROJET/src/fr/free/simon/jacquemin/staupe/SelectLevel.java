@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.Level;
+import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 
 import android.content.Intent;
@@ -84,9 +85,7 @@ public class SelectLevel extends SGMActivity {
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if (Integer.parseInt(getPref(
-					SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
-					"0")) >= allLevels.get(i).lock) {
+			if ( StatsSet.getStats(this).get(StatsSet.EStats.STATS_ALL_STARS) >= allLevels.get(i).lock) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_on);
 				Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
@@ -120,9 +119,7 @@ public class SelectLevel extends SGMActivity {
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - Integer.parseInt(getPref(
-						SGMGameManager.FILE_STATS, SGMGameManager.STATS_ALL_STARS,
-						"0"));
+				int numberMiss = allLevels.get(i).lock - StatsSet.getStats(this).get(StatsSet.EStats.STATS_ALL_STARS);
 				Drawable image = new BitmapDrawable(getResources(),
 						createLockItem(a, "x"+numberMiss));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,

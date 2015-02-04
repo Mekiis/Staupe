@@ -66,6 +66,9 @@ public class LauncherInsect{
     }
 
     public void stop(){
+        if(!isActive)
+            return;
+
         insectTimer.stop();
     }
 }

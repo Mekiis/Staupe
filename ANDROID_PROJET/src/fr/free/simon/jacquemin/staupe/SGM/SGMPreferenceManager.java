@@ -8,10 +8,10 @@ import android.content.SharedPreferences;
  */
 public abstract class SGMPreferenceManager extends Activity {
 
-    public String getPref(String file, String key, String defaulValue) {
+    public String getPref(String file, String key, String defaultValue) {
         String s = key;
         SharedPreferences preferences = getSharedPreferences(file, 0);
-        return preferences.getString(s, defaulValue);
+        return preferences.getString(s, defaultValue);
     }
 
     public void setPref(String file, String key, String value) {

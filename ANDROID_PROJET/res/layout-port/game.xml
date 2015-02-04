@@ -54,7 +54,8 @@
         android:layout_below="@+id/stretchyImageView1"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:fadeScrollbars="false">
 
         <include layout="@layout/template_game"/>
 

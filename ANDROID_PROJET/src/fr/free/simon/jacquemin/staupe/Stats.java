@@ -1,6 +1,7 @@
 package fr.free.simon.jacquemin.staupe;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
 import fr.free.simon.jacquemin.staupe.stats.StatsAdapter;
 import fr.free.simon.jacquemin.staupe.stats.StatsItem;
 
@@ -66,20 +67,13 @@ public class Stats extends SGMActivity {
 		StatsItem[] items = new StatsItem[6];
 
 		// Get all the stats
-        int nbMaul = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_ALL_UNIQUE_MAUL, "0"));
-        int nbLevelWin = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_NB_GAMES_WIN, "0"));
-        int nbLevelLose = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_NB_GAMES_LOST, "0"));
-        int nbInsectKill = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_NB_INSECT_KILL, "0"));
-        int nbInsectNotKill = Integer.parseInt(getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_NB_INSECT_NOT_KILL, "0"));
+        int nbMaul = StatsSet.getStats(this).get(StatsSet.EStats.STATS_ALL_UNIQUE_MAUL);
+        int nbLevelWin = StatsSet.getStats(this).get(StatsSet.EStats.STATS_NB_GAMES_WIN);
+        int nbLevelLose = StatsSet.getStats(this).get(StatsSet.EStats.STATS_NB_GAMES_LOST);
+        int nbInsectKill = StatsSet.getStats(this).get(StatsSet.EStats.STATS_NB_INSECT_KILL);
+        int nbInsectNotKill = StatsSet.getStats(this).get(StatsSet.EStats.STATS_NB_INSECT_NOT_KILL);
+        long dateInstallation = StatsSet.getStats(this).get(StatsSet.EStats.STATS_DATE_INSTALLATION);
 
-        String date = now();
-        String dateInstallation = getPref(SGMGameManager.FILE_STATS,
-                SGMGameManager.STATS_DATE_INSTALLATION, date);
 		items[0] = new StatsItem((nbLevelWin > 0f ? Float.toString(nbMaul/nbLevelWin*1f) : "0"),
 				getString(R.string.stats_ratioMaulPerLevel));
 		items[1] = new StatsItem(((nbLevelWin + nbLevelLose) > 0f ? Float.toString((nbLevelWin / (nbLevelWin + nbLevelLose))*10f) : "0"),
@@ -91,7 +85,7 @@ public class Stats extends SGMActivity {
 		items[4] = new StatsItem((nbInsectKill + nbInsectNotKill > 0f ? Float.toString((nbInsectKill / (nbInsectKill + nbInsectNotKill))*10f) : "0"),
 				getString(R.string.stats_ratioInsectKill));
         SimpleDateFormat sdf = new SimpleDateFormat(SGMGameManager.DATE_FORMAT);
-        items[5] = new StatsItem(sdf.format(dateToLong(dateInstallation) - dateToLong(now())),
+        items[5] = new StatsItem(sdf.format(dateToLong(now()) - dateInstallation),
                 getString(R.string.stats_timeOnGame));
 
 		// Get the size of the screen

@@ -2,16 +2,15 @@ package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-import fr.free.simon.jacquemin.staupe.SGM.SGMStatisticsManager;
-
-public class SGMGameManager extends SGMStatisticsManager {
+public class SGMGameManager extends Activity {
 	public static final String RESPOND_NAME = "RESPOND_NAME";
 	
-	public static final int CODE_RETOUR = 0;
+	public static final int CALLBACK_ID = 0;
 	public static final int RESULT_OK = 1;
 	public static final int RESULT_CANCELED = -1;
 
@@ -30,20 +29,14 @@ public class SGMGameManager extends SGMStatisticsManager {
 	public static final int BONUS_DISPLAY_MAUL_DEFAULT = 10;
 
 	public static final String FILE_STATS = "F_STATS";
-	public static final String STATS_ALL_STARS = "S_ALL_STARS";
-	public static final String STATS_ALL_MINES = "S_ALL_MINES";
-	public static final String STATS_ALL_UNIQUE_MAUL = "S_ALL_UNIQUE_TAUPE";
-	public static final String STATS_NB_GAMES_LOST = "S_NB_GAMES_LOST";
-	public static final String STATS_NB_GAMES_WIN = "S_NB_GAMES_WIN";
-    public static final String STATS_NB_INSECT_KILL = "S_NB_INSECT_KILL";
-    public static final String STATS_NB_INSECT_NOT_KILL = "S_NB_INSECT_NOT_KILL";
-    public static final String STATS_DATE_INSTALLATION = "S_DATE_INSTALLATION";
+    public static final String FILE_ALL_STATS = "FILE_ACHIEVEMENT";
+    public static final String FILE_ALL_ACHIEVEMENT = "FILE_ALL_ACHIEVEMENT";
 
     public static final String FILE_OPTIONS = "F_OPTIONS";
     public static final String OPTION_ANIM_IG = "OPTION_ANIM_IG";
     public static final String OPTION_ANIM_MENU = "OPTION_ANIM_MENU";
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMAT = "HH:mm";
 
     public static int[] listWorld = { 1, 1, 1 };
 	public static String[] listNom = { "pot_fleur_", "tondeuse_", "grenouille_" };
@@ -62,7 +55,7 @@ public class SGMGameManager extends SGMStatisticsManager {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Lancement de l'home uniquement si la demande viens du splashscreen
+		// Launch loading if anyone asking
 		Intent i = getIntent();
 		if (i != null) {
 			String s = i.getStringExtra(SGMGameManager.START_ACTION);
@@ -77,7 +70,7 @@ public class SGMGameManager extends SGMStatisticsManager {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == CODE_RETOUR) {
+		if (requestCode == CALLBACK_ID) {
 
 			if (resultCode == RESULT_OK) {
 
@@ -105,19 +98,19 @@ public class SGMGameManager extends SGMStatisticsManager {
 
 		if (nom.equalsIgnoreCase("Loading") == true) {
 			Intent intent = new Intent(this, LoadingScreen.class);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("GameBack") == true
 				|| nom.equalsIgnoreCase("WorldChoose") == true
 				|| nom.equalsIgnoreCase("HomePlay") == true) {
 			Intent intent = new Intent(this, SelectLevel.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
 			intent.putExtra(SGMGameManager.WORLD, world);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("Game") == true
 				|| nom.equalsIgnoreCase("SelectLevelOk") == true) {
 			Intent intent = new Intent(this, InGame.class);
 			intent.putExtra(SGMGameManager.LEVEL, level);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("Home") == true
 				|| nom.equalsIgnoreCase("StatsBack") == true
 				|| nom.equalsIgnoreCase("StoryBack") == true
@@ -128,19 +121,19 @@ public class SGMGameManager extends SGMStatisticsManager {
                 || nom.equalsIgnoreCase("TutorialBack") == true
 				|| nom.equalsIgnoreCase("LoadingOk") == true) {
 			Intent intent = new Intent(this, Home.class);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("HomeRules")) {
 			Intent intent = new Intent(this, Story.class);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("HomeStats")) {
 			Intent intent = new Intent(this, Stats.class);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("HomeTutorial")) {
 			Intent intent = new Intent(this, Tutorial.class);
-			startActivityForResult(intent, CODE_RETOUR);
+			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("HomeOptions")) {
             Intent intent = new Intent(this, Options.class);
-            startActivityForResult(intent, CODE_RETOUR);
+            startActivityForResult(intent, CALLBACK_ID);
         }
 	}
 }
