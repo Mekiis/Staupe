@@ -137,6 +137,22 @@
                         android:textColor="@color/black" />
 
                     <Button
+                        android:id="@+id/btn_home_achievements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/selector"
+                        android:onClick="actionClick"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/menu_achievements"
+                        android:textSize="@dimen/text_Normal"
+                        android:textColor="@color/black" />
+
+                    <Button
                         android:id="@+id/btn_home_options"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

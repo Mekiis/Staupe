@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
+import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
 import fr.free.simon.jacquemin.staupe.R;
 

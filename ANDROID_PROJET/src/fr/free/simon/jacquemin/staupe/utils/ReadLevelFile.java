@@ -1,17 +1,10 @@
 package fr.free.simon.jacquemin.staupe.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
 
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMReadFile;
+import io.brothers.sgm.Tools.SGMReadFile;
 import fr.free.simon.jacquemin.staupe.container.Level;
 
 public class ReadLevelFile extends SGMReadFile {

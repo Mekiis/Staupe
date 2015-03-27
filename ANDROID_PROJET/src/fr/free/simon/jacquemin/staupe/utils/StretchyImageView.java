@@ -27,6 +27,8 @@ public class StretchyImageView extends ImageView
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        // Todo Fix the bug with the horizontal orientation
+
         if (getDrawable() == null)
             return;
 

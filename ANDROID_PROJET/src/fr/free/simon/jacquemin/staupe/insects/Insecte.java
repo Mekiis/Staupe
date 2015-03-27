@@ -1,6 +1,6 @@
 package fr.free.simon.jacquemin.staupe.insects;
 
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
+import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
 
 import android.app.Activity;

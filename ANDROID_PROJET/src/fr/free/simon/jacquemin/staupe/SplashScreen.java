@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMTimer;
+import io.brothers.sgm.Tools.SGMTimer;
 
 public class SplashScreen extends Activity {
 	protected float _splashTime = 5f;

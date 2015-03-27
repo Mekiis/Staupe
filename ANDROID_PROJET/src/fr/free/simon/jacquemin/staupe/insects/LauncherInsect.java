@@ -1,12 +1,11 @@
 package fr.free.simon.jacquemin.staupe.insects;
 
 import android.app.Activity;
-import android.text.BoringLayout;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMTimer;
+import io.brothers.sgm.Tools.SGMMath;
+import io.brothers.sgm.Tools.SGMTimer;
 
 /**
  * Created by Simon on 17/11/2014.

@@ -120,11 +120,40 @@
                             android:layout_marginTop="10dp"
                             android:gravity="center">
 
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_btn_rotate_left_top"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_btn_rotate_left_bot"/>
+                            </LinearLayout>
+
+
                             <GridLayout
                                 android:id="@+id/game_grid_maul"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-                            </GridLayout>
+                                android:layout_height="wrap_content"
+                                android:columnCount="2"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_btn_rotate_right_top"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/selector_btn_rotate_right_bot"/>
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -180,9 +209,10 @@
 
             </RelativeLayout>
 
-            <ScrollView
+            <fr.free.simon.jacquemin.staupe.utils.CustomScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:id="@+id/game_scroll">
 
                 <RelativeLayout
                     android:id="@+id/game_rl_anim"
@@ -205,7 +235,7 @@
                         </GridLayout>
                     </LinearLayout>
                 </RelativeLayout>
-            </ScrollView>
+            </fr.free.simon.jacquemin.staupe.utils.CustomScrollView>
         </LinearLayout>
 
     </LinearLayout>

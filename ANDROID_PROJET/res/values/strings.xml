@@ -55,5 +55,6 @@
     <string name="dlg_starsReinitialiseTitleConfirm">Confirm to reset stars</string>
     <string name="dlg_starsReinitialiseConfirm">Do you really want to reset your stars ?</string>
     <string name="options_cb_activate_animations_IG">Activate animations in game</string>
+    <string name="menu_achievements">Achievements</string>
 
 </resources>

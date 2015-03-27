@@ -25,25 +25,20 @@
         android:src="@drawable/bg_deco_port_bot" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:id="@+id/stats_ll_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_alignBottom="@+id/stretchyImageView1"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/stats_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             android:background="@drawable/selector_btn_back"
-            android:onClick="actionClick"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"/>
-
+            android:onClick="actionClick"/>
     </LinearLayout>
 
     <LinearLayout

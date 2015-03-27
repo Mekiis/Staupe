@@ -7,8 +7,13 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-public class SGMGameManager extends Activity {
+import io.brothers.sgm.Unlockable.SGMAchievement;
+import io.brothers.sgm.Unlockable.SGMAchievementManager;
+
+public class SGMGameManager extends Activity implements SGMAchievementManager.SGMAchievementEventListener {
 	public static final String RESPOND_NAME = "RESPOND_NAME";
+
+    public static final String USER_ID = "STAUPE";
 	
 	public static final int CALLBACK_ID = 0;
 	public static final int RESULT_OK = 1;
@@ -119,7 +124,8 @@ public class SGMGameManager extends Activity {
 				|| nom.equalsIgnoreCase("TutorialBack") == true
 				|| nom.equalsIgnoreCase("SelectLevelBack") == true
                 || nom.equalsIgnoreCase("TutorialBack") == true
-				|| nom.equalsIgnoreCase("LoadingOk") == true) {
+				|| nom.equalsIgnoreCase("LoadingOk") == true
+                || nom.equalsIgnoreCase("AchievementsBack") == true) {
 			Intent intent = new Intent(this, Home.class);
 			startActivityForResult(intent, CALLBACK_ID);
 		} else if (nom.equalsIgnoreCase("HomeRules")) {
@@ -134,6 +140,14 @@ public class SGMGameManager extends Activity {
 		} else if (nom.equalsIgnoreCase("HomeOptions")) {
             Intent intent = new Intent(this, Options.class);
             startActivityForResult(intent, CALLBACK_ID);
+        } else if (nom.equalsIgnoreCase("HomeAchievements")) {
+            Intent intent = new Intent(this, Achievements.class);
+            startActivityForResult(intent, CALLBACK_ID);
         }
 	}
+
+    @Override
+    public void unlock(SGMAchievement achievement) {
+
+    }
 }

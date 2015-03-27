@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.Level;
-import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
+import fr.free.simon.jacquemin.staupe.container.data.EData;
+import fr.free.simon.jacquemin.staupe.utils.CustomScrollView;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
+import io.brothers.sgm.User.SGMUserManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,15 +30,19 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class SelectLevel extends SGMActivity {
+public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollViewListener {
 	private int index;
 	private int idLevel = -1;
 	private int idWorld = -1;
 	private int scrollLevel = -1;
-	public ScrollView lay;
+
+	public CustomScrollView mScrollLayout;
+    private ImageView mScrollIndicator = null;
+    private boolean scrollIndicatorInTransition = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,21 +52,19 @@ public class SelectLevel extends SGMActivity {
 		init();
 		choixLevel();
 
-		lay = (ScrollView) findViewById(R.id.tutorial_scroll);
-
-		lay.post(new Runnable() {
-			public void run() {
-				if (scrollLevel != -1) {
-					lay.scrollTo(0,
-							(int) ((LinearLayout) findViewById(R.id.select_level_sv_list))
-									.getChildAt(scrollLevel).getY());
-					Animation anim = new AlphaAnimation((float) 0.5, 1);
-					anim.setDuration(2500);
-					((Button) ((LinearLayout) findViewById(R.id.select_level_sv_list))
-							.getChildAt(scrollLevel)).startAnimation(anim);
-				}
-			}
-		});
+		mScrollLayout.post(new Runnable() {
+            public void run() {
+                if (scrollLevel != -1) {
+                    mScrollLayout.scrollTo(0,
+                            (int) ((LinearLayout) findViewById(R.id.select_level_sv_list))
+                                    .getChildAt(scrollLevel).getY());
+                    Animation anim = new AlphaAnimation((float) 0.5, 1);
+                    anim.setDuration(2500);
+                    ((Button) ((LinearLayout) findViewById(R.id.select_level_sv_list))
+                            .getChildAt(scrollLevel)).startAnimation(anim);
+                }
+            }
+        });
 	}
 
 	public void choixLevel() {
@@ -85,7 +89,7 @@ public class SelectLevel extends SGMActivity {
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if ( StatsSet.getStats(this).get(StatsSet.EStats.STATS_ALL_STARS) >= allLevels.get(i).lock) {
+			if ( SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_ALL_STARS.toString()) >= allLevels.get(i).lock) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_on);
 				Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
@@ -119,7 +123,7 @@ public class SelectLevel extends SGMActivity {
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - StatsSet.getStats(this).get(StatsSet.EStats.STATS_ALL_STARS);
+				int numberMiss = allLevels.get(i).lock - SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_ALL_STARS.toString());
 				Drawable image = new BitmapDrawable(getResources(),
 						createLockItem(a, "x"+numberMiss));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,
@@ -294,6 +298,11 @@ public class SelectLevel extends SGMActivity {
 		
 		((Button) findViewById(R.id.select_level_btn_back)).setTypeface(font);
 
+        mScrollLayout = (CustomScrollView) findViewById(R.id.tutorial_scroll);
+        mScrollIndicator = (ImageView) findViewById(R.id.select_level_scroll_indicator);
+
+        mScrollLayout.setScrollViewListener(this);
+
 		Intent intent = this.getIntent();
 		idWorld = intent.getIntExtra(SGMGameManager.WORLD, -1);
 	}
@@ -305,4 +314,25 @@ public class SelectLevel extends SGMActivity {
 		
 		super.endActivity(msg);
 	}
+
+    @Override
+    public void onScrollChanged(CustomScrollView scrollView, int x, int y, int oldx, int oldy) {
+        View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+        int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+
+        // if diff is zero, then the bottom has been reached
+        if (diff == 0) {
+            mScrollIndicator.animate().alpha(0f)
+                    .setDuration(500)
+                    .setListener(null);
+            scrollIndicatorInTransition = false;
+        } else {
+            if(!scrollIndicatorInTransition){
+                scrollIndicatorInTransition = true;
+                mScrollIndicator.animate().alpha(1f)
+                        .setDuration(500)
+                        .setListener(null);
+            }
+        }
+    }
 }

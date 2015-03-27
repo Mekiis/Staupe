@@ -38,7 +38,7 @@
             android:onClick="actionClick"/>
     </LinearLayout>
 
-    <ScrollView
+    <fr.free.simon.jacquemin.staupe.utils.CustomScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/tutorial_scroll"
@@ -52,6 +52,15 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical" >
         </LinearLayout>
-    </ScrollView>
+    </fr.free.simon.jacquemin.staupe.utils.CustomScrollView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_level_scroll_indicator"
+        android:src="@drawable/selector_btn_best"
+        android:layout_alignBottom="@+id/tutorial_scroll"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

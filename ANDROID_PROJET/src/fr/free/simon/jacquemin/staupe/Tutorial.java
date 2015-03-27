@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
+import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.container.Grid;
 import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.container.Maul;
@@ -35,6 +35,8 @@ public class Tutorial extends SGMActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial);
 		init();
+
+        // Todo Implement the tutorial
 	}
 
 

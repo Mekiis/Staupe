@@ -59,14 +59,22 @@ public class Home extends SGMActivity implements View.OnTouchListener{
 		switch (v.getId()) {
 		case R.id.btn_home_play:
 			endActivity("Play");
+            break;
 		case R.id.btn_home_stats:
 			endActivity("Stats");
+            break;
 		case R.id.btn_home_rules:
 			endActivity("Rules");
+            break;
 		case R.id.btn_home_tutorial:
 			endActivity("Tutorial");
+            break;
 		case R.id.btn_home_options:
 			endActivity("Options");
+            break;
+        case R.id.btn_home_achievements:
+            endActivity("Achievements");
+            break;
 		}
 	}
 

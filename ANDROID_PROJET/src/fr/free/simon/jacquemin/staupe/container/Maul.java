@@ -1,6 +1,6 @@
 package fr.free.simon.jacquemin.staupe.container;
 
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
+import io.brothers.sgm.Tools.SGMMath;
 
 public class Maul {
 	private int[][] shape;

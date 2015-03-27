@@ -1,4 +1,4 @@
-package fr.free.simon.jacquemin.staupe.SGM.utils;
+package io.brothers.sgm.Tools;
 
 import android.util.Log;
 

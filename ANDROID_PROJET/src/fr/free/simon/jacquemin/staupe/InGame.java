@@ -3,7 +3,6 @@ package fr.free.simon.jacquemin.staupe;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,14 +28,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
-import fr.free.simon.jacquemin.staupe.SGM.utils.SGMMath;
-import fr.free.simon.jacquemin.staupe.container.Game;
+import fr.free.simon.jacquemin.staupe.container.data.EData;
+import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.container.Grid;
 import fr.free.simon.jacquemin.staupe.container.Level;
-import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
 import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import fr.free.simon.jacquemin.staupe.container.Maul;
+import io.brothers.sgm.User.SGMUserManager;
 
 public class InGame extends SGMActivity implements View.OnTouchListener {
 	private static Level actualLevel;
@@ -481,7 +480,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		if (!isGridComplete) {
 			// LOSE
 			// Statistique : Nb de partie perdue
-			StatsSet.addStat(this, StatsSet.EStats.STATS_NB_GAMES_LOST, 1);
+            SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).addData(EData.STATS_NB_GAMES_LOST.toString(), 1);
 
 			// 2. Chain together various setter methods to set the dialog
 			// characteristics
@@ -529,11 +528,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
                     actualGrid.countNbMine(actualGrid.getGrille(), 2));
 
 			// Statistics : Nb of games win
-            StatsSet.addStat(this, StatsSet.EStats.STATS_NB_GAMES_WIN, 1);
+            SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).addData(EData.STATS_NB_GAMES_WIN.toString());
 			// Statistics : Nb of mines
-            StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_MINES, actualGrid.countNbMine(actualGrid.getGrille(), 2));
+            SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).addData(EData.STATS_ALL_MINES.toString(), actualGrid.countNbMine(actualGrid.getGrille(), 2));
 			// Statistics : Nb of maul blocked
-            StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_UNIQUE_MAUL, actualMaul.getWeight());
+            SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).addData(EData.STATS_ALL_UNIQUE_MAUL.toString(), actualMaul.getWeight());
 
 			String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
 			displayNbHint();
@@ -541,7 +540,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
             // New best score
 			if (nbStarThisRound > nbStars) {
 				// Statistics : Nb of stars
-                StatsSet.addStat(this, StatsSet.EStats.STATS_ALL_STARS, nbStars - nbStarThisRound);
+                SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).addData(EData.STATS_ALL_STARS.toString(), nbStars - nbStarThisRound);
 
 				// Save : Stars for this level
                 setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.LVL_STARS + actualLevel.id, Integer.toString(nbStarThisRound));

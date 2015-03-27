@@ -1,9 +1,7 @@
 package fr.free.simon.jacquemin.staupe;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Matrix;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,13 +10,17 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
-import android.widget.ProgressBar;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
-import fr.free.simon.jacquemin.staupe.data_sets.StatsSet;
+import fr.free.simon.jacquemin.staupe.container.data.EData;
+import io.brothers.sgm.Unlockable.SGMAchievement;
+import io.brothers.sgm.Unlockable.SGMAchievementManager;
+import io.brothers.sgm.Unlockable.SGMCondition;
+import io.brothers.sgm.User.SGMUser;
+import io.brothers.sgm.User.SGMUserManager;
 
 public class LoadingScreen extends SGMActivity {
 	private ImageView loadingBg = null;
@@ -57,9 +59,21 @@ public class LoadingScreen extends SGMActivity {
 		myHandler = new Handler();
 	    myHandler.postDelayed(myRunnable,10);
 
-        long dateInstallation = StatsSet.getStats(this).get(StatsSet.EStats.STATS_DATE_INSTALLATION);
-        if(dateInstallation == 0){
-            StatsSet.setStat(this, StatsSet.EStats.STATS_DATE_INSTALLATION, (int) dateToLong(now()));
+        // Create Achievement
+        // Todo Create the achievements
+        SGMAchievementManager.getInstance().addUnlocked(new SGMAchievement(
+                "TEST",
+                new ArrayList<SGMCondition>(Arrays.asList(
+                        new SGMCondition("TEST", 6),
+                        new SGMCondition("TEST", 6)
+                )), false));
+
+        SGMUser user = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID);
+        if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID) == null)
+            user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
+
+        if(user.getSavedData(EData.STATS_DATE_INSTALLATION.toString()) == 0){
+            user.addData(EData.STATS_DATE_INSTALLATION.toString(), (int) dateToLong(now()));
         }
 		
 		new LoadingImages(getPackageName(), getResources()).execute();
