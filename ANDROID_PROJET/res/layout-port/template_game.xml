@@ -115,9 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
-            android:onClick="actionTurn"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/game_tv_maul_shape_title"
@@ -143,12 +141,14 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/selector_btn_rotate_left_top"/>
+                        android:src="@drawable/selector_btn_rotate_left_top"
+                        android:onClick="actionTurn90Hor"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/selector_btn_rotate_left_bot"/>
-                    </LinearLayout>
+                        android:src="@drawable/selector_btn_rotate_left_bot"
+                        android:onClick="actionTurn90AntiHor"/>
+                </LinearLayout>
 
 
                 <GridLayout
@@ -164,11 +164,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/selector_btn_rotate_right_top"/>
+                        android:src="@drawable/selector_btn_rotate_right_top"
+                        android:onClick="actionTurn90AntiHor"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/selector_btn_rotate_right_bot"/>
+                        android:src="@drawable/selector_btn_rotate_right_bot"
+                        android:onClick="actionTurn90Hor"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -7,6 +7,7 @@ import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
 import fr.free.simon.jacquemin.staupe.utils.CustomScrollView;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUserManager;
 
 import android.content.Intent;
@@ -32,7 +33,6 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollViewListener {
 	private int index;
@@ -50,7 +50,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 		setContentView(R.layout.select_level);
 
 		init();
-		choixLevel();
+		choiceLevel();
 
 		mScrollLayout.post(new Runnable() {
             public void run() {
@@ -67,29 +67,30 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
         });
 	}
 
-	public void choixLevel() {
+	public void choiceLevel() {
 		ReadLevelFile f = new ReadLevelFile();
 		ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
 				"lvl.txt");
-		allLevels = filtreIdMonde(idWorld, allLevels);
+		allLevels = filterByIdWorld(idWorld, allLevels);
 		LinearLayout linearLay = (LinearLayout) findViewById(R.id.select_level_sv_list);
-		Button btn = new Button(getApplicationContext());
-		// Cr�ation de la font
+		Button btn;
+		// Create the fond
 
 		for (int i = 0; i < allLevels.size(); i++) {
 			btn = new Button(getApplicationContext());
-			// Ajout de la font
+			// Add the font
 			btn.setTypeface(font);
 			btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
 					.getDimension(R.dimen.btn_level));
-			// Ajout de l'image du background
+			// Add the background picture
 			btn.setBackgroundResource(R.drawable.selector);
-			// Ajout de la couleur noir
+			// Add the black color
 			btn.setTextColor(Color.parseColor("#000000"));
+            btn.setAllCaps(false);
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if ( SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_ALL_STARS.toString()) >= allLevels.get(i).lock) {
+			if ( SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString()) >= allLevels.get(i).lock) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_on);
 				Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
@@ -105,7 +106,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 						createImageWithMultipleSources(a));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,
 						null);
-				// Ajout du texte
+				// Add the text
 				btn.setText(allLevels.get(i).name);
 				index = allLevels.get(i).id;
 				btn.setOnClickListener(new OnClickListener() {
@@ -123,32 +124,32 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_ALL_STARS.toString());
+				int numberMiss = allLevels.get(i).lock - (int) SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString());
 				Drawable image = new BitmapDrawable(getResources(),
 						createLockItem(a, "x"+numberMiss));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,
 						null);
-				// Ajout du texte
+				// Add the text
 				btn.setText(allLevels.get(i).name);
 				btn.setSelected(true);
 			}
 
-			// Ajout du bouton � la liste
+			// Add the button to the list
 			linearLay.addView(btn);
 		}
 
-		// Fonction de scrolling jusqu'au pr�c�dent level (Si possible)
+		// Scroll until the previous level if possible
 		Intent intent = getIntent();
 		if (intent != null) {
-			// R�cup�ration du nom du level
+			// Get the name of the level
 			idLevel = intent.getIntExtra(SGMGameManager.LEVEL, -1);
 
 			if (idLevel != -1) {
 				int i;
-				// Recherche de l'instance pour calculer sa position
+				// Search the instance to compute the position
 				for (i = 0; i < allLevels.size(); i++) {
 					if (allLevels.get(i).id == idLevel) {
-						// i*taille d'un bouton level+espacement
+						// i*size of level button+space
 						scrollLevel = i;
 						break;
 					}
@@ -232,8 +233,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 		return temp;
 	}
 
-	private ArrayList<Level> filtreIdMonde(int id,
-			ArrayList<Level> allLevels) {
+	private ArrayList<Level> filterByIdWorld(int id, ArrayList<Level> allLevels) {
 		ArrayList<Level> levels = new ArrayList<Level>();
 
 		if (id == -1) {
@@ -316,8 +316,8 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 	}
 
     @Override
-    public void onScrollChanged(CustomScrollView scrollView, int x, int y, int oldx, int oldy) {
-        View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+    public void onScrollChanged(CustomScrollView scrollView, int x, int y, int oldX, int oldY) {
+        View view = scrollView.getChildAt(scrollView.getChildCount() - 1);
         int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
 
         // if diff is zero, then the bottom has been reached

@@ -3,14 +3,16 @@ package io.brothers.sgm.Unlockable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.brothers.sgm.SGMStatManager;
+import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
 /**
  * Created by Simon on 25/03/2015.
  */
 public class SGMAchievementManager {
-    public static final String KEY_ACHIEVEMENT_ALREADY_DONE = "ACH_ARDY_DONE";
-    public static final String KEY_ACHIEVEMENT_COUNT = "ACH_COUNT";
+    private static final String KEY_ACHIEVEMENT_ALREADY_DONE = "ACH_ARDY_DONE";
+    private static final String KEY_ACHIEVEMENT_COUNT = "ACH_COUNT";
 
     public interface SGMAchievementEventListener {
         public void unlock(SGMAchievement achievement);
@@ -26,7 +28,7 @@ public class SGMAchievementManager {
         return instance;
     }
 
-    public void majAchievementForData(String key, String userId){
+    public void majAchievementForData(String key, SGMUser user){
         for(SGMAchievement achievement : achievements){
             boolean needToCheck = false;
             for (SGMCondition condition : achievement.conditions){
@@ -36,48 +38,78 @@ public class SGMAchievementManager {
 
             if(needToCheck){
                 boolean conditionsValidated = true;
-                if(SGMUserManager.getInstance().getUser(userId).getAllSavedData().data.containsKey(achievement.id + KEY_ACHIEVEMENT_ALREADY_DONE)
-                        && SGMUserManager.getInstance().getUser(userId).getSavedData(achievement.id + KEY_ACHIEVEMENT_ALREADY_DONE) > 0
-                        && !achievement.isRepeatable)
+                if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE)
+                        && SGMStatManager.getInstance().getStatValueForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE) > 0
+                        && !achievement.isRepeatable())
                     conditionsValidated = false;
 
                 for (SGMCondition condition : achievement.conditions){
-                    if( !SGMUserManager.getInstance().getUser(userId).getAllSavedData().data.containsKey(key) ||
-                            SGMUserManager.getInstance().getUser(userId).getSavedData(key) < condition.value){
+                    if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
+                         SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
                         conditionsValidated = false;
                     }
                 }
 
                 if (conditionsValidated){
-                    if(SGMUserManager.getInstance().getUser(userId).getSGMAchievementEventListener() != null){
-                        SGMUserManager.getInstance().getUser(userId).getSGMAchievementEventListener().unlock(achievement);
-                        SGMUserManager.getInstance().getUser(userId).addData(achievement.id + KEY_ACHIEVEMENT_COUNT);
-                        SGMUserManager.getInstance().getUser(userId).addData(achievement.id + KEY_ACHIEVEMENT_ALREADY_DONE, 1);
+                    if(user.getSGMAchievementEventListener() != null){
+                        user.getSGMAchievementEventListener().unlock(achievement);
+                        SGMStatManager.getInstance().addOneForStat(user, achievement.getId() + KEY_ACHIEVEMENT_COUNT);
+                        SGMStatManager.getInstance().addValueForStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE, 1);
                     }
                 }
             }
         }
     }
 
-    public void resetAchievement(String userId){
+    public void resetRepeatabilityAchievements(SGMUser user){
         for(SGMAchievement achievement : achievements){
-            if(SGMUserManager.getInstance().getUser(userId).getAllSavedData().data.containsKey(achievement.id + KEY_ACHIEVEMENT_ALREADY_DONE)
-                    && SGMUserManager.getInstance().getUser(userId).getSavedData(achievement.id + KEY_ACHIEVEMENT_ALREADY_DONE) > 0)
-                SGMUserManager.getInstance().getUser(userId).setSavedData(achievement.id+ KEY_ACHIEVEMENT_ALREADY_DONE, 0);
+            if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE)
+                    && SGMStatManager.getInstance().getStatValueForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE) > 0)
+                SGMStatManager.getInstance().setStatDataForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE, 0);
         }
     }
 
-    public void setUnlocked(List<SGMAchievement> achievements){
+    public boolean isComplete(SGMUser user, SGMAchievement achievement){
+        boolean isConditionsValidated = true;
+
+        for (SGMCondition condition : achievement.conditions){
+            if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
+                    SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
+                isConditionsValidated = false;
+            }
+        }
+
+        return isConditionsValidated;
+    }
+
+    public float getCompletionPercent(SGMUser user, SGMAchievement achievement){
+        // Todo Compute the completion percent
+
+        for (SGMCondition condition : achievement.conditions){
+            if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
+                    SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
+
+            }
+        }
+
+        return 0;
+    }
+
+    public void setAchievements(List<SGMAchievement> achievements){
         if(achievements != null)
             this.achievements = achievements;
         else
             this.achievements = new ArrayList<>();
     }
 
-    public void addUnlocked(SGMAchievement achievement){
+    public void addAchievement(SGMAchievement achievement){
         if(this.achievements == null)
             this.achievements = new ArrayList<>();
 
         this.achievements.add(achievement);
+    }
+
+    public List<SGMAchievement> getAchievements() {
+        return achievements;
     }
 }

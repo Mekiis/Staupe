@@ -8,10 +8,12 @@ import java.util.List;
  */
 public class SGMAchievement {
     List<SGMCondition> conditions;
-    boolean isRepeatable = false;
-    String id = "";
+    private boolean isRepeatable = false;
+    private String id = "";
+    private String name = "";
+    private String desc = "";
 
-    public SGMAchievement(String id, List<SGMCondition> conditions, boolean isRepeatable){
+    public SGMAchievement(String id, String name, String desc, List<SGMCondition> conditions, boolean isRepeatable){
         if(conditions != null)
             this.conditions = conditions;
         else
@@ -19,5 +21,23 @@ public class SGMAchievement {
 
         this.isRepeatable = isRepeatable;
         this.id = id;
+        this.name = name;
+        this.desc = desc;
+    }
+
+    public boolean isRepeatable() {
+        return isRepeatable;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 }

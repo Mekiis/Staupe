@@ -1,7 +1,7 @@
-package fr.free.simon.jacquemin.staupe.stats;
+package fr.free.simon.jacquemin.staupe.gui.stats;
 
 import fr.free.simon.jacquemin.staupe.R;
-import fr.free.simon.jacquemin.staupe.R.id;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 // here's our beautiful adapter
@@ -52,10 +51,10 @@ public class StatsAdapter extends ArrayAdapter<StatsItem> {
 
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView statsViewItemValue = (TextView) convertView.findViewById(R.id.statsViewItemValue);
-        statsViewItemValue.setText(objectItem.itemId + " : ");
+        statsViewItemValue.setText(objectItem.value + " : ");
         statsViewItemValue.setTypeface(tf);
         TextView statsViewItemName = (TextView) convertView.findViewById(R.id.statsViewItemName);
-        statsViewItemName.setText(objectItem.itemName); 
+        statsViewItemName.setText(objectItem.name);
         statsViewItemName.setTypeface(tf);
         
         return convertView;

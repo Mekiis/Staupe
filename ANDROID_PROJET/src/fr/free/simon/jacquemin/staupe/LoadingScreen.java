@@ -16,6 +16,8 @@ import java.util.Arrays;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
+import io.brothers.sgm.SGMAStat;
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.Unlockable.SGMAchievement;
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.Unlockable.SGMCondition;
@@ -61,19 +63,107 @@ public class LoadingScreen extends SGMActivity {
 
         // Create Achievement
         // Todo Create the achievements
-        SGMAchievementManager.getInstance().addUnlocked(new SGMAchievement(
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
                 "TEST",
+                "Test",
+                "Ceci est un test",
                 new ArrayList<SGMCondition>(Arrays.asList(
                         new SGMCondition("TEST", 6),
                         new SGMCondition("TEST", 6)
                 )), false));
 
+        // Create stats
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "INFESTATION",
+                getString(R.string.stats_ratioMaulPerLevel),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                int nbMaul = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
+                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                return (nbLevelWin > 0f ? nbMaul/nbLevelWin*1f : 0f);
+            }
+        });
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "MARK",
+                getString(R.string.stats_ratioWinLose),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                int nbLevelLose = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_LOST.toString());
+                return ((nbLevelWin + nbLevelLose) > 0f ? (nbLevelWin / (nbLevelWin + nbLevelLose)) * 10f : 5f);
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return super.getValueFormat(user)+"/10";
+            }
+        });
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "WIN",
+                getString(R.string.stats_nbLevelWin),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                return nbLevelWin;
+            }
+        });
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "MAUL",
+                getString(R.string.stats_nbUniqueMaul),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                int nbMaul = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
+                return nbMaul;
+            }
+        });
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "RATIO_INSECT",
+                getString(R.string.stats_ratioInsectKill),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                int nbInsectKill = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_KILL.toString());
+                int nbInsectNotKill = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_NOT_KILL.toString());
+                return (nbInsectKill + nbInsectNotKill > 0f ? (nbInsectKill / (nbInsectKill + nbInsectNotKill)) * 10f : 0f);
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return super.getValueFormat(user)+"/10";
+            }
+        });
+        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+                "TIME_GAME",
+                getString(R.string.stats_timeOnGame),
+                ""
+        ) {
+            @Override
+            public float getValue(SGMUser user) {
+                long dateInstallation = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_DATE_INSTALLATION.toString());
+                return dateToLong(now()) - dateInstallation;
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return android.text.format.DateFormat.format(SGMGameManager.DATE_FORMAT, (long) getValue(user)).toString();
+            }
+        });
+
         SGMUser user = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID);
         if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID) == null)
             user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
 
-        if(user.getSavedData(EData.STATS_DATE_INSTALLATION.toString()) == 0){
-            user.addData(EData.STATS_DATE_INSTALLATION.toString(), (int) dateToLong(now()));
+        if(SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
+            SGMStatManager.getInstance().addValueForStat(user, EData.STATS_DATE_INSTALLATION.toString(), (int) dateToLong(now()));
         }
 		
 		new LoadingImages(getPackageName(), getResources()).execute();

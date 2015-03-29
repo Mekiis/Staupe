@@ -1,9 +1,10 @@
 package fr.free.simon.jacquemin.staupe;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
-import fr.free.simon.jacquemin.staupe.container.data.EData;
-import fr.free.simon.jacquemin.staupe.stats.StatsAdapter;
-import fr.free.simon.jacquemin.staupe.stats.StatsItem;
+import fr.free.simon.jacquemin.staupe.gui.stats.StatsAdapter;
+import fr.free.simon.jacquemin.staupe.gui.stats.StatsItem;
+import io.brothers.sgm.SGMAStat;
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUserManager;
 
 import android.graphics.Point;
@@ -16,8 +17,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import java.text.SimpleDateFormat;
 
 public class Stats extends SGMActivity {
 
@@ -65,30 +64,13 @@ public class Stats extends SGMActivity {
 	}
 
 	private void displayStats() {
-		StatsItem[] items = new StatsItem[6];
+		StatsItem[] items = new StatsItem[SGMStatManager.getInstance().getStatsCustom().size()];
 
-		// Get all the stats
-        int nbMaul = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_ALL_UNIQUE_MAUL.toString());
-        int nbLevelWin = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_NB_GAMES_WIN.toString());
-        int nbLevelLose = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_NB_GAMES_LOST.toString());
-        int nbInsectKill = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_NB_INSECT_KILL.toString());
-        int nbInsectNotKill = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_NB_INSECT_NOT_KILL.toString());
-        long dateInstallation = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).getSavedData(EData.STATS_DATE_INSTALLATION.toString());
-
-        // Todo Refactor code stats on SGM
-		items[0] = new StatsItem((nbLevelWin > 0f ? Float.toString(nbMaul/nbLevelWin*1f) : "0"),
-				getString(R.string.stats_ratioMaulPerLevel));
-		items[1] = new StatsItem(((nbLevelWin + nbLevelLose) > 0f ? Float.toString((nbLevelWin / (nbLevelWin + nbLevelLose))*10f) : "0"),
-				getString(R.string.stats_ratioWinLose));
-		items[2] = new StatsItem(Integer.toString(nbLevelWin),
-				getString(R.string.stats_nbLevelWin));
-		items[3] = new StatsItem(Integer.toString(nbMaul),
-				getString(R.string.stats_nbUniqueMaul));
-		items[4] = new StatsItem((nbInsectKill + nbInsectNotKill > 0f ? Float.toString((nbInsectKill / (nbInsectKill + nbInsectNotKill))*10f) : "0"),
-				getString(R.string.stats_ratioInsectKill));
-        SimpleDateFormat sdf = new SimpleDateFormat(SGMGameManager.DATE_FORMAT);
-        items[5] = new StatsItem(sdf.format(dateToLong(now()) - dateInstallation),
-                getString(R.string.stats_timeOnGame));
+        int i = 0;
+        for (SGMAStat stat : SGMStatManager.getInstance().getStatsCustom()){
+            items[i] = new StatsItem(stat.id, stat.name, stat.desc, stat.getValueFormat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID)));
+            i++;
+        }
 
 		// Get the size of the screen
 		int measuredWidth = 0;

@@ -3,6 +3,7 @@ package io.brothers.sgm.Unlockable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUserManager;
 
 /**
@@ -34,8 +35,8 @@ public class SGMUnlockManager {
             if(needToCheck){
                 boolean conditionsValidated = true;
                 for (SGMCondition condition : unlock.conditions){
-                    if( !SGMUserManager.getInstance().getUser(userId).getAllSavedData().data.containsKey(key) ||
-                        SGMUserManager.getInstance().getUser(userId).getAllSavedData().data.get(key) < condition.value){
+                    if( !SGMStatManager.getInstance().isStatExistForUser(SGMUserManager.getInstance().getUser(userId), key) ||
+                            SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(userId), key) < condition.value){
                         conditionsValidated = false;
                     }
                 }

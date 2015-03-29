@@ -33,10 +33,6 @@ public class SGMGameManager extends Activity implements SGMAchievementManager.SG
 	public static final String BONUS_DISPLAY_MAUL_NB = "B_A_T";
 	public static final int BONUS_DISPLAY_MAUL_DEFAULT = 10;
 
-	public static final String FILE_STATS = "F_STATS";
-    public static final String FILE_ALL_STATS = "FILE_ACHIEVEMENT";
-    public static final String FILE_ALL_ACHIEVEMENT = "FILE_ALL_ACHIEVEMENT";
-
     public static final String FILE_OPTIONS = "F_OPTIONS";
     public static final String OPTION_ANIM_IG = "OPTION_ANIM_IG";
     public static final String OPTION_ANIM_MENU = "OPTION_ANIM_MENU";

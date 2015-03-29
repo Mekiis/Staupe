@@ -43,7 +43,7 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/stretchyImageView1"
         android:layout_marginBottom="20dp"
-        android:gravity="center_horizontal|center_vertical"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
@@ -56,14 +56,14 @@
 
         <Switch
             android:id="@+id/options_cb_activate_animations_IG"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/options_cb_activate_animations_IG"
             android:textSize="@dimen/text_Normal" />
 
         <Switch
             android:id="@+id/options_cb_activate_animations_menu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/options_cb_activate_animations_menu"
             android:textSize="@dimen/text_Normal" />

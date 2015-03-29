@@ -88,6 +88,7 @@ public class Home extends SGMActivity implements View.OnTouchListener{
 		((Button) findViewById(R.id.btn_home_rules)).setTypeface(font);
 		((Button) findViewById(R.id.btn_home_tutorial)).setTypeface(font);
 		((Button) findViewById(R.id.btn_home_options)).setTypeface(font);
+        ((Button) findViewById(R.id.btn_home_achievements)).setTypeface(font);
 
         findViewById(R.id.home_root).setOnTouchListener(this);
 	}

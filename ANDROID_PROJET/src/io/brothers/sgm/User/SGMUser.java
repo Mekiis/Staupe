@@ -92,23 +92,6 @@ public class SGMUser {
         return preferences.getString(s, defaultValue);
     }
 
-    public void addData(String key){
-        addData(key, 1);
-    }
-
-    public void addData(String key, int value){
-        if(savedData.data.containsKey(key)){
-            savedData.data.put(key, savedData.data.get(key) + value);
-        } else {
-            savedData.data.put(key, value);
-        }
-
-        if(autoSave)
-            this.save(this.context);
-
-        SGMUnlockManager.getInstance().majUnlockForData(key, id);
-    }
-
     public SGMUnlockManager.SGMUnlockEventListener getSGMUnlockEventListener(){
         return SGMUnlockEventListener;
     }
@@ -121,19 +104,12 @@ public class SGMUser {
         return savedData;
     }
 
-    public int getSavedData(String key) {
-        if(savedData.data.containsKey(key))
-            return savedData.data.get(key);
-        else
-            return 0;
-    }
-
-    public void setSavedData(String key, int value) {
-        savedData.data.put(key, value);
-    }
-
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public Context getContext() {
+        return this.context;
     }
 
     public boolean isAutoSave() {

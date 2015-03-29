@@ -2,6 +2,7 @@ package fr.free.simon.jacquemin.staupe;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUserManager;
 
 import android.app.AlertDialog;
@@ -133,7 +134,7 @@ public class Options extends SGMActivity {
 
     public void reinitialiseStars() {
         getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
-        SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).setSavedData(EData.STATS_ALL_STARS.toString(), 0);
+        SGMStatManager.getInstance().setStatDataForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString(), 0);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 2. Chain together various setter methods to set the dialog
         // characteristics

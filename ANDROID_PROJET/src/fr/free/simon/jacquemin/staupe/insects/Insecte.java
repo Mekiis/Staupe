@@ -1,7 +1,11 @@
 package fr.free.simon.jacquemin.staupe.insects;
 
+import fr.free.simon.jacquemin.staupe.container.data.EData;
+import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
+import io.brothers.sgm.User.SGMUser;
+import io.brothers.sgm.User.SGMUserManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -103,6 +107,8 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 						public void run() {
 							image.setX(image.getX()+eventX-(image.getWidth()/2f));
 							image.setY(image.getY()+eventY-(image.getHeight()/2f));
+
+                            SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_INSECT_KILL.toString());
 						
 							death.stop();
 							death.selectDrawable(0);
@@ -143,6 +149,7 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 					image.setBackground(null);
 				}
 			});
+            SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_INSECT_NOT_KILL.toString());
 			return null;
 		}
 

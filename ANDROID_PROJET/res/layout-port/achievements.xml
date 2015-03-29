@@ -2,12 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/staupe_bg_land"
-    android:id="@+id/stats_root"
-    android:paddingTop="@dimen/marge_top"
-    android:paddingRight="@dimen/marge_right"
-    android:paddingBottom="@dimen/marge_bottom"
-    android:paddingLeft="@dimen/marge_left" >
+    android:background="@drawable/staupe_bg"
+    android:id="@+id/achievements_root">
 
     <fr.free.simon.jacquemin.staupe.utils.StretchyImageView
         android:id="@+id/stretchyImageView1"
@@ -28,13 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/stats_ll_back"
+        android:id="@+id/achievements_ll_back"
         android:layout_alignBottom="@+id/stretchyImageView1"
         android:layout_alignParentTop="true"
         android:gravity="center_vertical">
 
         <Button
-            android:id="@+id/stats_btn_back"
+            android:id="@+id/achievements_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_btn_back"
@@ -44,19 +40,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/stats_ll_back"
+        android:layout_toRightOf="@+id/achievements_ll_back"
         android:gravity="center"
         android:orientation="vertical" >
 
         <ScrollView
-            android:id="@+id/stats_sv_display_stats"
+            android:id="@+id/achievements_sv_display_stats"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:fillViewport="true" >
 
 
                 <LinearLayout
-                    android:id="@+id/stats_ll_display_stats"
+                    android:id="@+id/achievements_ll_display_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
