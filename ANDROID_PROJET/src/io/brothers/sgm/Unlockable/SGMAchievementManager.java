@@ -83,16 +83,16 @@ public class SGMAchievementManager {
     }
 
     public float getCompletionPercent(SGMUser user, SGMAchievement achievement){
-        // Todo Compute the completion percent
-
+        float max = 0f, actual = 0f;
         for (SGMCondition condition : achievement.conditions){
             if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
                     SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
-
+                max += condition.value - condition.base;
+                actual += SGMStatManager.getInstance().getStatValueForUser(user, condition.key) - condition.base;
             }
         }
 
-        return 0;
+        return actual*100f/max;
     }
 
     public void setAchievements(List<SGMAchievement> achievements){

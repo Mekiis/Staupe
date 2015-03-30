@@ -61,6 +61,8 @@ public class LoadingScreen extends SGMActivity {
 		myHandler = new Handler();
 	    myHandler.postDelayed(myRunnable,10);
 
+        // Todo Resolve the bug that player stats is not correctly registered
+
         // Create Achievement
         // Todo Create the achievements
         SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
@@ -68,8 +70,8 @@ public class LoadingScreen extends SGMActivity {
                 "Test",
                 "Ceci est un test",
                 new ArrayList<SGMCondition>(Arrays.asList(
-                        new SGMCondition("TEST", 6),
-                        new SGMCondition("TEST", 6)
+                        new SGMCondition(EData.PLAYED.toString(), 6),
+                        new SGMCondition("MARK", 0)
                 )), false));
 
         // Create stats
@@ -149,7 +151,7 @@ public class LoadingScreen extends SGMActivity {
             @Override
             public float getValue(SGMUser user) {
                 long dateInstallation = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_DATE_INSTALLATION.toString());
-                return dateToLong(now()) - dateInstallation;
+                return dateInstallation - dateToLong(now());
             }
 
             @Override
@@ -163,7 +165,7 @@ public class LoadingScreen extends SGMActivity {
             user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
 
         if(SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
-            SGMStatManager.getInstance().addValueForStat(user, EData.STATS_DATE_INSTALLATION.toString(), (int) dateToLong(now()));
+            SGMStatManager.getInstance().setStatDataForUser(user, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
         }
 		
 		new LoadingImages(getPackageName(), getResources()).execute();
@@ -173,7 +175,7 @@ public class LoadingScreen extends SGMActivity {
 	public void onPause() {
 	    super.onPause();
 	    if(myHandler != null)
-	        myHandler.removeCallbacks(myRunnable); // On arrete le callback
+	        myHandler.removeCallbacks(myRunnable); // We stop callbacks
 	}
 	
 	private class LoadingImages extends AsyncTask<Void, Integer, Void> {

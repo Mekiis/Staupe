@@ -75,10 +75,8 @@ public class Achievements extends SGMActivity {
         ListView listViewItems = new ListView(this);
         listViewItems.setAdapter(new AchievementsAdapter(this, R.layout.achivements_item, items, measuredWidth));
 
-        // Todo display the list
         // Add the list to the main layout
-        //LinearLayout layout = (LinearLayout) findViewById(R.id.stats_ll_display_stats);
-        //layout.addView(listViewItems);
+        ((LinearLayout) findViewById(R.id.achievements_ll_display_stats)).addView(listViewItems);
     }
 
     // 2.0 and above

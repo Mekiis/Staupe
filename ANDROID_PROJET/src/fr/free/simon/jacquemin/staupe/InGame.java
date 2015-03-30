@@ -413,6 +413,8 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
 	public void actionReset(View v) {
 		resetTimerInsect();
+
+        // Todo Add a pop-up for confirm message
 		
 		for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
 			for (int j = 0; j < this.actualGrid.getGrille()[i].length; j++) {
