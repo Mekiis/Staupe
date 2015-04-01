@@ -49,7 +49,15 @@ public class AchievementsAdapter extends ArrayAdapter<AchievementsItem> {
         AchievementsItem objectItem = data[position];
         
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/Barthowheel Regular.ttf");
-
+        TextView statsViewItemPercent = (TextView) convertView.findViewById(R.id.achievement_item_percent);
+        statsViewItemPercent.setText(objectItem.percentCompletion + "%");
+        statsViewItemPercent.setTypeface(tf);
+        TextView statsViewItemName = (TextView) convertView.findViewById(R.id.achievement_item_title);
+        statsViewItemName.setText(objectItem.name);
+        statsViewItemName.setTypeface(tf);
+        TextView statsViewItemDesc = (TextView) convertView.findViewById(R.id.achievement_item_desc);
+        statsViewItemDesc.setText(objectItem.desc);
+        statsViewItemDesc.setTypeface(tf);
         
         return convertView;
     }

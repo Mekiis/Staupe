@@ -82,9 +82,14 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                int nbMaul = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
-                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
                 return (nbLevelWin > 0f ? nbMaul/nbLevelWin*1f : 0f);
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return String.format("%.0f", getValue(user));
             }
         });
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
@@ -94,14 +99,14 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
-                int nbLevelLose = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_LOST.toString());
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                float nbLevelLose = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_LOST.toString());
                 return ((nbLevelWin + nbLevelLose) > 0f ? (nbLevelWin / (nbLevelWin + nbLevelLose)) * 10f : 5f);
             }
 
             @Override
             public String getValueFormat(SGMUser user) {
-                return super.getValueFormat(user)+"/10";
+                return String.format("%.1f", getValue(user))+"/10.0";
             }
         });
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
@@ -111,8 +116,13 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                int nbLevelWin = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
                 return nbLevelWin;
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return String.format("%.0f", getValue(user));
             }
         });
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
@@ -122,8 +132,13 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                int nbMaul = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
+                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
                 return nbMaul;
+            }
+
+            @Override
+            public String getValueFormat(SGMUser user) {
+                return String.format("%.0f", getValue(user));
             }
         });
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
@@ -133,14 +148,14 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                int nbInsectKill = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_KILL.toString());
-                int nbInsectNotKill = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_NOT_KILL.toString());
+                float nbInsectKill = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_KILL.toString());
+                float nbInsectNotKill = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_NOT_KILL.toString());
                 return (nbInsectKill + nbInsectNotKill > 0f ? (nbInsectKill / (nbInsectKill + nbInsectNotKill)) * 10f : 0f);
             }
 
             @Override
             public String getValueFormat(SGMUser user) {
-                return super.getValueFormat(user)+"/10";
+                return String.format("%.1f", getValue(user))+"/10.0";
             }
         });
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
@@ -150,8 +165,8 @@ public class LoadingScreen extends SGMActivity {
         ) {
             @Override
             public float getValue(SGMUser user) {
-                long dateInstallation = (int) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_DATE_INSTALLATION.toString());
-                return dateInstallation - dateToLong(now());
+                long dateInstallation = (long) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_DATE_INSTALLATION.toString());
+                return (float) dateToLong(now()) - dateInstallation;
             }
 
             @Override

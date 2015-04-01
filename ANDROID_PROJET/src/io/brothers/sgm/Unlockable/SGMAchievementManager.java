@@ -84,6 +84,8 @@ public class SGMAchievementManager {
 
     public float getCompletionPercent(SGMUser user, SGMAchievement achievement){
         float max = 0f, actual = 0f;
+
+        // Todo Debug computation of percentage
         for (SGMCondition condition : achievement.conditions){
             if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
                     SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){

@@ -4,22 +4,32 @@
     android:padding="10dp" >
 
     <TextView
-        android:id="@+id/statsViewItemValue"
+        android:id="@+id/achievement_item_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textSize="@dimen/text_Normal"
-        android:text="Value here..." />
+        android:text="Percent here..." />
 
     <TextView
-        android:id="@+id/statsViewItemName"
+        android:id="@+id/achievement_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statsViewItemValue"
-        android:layout_alignBottom="@+id/statsViewItemValue"
-        android:layout_toRightOf="@+id/statsViewItemValue"
+        android:layout_alignBaseline="@+id/achievement_item_percent"
+        android:layout_alignBottom="@+id/achievement_item_percent"
+        android:layout_toRightOf="@+id/achievement_item_percent"
         android:textSize="@dimen/text_Normal"
-        android:text="Name here..." />
+        android:text="Title here..." />
+
+    <TextView
+        android:id="@+id/achievement_item_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/achievement_item_title"
+        android:layout_alignBottom="@+id/achievement_item_title"
+        android:layout_toRightOf="@+id/achievement_item_title"
+        android:textSize="@dimen/text_Normal"
+        android:text="Desc here..." />
 
 </RelativeLayout>

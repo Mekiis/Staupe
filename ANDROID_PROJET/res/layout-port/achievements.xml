@@ -40,27 +40,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/achievements_ll_back"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_below="@+id/stretchyImageView1"
+        android:layout_marginBottom="20dp">
 
-        <ScrollView
-            android:id="@+id/achievements_sv_display_stats"
+        <LinearLayout
+            android:id="@+id/achievements_ll_display_stats"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:fillViewport="true" >
-
-
-                <LinearLayout
-                    android:id="@+id/achievements_ll_display_stats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical" >
-
-            </LinearLayout>
-
-        </ScrollView>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" />
 
     </LinearLayout>
 
