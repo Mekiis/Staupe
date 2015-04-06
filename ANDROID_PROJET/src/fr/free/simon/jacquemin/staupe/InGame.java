@@ -302,6 +302,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		int size = (A < B) ? (A) : (B);
 
         int height = 0;
+        int width = 0;
 
 		grilleTaupe.setColumnCount(m.getWidth());
 		for (int i = 0; i < m.getHeight(); i++) {
@@ -321,6 +322,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
                 GridLayout.LayoutParams lp =
                         (GridLayout.LayoutParams) imageView.getLayoutParams();
                 height = lp.topMargin + lp.bottomMargin;
+                width = lp.leftMargin + lp.rightMargin;
 			}
 		}
 
@@ -328,6 +330,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
         int caseSize = (m.getHeight() > m.getWidth()) ? (m.getHeight()) : (m.getWidth());
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llTaupe.getLayoutParams();
         params.height = size * (caseSize + height) ; // In dp
+        params.width = size * (caseSize + width) ; // In dp
         llTaupe.setLayoutParams(params);
 	}
 
