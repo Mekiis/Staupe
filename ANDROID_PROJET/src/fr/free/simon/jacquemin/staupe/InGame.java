@@ -287,9 +287,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
         LinearLayout llTaupe = (LinearLayout) findViewById(R.id.game_ll_maul);
 		grilleTaupe.removeAllViews();
 
-		int A = 0;
-		int B = 0;
-
+		int A, B;
 		if (Configuration.ORIENTATION_LANDSCAPE == getResources()
 				.getConfiguration().orientation) {
 			A = metrics.widthPixels / (2 * maulWidth + 2);
@@ -298,17 +296,16 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 			A = metrics.widthPixels / (maulWidth + 1);
 			B = metrics.heightPixels / (2 * maulHeight + 2);
 		}
+		int tileSize = (A < B) ? (A) : (B);
 
-		int size = (A < B) ? (A) : (B);
-
-        int height = 0;
-        int width = 0;
+        int margeSize = 0;
+        int nbMaxTile = (m.getHeight() > m.getWidth()) ? (m.getHeight()) : (m.getWidth());
 
 		grilleTaupe.setColumnCount(m.getWidth());
 		for (int i = 0; i < m.getHeight(); i++) {
 			for (int j = 0; j < m.getWidth(); j++) {
 				ImageView img = new ImageView(getApplicationContext());
-				img.setLayoutParams(new LayoutParams(size, size));
+				img.setLayoutParams(new LayoutParams(tileSize, tileSize));
 				if (m.getShape()[i][j] == 0) {
 					img.setBackgroundResource(R.drawable.case_none);
 				} else {
@@ -321,16 +318,14 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
                 ImageView imageView = img;
                 GridLayout.LayoutParams lp =
                         (GridLayout.LayoutParams) imageView.getLayoutParams();
-                height = lp.topMargin + lp.bottomMargin;
-                width = lp.leftMargin + lp.rightMargin;
+                margeSize = lp.topMargin + lp.bottomMargin;
 			}
 		}
 
-
-        int caseSize = (m.getHeight() > m.getWidth()) ? (m.getHeight()) : (m.getWidth());
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llTaupe.getLayoutParams();
-        params.height = size * (caseSize + height) ; // In dp
-        params.width = size * (caseSize + width) ; // In dp
+        int sizeInDp = (tileSize + margeSize) * nbMaxTile;
+        params.height =  sizeInDp;
+        params.width = sizeInDp;
         llTaupe.setLayoutParams(params);
 	}
 

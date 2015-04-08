@@ -65,6 +65,7 @@ public class LoadingScreen extends SGMActivity {
 
         // Create Achievement
         // Todo Create the achievements
+        /*
         SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
                 "TEST",
                 "Test",
@@ -74,6 +75,7 @@ public class LoadingScreen extends SGMActivity {
                         new SGMCondition("MARK", 0)
                 )), false));
 
+        */
         // Create stats
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
                 "INFESTATION",
