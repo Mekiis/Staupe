@@ -76,6 +76,13 @@ public class LoadingScreen extends SGMActivity {
                 )), false));
 
         */
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+                "BEGINNER",
+                "Jardinier en herbe",
+                "Obtenir au moins 1 étoile sur un niveau",
+                new ArrayList<SGMCondition>(Arrays.asList(
+                        new SGMCondition(EData.STATS_ALL_STARS.toString(), 1)
+                )), false));
         // Create stats
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
                 "INFESTATION",
