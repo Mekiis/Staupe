@@ -13,6 +13,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
@@ -76,13 +78,6 @@ public class LoadingScreen extends SGMActivity {
                 )), false));
 
         */
-        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
-                "BEGINNER",
-                "Jardinier en herbe",
-                "Obtenir au moins 1 étoile sur un niveau",
-                new ArrayList<SGMCondition>(Arrays.asList(
-                        new SGMCondition(EData.STATS_ALL_STARS.toString(), 1)
-                )), false));
         // Create stats
         SGMStatManager.getInstance().addStatCustom(new SGMAStat(
                 "INFESTATION",
@@ -180,7 +175,27 @@ public class LoadingScreen extends SGMActivity {
 
             @Override
             public String getValueFormat(SGMUser user) {
-                return android.text.format.DateFormat.format(SGMGameManager.DATE_FORMAT, (long) getValue(user)).toString();
+                Date date = new Date((long) getValue(user)); // your date
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int hours = cal.get(Calendar.HOUR_OF_DAY);
+                int minutes = cal.get(Calendar.MINUTE);
+                if(year > 0){
+                    return "Voyageur du temps";
+                } else if(month > 0){
+                    return "Sage";
+                } else if(day > 0){
+                    return "Herboriste";
+                } else if(hours > 0){
+                    return "Jardinier";
+                } else if(minutes > 0){
+                    return "Jeune pousse";
+                } else {
+                    return "Graine";
+                }
             }
         });
 
