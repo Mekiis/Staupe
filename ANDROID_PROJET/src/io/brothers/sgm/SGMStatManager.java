@@ -3,6 +3,7 @@ package io.brothers.sgm;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.Unlockable.SGMUnlockManager;
 import io.brothers.sgm.User.SGMUser;
 
@@ -10,7 +11,7 @@ import io.brothers.sgm.User.SGMUser;
  * Created by Simon on 25/03/2015.
  */
 public class SGMStatManager {
-    private List<SGMAStat> statsCustom = new ArrayList<>();
+    private List<SGMADisplayableStat> statsDisplayable = new ArrayList<>();
     private static SGMStatManager instance = null;
 
     public static SGMStatManager getInstance(){
@@ -34,11 +35,18 @@ public class SGMStatManager {
         if(user.isAutoSave())
             user.save(user.getContext());
 
-        SGMUnlockManager.getInstance().majUnlockForData(key, user.id);
+        SGMUnlockManager.getInstance().majUnlockForData(key, user);
+        SGMAchievementManager.getInstance().majAchievementForData(key, user);
     }
 
     public void setStatDataForUser(SGMUser user, String key, float value) {
         user.getAllSavedData().data.put(key, value);
+
+        if(user.isAutoSave())
+            user.save(user.getContext());
+
+        SGMUnlockManager.getInstance().majUnlockForData(key, user);
+        SGMAchievementManager.getInstance().majAchievementForData(key, user);
     }
 
     public boolean isStatExistForUser(SGMUser user, String key){
@@ -46,7 +54,7 @@ public class SGMStatManager {
         if(user.getAllSavedData().data.containsKey(key))
             statExist = true;
 
-        for (SGMAStat stat : statsCustom){
+        for (SGMADisplayableStat stat : statsDisplayable){
             if(stat.id == key)
                 statExist = true;
         }
@@ -62,7 +70,7 @@ public class SGMStatManager {
             value = user.getAllSavedData().data.get(key);
         }
 
-        for (SGMAStat stat : statsCustom){
+        for (SGMADisplayableStat stat : statsDisplayable){
             if(stat.id == key)
                 value = stat.getValue(user);
         }
@@ -70,21 +78,21 @@ public class SGMStatManager {
         return value;
     }
 
-    public void setStatsCustom(List<SGMAStat> statsCustom){
-        if(statsCustom != null)
-            this.statsCustom = statsCustom;
+    public void setStatsDisplayable(List<SGMADisplayableStat> statsDisplayable){
+        if(statsDisplayable != null)
+            this.statsDisplayable = statsDisplayable;
         else
-            this.statsCustom = new ArrayList<>();
+            this.statsDisplayable = new ArrayList<>();
     }
 
-    public void addStatCustom(SGMAStat stat){
-        if(this.statsCustom == null)
-            this.statsCustom = new ArrayList<>();
+    public void addStatDisplayable(SGMADisplayableStat stat){
+        if(this.statsDisplayable == null)
+            this.statsDisplayable = new ArrayList<>();
 
-        this.statsCustom.add(stat);
+        this.statsDisplayable.add(stat);
     }
 
-    public List<SGMAStat> getStatsCustom() {
-        return statsCustom;
+    public List<SGMADisplayableStat> getStatsDisplayable() {
+        return statsDisplayable;
     }
 }

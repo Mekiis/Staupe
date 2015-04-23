@@ -1,7 +1,5 @@
 package fr.free.simon.jacquemin.staupe;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,21 +7,12 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
-import fr.free.simon.jacquemin.staupe.container.data.EData;
 import fr.free.simon.jacquemin.staupe.gui.achievements.AchievementsAdapter;
 import fr.free.simon.jacquemin.staupe.gui.achievements.AchievementsItem;
-import fr.free.simon.jacquemin.staupe.gui.stats.StatsAdapter;
-import fr.free.simon.jacquemin.staupe.gui.stats.StatsItem;
-import io.brothers.sgm.SGMAStat;
-import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.Unlockable.SGMAchievement;
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.User.SGMUser;
@@ -51,10 +40,10 @@ public class Achievements extends SGMActivity {
         int i = 0;
         for (SGMAchievement achievement : SGMAchievementManager.getInstance().getAchievements()){
             SGMUser user = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID);
-            if(SGMAchievementManager.getInstance().isComplete(user, achievement))
+            if(SGMAchievementManager.getInstance().isAchievementComplete(user, achievement))
                 items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc());
             else
-                items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc(), SGMAchievementManager.getInstance().getCompletionPercent(user, achievement));
+                items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc(), SGMAchievementManager.getInstance().getAchievementCompletionPercent(user, achievement));
             i++;
         }
 

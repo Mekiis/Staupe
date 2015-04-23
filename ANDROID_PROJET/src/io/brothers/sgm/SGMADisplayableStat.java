@@ -5,7 +5,7 @@ import io.brothers.sgm.User.SGMUser;
 /**
  * Created by Simon on 27/03/2015.
  */
-public abstract class SGMAStat {
+public abstract class SGMADisplayableStat {
     public String id = "";
     public String name = "";
     public String desc = "";
@@ -16,7 +16,7 @@ public abstract class SGMAStat {
         return Float.toString(getValue(user));
     }
 
-    protected SGMAStat(String id, String name, String desc) {
+    protected SGMADisplayableStat(String id, String name, String desc) {
         this.id = id;
         this.name = name;
         this.desc = desc;

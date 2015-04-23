@@ -56,5 +56,9 @@
     <string name="dlg_starsReinitialiseConfirm">Do you really want to reset your stars ?</string>
     <string name="options_cb_activate_animations_IG">Activate animations in game</string>
     <string name="menu_achievements">Achievements</string>
+    <string name="msg_game_reset_title">Reset level</string>
+    <string name="msg_game_reset_body">Do you really want to reset the level</string>
+    <string name="msg_game_reset_ok">Reset</string>
+    <string name="msg_game_reset_back">Back</string>
 
 </resources>

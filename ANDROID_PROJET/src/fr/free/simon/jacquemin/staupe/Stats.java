@@ -3,7 +3,7 @@ package fr.free.simon.jacquemin.staupe;
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.gui.stats.StatsAdapter;
 import fr.free.simon.jacquemin.staupe.gui.stats.StatsItem;
-import io.brothers.sgm.SGMAStat;
+import io.brothers.sgm.SGMADisplayableStat;
 import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUserManager;
 
@@ -64,10 +64,10 @@ public class Stats extends SGMActivity {
 	}
 
 	private void displayStats() {
-		StatsItem[] items = new StatsItem[SGMStatManager.getInstance().getStatsCustom().size()];
+		StatsItem[] items = new StatsItem[SGMStatManager.getInstance().getStatsDisplayable().size()];
 
         int i = 0;
-        for (SGMAStat stat : SGMStatManager.getInstance().getStatsCustom()){
+        for (SGMADisplayableStat stat : SGMStatManager.getInstance().getStatsDisplayable()){
             items[i] = new StatsItem(stat.id, stat.name, stat.desc, stat.getValueFormat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID)));
             i++;
         }

@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -181,6 +182,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
 		((TextView) findViewById(R.id.game_tv_level_name)).setTypeface(font);
 		((TextView) findViewById(R.id.game_tv_maul_shape_title)).setTypeface(font);
+
+        if((arr = getArray(SGMGameManager.LVL_BEST_STATE)).length > 0)
+            findViewById(R.id.game_btn_best).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.game_btn_best).setVisibility(View.INVISIBLE);
 
         findViewById(R.id.game_root).setOnTouchListener(this);
         findViewById(R.id.game_sub_root).setOnTouchListener(this);
@@ -412,14 +418,33 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 	public void actionReset(View v) {
 		resetTimerInsect();
 
-        // Todo Add a pop-up for confirm message
-		
-		for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
-			for (int j = 0; j < this.actualGrid.getGrille()[i].length; j++) {
-				this.actualGrid.getCase(i, j).setState(
-						this.actualGrid.getCaseArchive(i, j).getState());
-			}
-		}
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.msg_game_reset_title);
+        builder.setMessage(String.format(getResources().getString(R.string.msg_game_reset_body), actualGrid.findBestSolution(actualMaul)));
+
+        // 3. Add the buttons
+        builder.setNegativeButton(R.string.msg_game_reset_ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+
+                    }
+                });
+        builder.setPositiveButton(R.string.msg_game_reset_back,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User accept the dialog
+                        for (int i = 0; i < actualGrid.getGrille().length; i++) {
+                            for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
+                                actualGrid.getCase(i, j).setState(
+                                        actualGrid.getCaseArchive(i, j).getState());
+                            }
+                        }
+                    }
+                });
+        // 4. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
 	}
 
 	public void actionBest(View v) {

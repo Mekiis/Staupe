@@ -11,18 +11,15 @@ import android.view.KeyEvent;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
-import io.brothers.sgm.SGMAStat;
+import io.brothers.sgm.SGMADisplayableStat;
 import io.brothers.sgm.SGMStatManager;
-import io.brothers.sgm.Unlockable.SGMAchievement;
-import io.brothers.sgm.Unlockable.SGMAchievementManager;
-import io.brothers.sgm.Unlockable.SGMCondition;
+import io.brothers.sgm.Unlockable.Conditions.SGMCondAnd;
+import io.brothers.sgm.Unlockable.Conditions.SGMCondOr;
+import io.brothers.sgm.Unlockable.Conditions.SGMCondValue;
 import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
@@ -79,7 +76,7 @@ public class LoadingScreen extends SGMActivity {
 
         */
         // Create stats
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "INFESTATION",
                 getString(R.string.stats_ratioMaulPerLevel),
                 ""
@@ -88,7 +85,7 @@ public class LoadingScreen extends SGMActivity {
             public float getValue(SGMUser user) {
                 float nbMaul = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
                 float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
-                return (nbLevelWin > 0f ? nbMaul/nbLevelWin*1f : 0f);
+                return (nbLevelWin > 0f ? nbMaul / nbLevelWin * 1f : 0f);
             }
 
             @Override
@@ -96,7 +93,7 @@ public class LoadingScreen extends SGMActivity {
                 return String.format("%.0f", getValue(user));
             }
         });
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "MARK",
                 getString(R.string.stats_ratioWinLose),
                 ""
@@ -110,10 +107,10 @@ public class LoadingScreen extends SGMActivity {
 
             @Override
             public String getValueFormat(SGMUser user) {
-                return String.format("%.1f", getValue(user))+"/10.0";
+                return String.format("%.1f", getValue(user)) + "/10.0";
             }
         });
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "WIN",
                 getString(R.string.stats_nbLevelWin),
                 ""
@@ -129,7 +126,7 @@ public class LoadingScreen extends SGMActivity {
                 return String.format("%.0f", getValue(user));
             }
         });
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "MAUL",
                 getString(R.string.stats_nbUniqueMaul),
                 ""
@@ -145,7 +142,7 @@ public class LoadingScreen extends SGMActivity {
                 return String.format("%.0f", getValue(user));
             }
         });
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "RATIO_INSECT",
                 getString(R.string.stats_ratioInsectKill),
                 ""
@@ -159,10 +156,10 @@ public class LoadingScreen extends SGMActivity {
 
             @Override
             public String getValueFormat(SGMUser user) {
-                return String.format("%.1f", getValue(user))+"/10.0";
+                return String.format("%.1f", getValue(user)) + "/10.0";
             }
         });
-        SGMStatManager.getInstance().addStatCustom(new SGMAStat(
+        SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "TIME_GAME",
                 getString(R.string.stats_timeOnGame),
                 ""
@@ -175,23 +172,22 @@ public class LoadingScreen extends SGMActivity {
 
             @Override
             public String getValueFormat(SGMUser user) {
-                Date date = new Date((long) getValue(user)); // your date
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                int hours = cal.get(Calendar.HOUR_OF_DAY);
-                int minutes = cal.get(Calendar.MINUTE);
-                if(year > 0){
+                long seconds = (long) getValue(user) / 1000; // your date
+                long day = TimeUnit.SECONDS.toDays(seconds);
+                long hours = TimeUnit.SECONDS.toHours(seconds);
+                long minute = TimeUnit.SECONDS.toMinutes(seconds);
+                long second = TimeUnit.SECONDS.toSeconds(seconds);
+                long month = (long) Math.ceil(day / 30);
+                long year = (long) Math.ceil(day / 365);
+                if (year > 0) {
                     return "Voyageur du temps";
-                } else if(month > 0){
+                } else if (month > 0) {
                     return "Sage";
-                } else if(day > 0){
+                } else if (day > 0) {
                     return "Herboriste";
-                } else if(hours > 0){
+                } else if (hours > 0) {
                     return "Jardinier";
-                } else if(minutes > 0){
+                } else if (minute > 0) {
                     return "Jeune pousse";
                 } else {
                     return "Graine";
@@ -199,11 +195,18 @@ public class LoadingScreen extends SGMActivity {
             }
         });
 
+        new SGMCondAnd(
+                new SGMCondOr(
+                        new SGMCondValue("TEST", 1),
+                        new SGMCondValue("TEST", 1)),
+                new SGMCondValue("TEST", 1)
+        );
+
         SGMUser user = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID);
         if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID) == null)
             user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
 
-        if(SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
+        if(!SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
             SGMStatManager.getInstance().setStatDataForUser(user, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
         }
 		

@@ -6,12 +6,12 @@ import java.util.List;
 /**
  * Created by Simon on 17/02/2015.
  */
-public class SGMStep {
+public class SGMTutorialStep {
     private int id = -1;
-    private List<SGMACondition> conditions = null;
-    private List<SGMAResult> results = null;
+    private List<SGMTutorialACondition> conditions = null;
+    private List<SGMTutorialAResult> results = null;
 
-    public SGMStep(int id, SGMACondition condition, SGMAResult result) {
+    public SGMTutorialStep(int id, SGMTutorialACondition condition, SGMTutorialAResult result) {
         this.id = id;
         this.conditions = new ArrayList<>();
         this.results = new ArrayList<>();
@@ -20,7 +20,7 @@ public class SGMStep {
         addResult(result);
     }
 
-    public SGMStep(int id, List<SGMACondition> conditions, SGMAResult result) {
+    public SGMTutorialStep(int id, List<SGMTutorialACondition> conditions, SGMTutorialAResult result) {
         this.id = id;
         this.conditions = new ArrayList<>();
         this.results = new ArrayList<>();
@@ -29,7 +29,7 @@ public class SGMStep {
         addResult(result);
     }
 
-    public SGMStep(int id, SGMACondition condition, List<SGMAResult> results) {
+    public SGMTutorialStep(int id, SGMTutorialACondition condition, List<SGMTutorialAResult> results) {
         this.id = id;
         this.conditions = new ArrayList<>();
         this.results = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SGMStep {
         setResult(results);
     }
 
-    public SGMStep(int id, List<SGMACondition> conditions, List<SGMAResult> results) {
+    public SGMTutorialStep(int id, List<SGMTutorialACondition> conditions, List<SGMTutorialAResult> results) {
         this.id = id;
         this.conditions = new ArrayList<>();
         this.results = new ArrayList<>();
@@ -55,32 +55,32 @@ public class SGMStep {
         this.id = id;
     }
 
-    public List<SGMACondition> getConditions() {
+    public List<SGMTutorialACondition> getConditions() {
         return conditions;
     }
 
-    public List<SGMAResult> getResults() {
+    public List<SGMTutorialAResult> getResults() {
         return results;
     }
 
-    public void addCondition(SGMACondition condition){
+    public void addCondition(SGMTutorialACondition condition){
         if(condition != null)
             this.conditions.add(condition);
     }
 
-    public void addResult(SGMAResult result){
+    public void addResult(SGMTutorialAResult result){
         if(result != null)
             this.results.add(result);
     }
 
-    public void setResult(List<SGMAResult> results){
+    public void setResult(List<SGMTutorialAResult> results){
         if(results != null)
             this.results = results;
         else
             this.results.clear();
     }
 
-    public void setCondition(List<SGMACondition> conditions){
+    public void setCondition(List<SGMTutorialACondition> conditions){
         if(conditions != null)
             this.conditions = conditions;
         else

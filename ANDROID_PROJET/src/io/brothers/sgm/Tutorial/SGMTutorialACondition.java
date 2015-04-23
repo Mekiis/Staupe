@@ -3,7 +3,7 @@ package io.brothers.sgm.Tutorial;
 /**
  * Created by Simon on 17/02/2015.
  */
-public abstract class SGMACondition<Params>{
+public abstract class SGMTutorialACondition<Params>{
     private boolean isValidate = false;
 
     public boolean isValidate() {

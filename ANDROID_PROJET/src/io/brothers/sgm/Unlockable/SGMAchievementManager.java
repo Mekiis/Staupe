@@ -54,14 +54,14 @@ public class SGMAchievementManager {
                     if(user.getSGMAchievementEventListener() != null){
                         user.getSGMAchievementEventListener().unlock(achievement);
                         SGMStatManager.getInstance().addOneForStat(user, achievement.getId() + KEY_ACHIEVEMENT_COUNT);
-                        SGMStatManager.getInstance().addValueForStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE, 1);
+                        SGMStatManager.getInstance().addOneForStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE);
                     }
                 }
             }
         }
     }
 
-    public void resetRepeatabilityAchievements(SGMUser user){
+    public void resetRepeatabilityForAllAchievements(SGMUser user){
         for(SGMAchievement achievement : achievements){
             if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE)
                     && SGMStatManager.getInstance().getStatValueForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE) > 0)
@@ -69,20 +69,11 @@ public class SGMAchievementManager {
         }
     }
 
-    public boolean isComplete(SGMUser user, SGMAchievement achievement){
-        boolean isConditionsValidated = true;
-
-        for (SGMCondition condition : achievement.conditions){
-            if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
-                    SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
-                isConditionsValidated = false;
-            }
-        }
-
-        return isConditionsValidated;
+    public boolean isAchievementComplete(SGMUser user, SGMAchievement achievement){
+        return getAchievementCompletionPercent(user, achievement) >= 100f;
     }
 
-    public float getCompletionPercent(SGMUser user, SGMAchievement achievement){
+    public float getAchievementCompletionPercent(SGMUser user, SGMAchievement achievement){
         float max = 0f, actual = 0f;
 
         // Todo Debug computation of percentage

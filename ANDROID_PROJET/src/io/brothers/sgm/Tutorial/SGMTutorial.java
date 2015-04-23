@@ -5,8 +5,8 @@ import java.util.List;
 import io.brothers.sgm.Tools.NoDuplicatesList;
 
 public class SGMTutorial<Params> {
-    private List<SGMStep> steps;
-    private SGMStep stepActual = null;
+    private List<SGMTutorialStep> steps;
+    private SGMTutorialStep stepActual = null;
     private TutorialListener listener = null;
 
     public interface TutorialListener{
@@ -25,7 +25,7 @@ public class SGMTutorial<Params> {
         this.listener.firstStepLaunch();
     }
 
-    public void setSteps(List<SGMStep> steps) {
+    public void setSteps(List<SGMTutorialStep> steps) {
         this.steps = new NoDuplicatesList<>();
         this.stepActual = null;
 
@@ -35,7 +35,7 @@ public class SGMTutorial<Params> {
         }
     }
 
-    public void addStep(SGMStep step){
+    public void addStep(SGMTutorialStep step){
         if(this.steps == null)
             this.steps = new NoDuplicatesList<>();
         this.stepActual = null;
@@ -46,10 +46,10 @@ public class SGMTutorial<Params> {
         }
     }
 
-    private SGMStep findNextStepId(SGMStep stepActual) {
-        SGMStep nextStepId = stepActual;
+    private SGMTutorialStep findNextStepId(SGMTutorialStep stepActual) {
+        SGMTutorialStep nextStepId = stepActual;
 
-        for( SGMStep stepId : this.steps ){
+        for( SGMTutorialStep stepId : this.steps ){
             if(nextStepId == null || stepId.getId() < nextStepId.getId()){
                 nextStepId = stepId;
             }
@@ -61,18 +61,18 @@ public class SGMTutorial<Params> {
     public void sendAction(Bundle paramsResult, Params... paramsCondition){
         boolean areAllConditionsValidated = true;
 
-        for (SGMACondition condition : this.stepActual.getConditions()){
+        for (SGMTutorialACondition condition : this.stepActual.getConditions()){
             condition.sendAction(paramsCondition);
             if(!condition.isValidate())
                 areAllConditionsValidated = false;
         }
 
         if(areAllConditionsValidated){
-            SGMStep step = findNextStepId(this.stepActual);
+            SGMTutorialStep step = findNextStepId(this.stepActual);
             if(this.stepActual.getId() == step.getId()){
                 this.listener.sequenceFinished();
             } else {
-                for (SGMAResult result : this.stepActual.getResults()){
+                for (SGMTutorialAResult result : this.stepActual.getResults()){
                     result.sendAction(paramsResult);
                 }
                 this.listener.stepFinished();

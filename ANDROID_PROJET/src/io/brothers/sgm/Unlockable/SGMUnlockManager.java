@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.brothers.sgm.SGMStatManager;
+import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
 /**
  * Created by Simon on 19/03/2015.
  */
 public class SGMUnlockManager {
+    private static final String KEY_UNLOCK_ALREADY_DONE = "KEY_UNLOCK_ALREADY_DONE";
+
     public interface SGMUnlockEventListener {
         public void unlock(SGMUnlock unlocked);
     }
@@ -24,7 +27,7 @@ public class SGMUnlockManager {
         return instance;
     }
 
-    public void majUnlockForData(String key, String userId){
+    public void majUnlockForData(String key, SGMUser user){
         for(SGMUnlock unlock : unlocked){
             boolean needToCheck = false;
             for (SGMCondition condition : unlock.conditions){
@@ -34,19 +37,42 @@ public class SGMUnlockManager {
 
             if(needToCheck){
                 boolean conditionsValidated = true;
+                if(SGMStatManager.getInstance().isStatExistForUser(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE)
+                        && SGMStatManager.getInstance().getStatValueForUser(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE) > 0)
+                    conditionsValidated = false;
+
                 for (SGMCondition condition : unlock.conditions){
-                    if( !SGMStatManager.getInstance().isStatExistForUser(SGMUserManager.getInstance().getUser(userId), key) ||
-                            SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(userId), key) < condition.value){
+                    if( !SGMStatManager.getInstance().isStatExistForUser(SGMUserManager.getInstance().getUser(user.id), key) ||
+                            SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(user.id), key) < condition.value){
                         conditionsValidated = false;
                     }
                 }
 
                 if (conditionsValidated){
-                    if(SGMUserManager.getInstance().getUser(userId).getSGMUnlockEventListener() != null)
-                        SGMUserManager.getInstance().getUser(userId).getSGMUnlockEventListener().unlock(unlock);
+                    if(SGMUserManager.getInstance().getUser(user.id).getSGMUnlockEventListener() != null){
+                        SGMUserManager.getInstance().getUser(user.id).getSGMUnlockEventListener().unlock(unlock);
+                        SGMStatManager.getInstance().addOneForStat(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE);
+                    }
+
                 }
             }
         }
+    }
+
+    public void resetUnlocked(String id, SGMUser user){
+        if(SGMStatManager.getInstance().isStatExistForUser(user, id + KEY_UNLOCK_ALREADY_DONE))
+            SGMStatManager.getInstance().setStatDataForUser(user, id + KEY_UNLOCK_ALREADY_DONE, 0);
+    }
+
+    public void resetAllUnlocked(){
+
+    }
+
+    public void addUnlocked(SGMUnlock unlock){
+        if(this.unlocked == null)
+            this.unlocked = new ArrayList<>();
+
+        this.unlocked.add(unlock);
     }
 
     public void setUnlocked(List<SGMUnlock> unlocked){
@@ -54,5 +80,9 @@ public class SGMUnlockManager {
             this.unlocked = unlocked;
         else
             this.unlocked = new ArrayList<>();
+    }
+
+    public List<SGMUnlock> getUnlocked() {
+        return unlocked;
     }
 }
