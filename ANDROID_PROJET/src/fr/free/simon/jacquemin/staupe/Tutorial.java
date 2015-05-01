@@ -23,7 +23,7 @@ import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.container.Maul;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 
-public class Tutorial extends SGMActivity {
+public class Tutorial extends SGMActivity implements Grid.GridEventListener {
     private static Level actualLevel;
     private static Grid actualGrid;
     private static Maul actualMaul;
@@ -110,7 +110,7 @@ public class Tutorial extends SGMActivity {
         int levelHeight = l.height;
         int levelWidth = l.width;
         actualGrid = new Grid(levelHeight, levelWidth, this,
-                getApplicationContext());
+                getApplicationContext(), this);
         GridLayout grille = (GridLayout) findViewById(R.id.game_grid_level);
         RelativeLayout rlAnim = (RelativeLayout) findViewById(R.id.game_rl_anim);
         grille.removeAllViews();
@@ -132,15 +132,15 @@ public class Tutorial extends SGMActivity {
 
         for (int i = 0; i < levelHeight; i++) {
             for (int j = 0; j < levelWidth; j++) {
-                actualGrid.getCaseArchive(i, j).setState(
+                actualGrid.getTileOrigin(i, j).setState(
                         l.rep.get(i).get(j));
-                actualGrid.getCase(i, j).setState(l.rep.get(i).get(j));
-                actualGrid.getCase(i, j).setImgBtn(
+                actualGrid.getTile(i, j).setState(l.rep.get(i).get(j));
+                actualGrid.getTile(i, j).setImgBtn(
                         new ImageButton(getApplicationContext()),
                         actualGrid, rlAnim);
-                actualGrid.getCase(i, j).getImgBtn()
+                actualGrid.getTile(i, j).getImgBtn()
                         .setLayoutParams(new ViewGroup.LayoutParams(size, size));
-                grille.addView(actualGrid.getCase(i, j).getImgBtn());
+                grille.addView(actualGrid.getTile(i, j).getImgBtn());
             }
         }
         actualMaul = convertTaupeFromLevel(l);
@@ -211,4 +211,8 @@ public class Tutorial extends SGMActivity {
         llTaupe.setLayoutParams(params);
     }
 
+    @Override
+    public void onTileClick() {
+
+    }
 }

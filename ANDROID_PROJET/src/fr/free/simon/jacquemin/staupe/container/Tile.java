@@ -15,15 +15,25 @@ import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.SGMGameManager;
 import fr.free.simon.jacquemin.staupe.R;
 
-public class Case {
+public class Tile {
+    public interface TileEventListener{
+        public void onTileClick();
+    }
+
 	private int state;
 	private ImageButton imgBtn;
 	private Grid grille;
-	/*
-	 * State : Pour le game : 0 = Inexistant 1 = Libre 2 = Bloqu� par joueur 5 =
-	 * Avec taupe Pour l'algo : 1 = Libre mais avec taupe 3 = Libre mais sans
-	 * taupe 4 = Bloqu� par l'algo
-	 */
+    private TileEventListener listener = null;
+	 // State :
+	 // In Game :
+	 // 0 = Empty
+	 // 1 = Tile free
+	 // 2 = Tile blocked by played
+	 // 5 = Tile with maul
+	 // In Algorithm :
+	 // 1 = Free but with maul
+	 // 3 = Free without maul
+	 // 4 = Blocked by algorithm
 
 	private AnimationDrawable anim = new AnimationDrawable();
 	private Activity parent;
@@ -31,7 +41,7 @@ public class Case {
 	private ImageView animContainer = null;
 	private int idAnim = -1;
 
-	public Case(Activity parent, Context ctx) {
+	public Tile(Activity parent, Context ctx, TileEventListener listener) {
 		this.state = 0;
 		this.parent = parent;
 		this.ctx = ctx;
@@ -39,11 +49,12 @@ public class Case {
 		this.animContainer.setImageResource(R.drawable.case_none);
 		this.animContainer.setScaleType(ImageView.ScaleType.FIT_START);
 		this.animContainer.setVisibility(View.INVISIBLE);
+        this.listener = listener;
 
 		refreshImg();
 	}
 
-	public Case(int state, Activity parent, Context ctx) {
+	public Tile(int state, Activity parent, Context ctx, TileEventListener listener) {
 		this.state = state;
 		this.parent = parent;
 		this.ctx = ctx;
@@ -51,31 +62,33 @@ public class Case {
 		this.animContainer.setImageResource(R.drawable.case_none);
 		this.animContainer.setScaleType(ImageView.ScaleType.FIT_START);
 		this.animContainer.setVisibility(View.INVISIBLE);
+        this.listener = listener;
 
 		refreshImg();
 	}
 
 	public int randomizeAnim(int idWorld) {
-		int compteur = 0;
+		int count = 0;
+
 		for (int i = 0; i < SGMGameManager.listWorld.length; i++) {
 			if (SGMGameManager.listWorld[i] == idWorld) {
-				compteur++;
+				count++;
 			}
 		}
 
-		if (compteur == 0)
+		if (count == 0)
 			return -1;
 
-		int idAnim = SGMMath.randInt(0, compteur - 1);
+		int idAnim = SGMMath.randInt(0, count - 1);
 
-		compteur = 0;
+		count = 0;
 		for (int i = 0; i < SGMGameManager.listWorld.length; i++) {
 			if (SGMGameManager.listWorld[i] == idWorld) {
-				if (compteur == idAnim) {
+				if (count == idAnim) {
 					anim = copyAnimation(SGMGameManager.listAnimation.get(i));
 					break;
 				} else {
-					compteur++;
+					count++;
 				}
 
 			}
@@ -111,12 +124,15 @@ public class Case {
 
 			@Override
 			public void onClick(View v) {
-				grille.clearTaupe();
 				if (state == 1 || state == 5) {
 					state = 2;
 				} else if (state == 2) {
 					state = 1;
 				}
+
+                if(listener != null)
+                    listener.onTileClick();
+
 				refreshImg();
 			}
 		});

@@ -5,14 +5,13 @@ import java.util.List;
 
 import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUser;
-import io.brothers.sgm.User.SGMUserManager;
 
 /**
  * Created by Simon on 25/03/2015.
  */
 public class SGMAchievementManager {
-    private static final String KEY_ACHIEVEMENT_ALREADY_DONE = "ACH_ARDY_DONE";
-    private static final String KEY_ACHIEVEMENT_COUNT = "ACH_COUNT";
+    public static final String KEY_ACHIEVEMENT_ALREADY_DONE = "ACH_ARDY_DONE";
+    public static final String KEY_ACHIEVEMENT_COUNT = "ACH_COUNT";
 
     public interface SGMAchievementEventListener {
         public void unlock(SGMAchievement achievement);
@@ -30,32 +29,23 @@ public class SGMAchievementManager {
 
     public void majAchievementForData(String key, SGMUser user){
         for(SGMAchievement achievement : achievements){
-            boolean needToCheck = false;
-            for (SGMCondition condition : achievement.conditions){
-                if(condition.key == key)
-                    needToCheck = true;
-            }
+            boolean needToCheck = achievement.isKeyNeeded(key);
 
             if(needToCheck){
-                boolean conditionsValidated = true;
+                boolean isNeverDone = true;
                 if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE)
                         && SGMStatManager.getInstance().getStatValueForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE) > 0
                         && !achievement.isRepeatable())
-                    conditionsValidated = false;
+                    isNeverDone = false;
 
-                for (SGMCondition condition : achievement.conditions){
-                    if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
-                         SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
-                        conditionsValidated = false;
-                    }
-                }
+                boolean isUnlocked = (isNeverDone && achievement.isUnlocked(user) ? true : false);
 
-                if (conditionsValidated){
+                if (isUnlocked){
                     if(user.getSGMAchievementEventListener() != null){
                         user.getSGMAchievementEventListener().unlock(achievement);
-                        SGMStatManager.getInstance().addOneForStat(user, achievement.getId() + KEY_ACHIEVEMENT_COUNT);
-                        SGMStatManager.getInstance().addOneForStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE);
                     }
+                    SGMStatManager.getInstance().addOneForInternalStat(user, achievement.getId() + KEY_ACHIEVEMENT_COUNT);
+                    SGMStatManager.getInstance().addOneForInternalStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE);
                 }
             }
         }
@@ -63,29 +53,44 @@ public class SGMAchievementManager {
 
     public void resetRepeatabilityForAllAchievements(SGMUser user){
         for(SGMAchievement achievement : achievements){
-            if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE)
-                    && SGMStatManager.getInstance().getStatValueForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE) > 0)
-                SGMStatManager.getInstance().setStatDataForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE, 0);
+            if(SGMStatManager.getInstance().isStatExistForUser(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE))
+                SGMStatManager.getInstance().setValueForInternalStat(user, achievement.getId() + KEY_ACHIEVEMENT_ALREADY_DONE, 0);
         }
     }
 
-    public boolean isAchievementComplete(SGMUser user, SGMAchievement achievement){
-        return getAchievementCompletionPercent(user, achievement) >= 100f;
+    public void resetAchievement(String id, SGMUser user){
+        if(SGMStatManager.getInstance().isStatExistForUser(user, id + KEY_ACHIEVEMENT_ALREADY_DONE))
+            SGMStatManager.getInstance().setValueForInternalStat(user, id + KEY_ACHIEVEMENT_ALREADY_DONE, 0);
+        if(SGMStatManager.getInstance().isStatExistForUser(user, id + KEY_ACHIEVEMENT_COUNT))
+            SGMStatManager.getInstance().setValueForInternalStat(user, id + KEY_ACHIEVEMENT_COUNT, 0);
     }
 
-    public float getAchievementCompletionPercent(SGMUser user, SGMAchievement achievement){
-        float max = 0f, actual = 0f;
+    public void resetAllAchievements(SGMUser user){
+        for(SGMAchievement achievement : achievements){
+            resetAchievement(achievement.getId(), user);
+        }
+    }
 
-        // Todo Debug computation of percentage
-        for (SGMCondition condition : achievement.conditions){
-            if( !SGMStatManager.getInstance().isStatExistForUser(user, condition.key) ||
-                    SGMStatManager.getInstance().getStatValueForUser(user, condition.key) < condition.value){
-                max += condition.value - condition.base;
-                actual += SGMStatManager.getInstance().getStatValueForUser(user, condition.key) - condition.base;
-            }
+    public boolean isAchievementComplete(SGMUser user, String id){
+        boolean isComplete = false;
+
+        for (SGMAchievement achievement : achievements){
+            if(achievement.getId() == id)
+                isComplete = achievement.isUnlocked(user);
         }
 
-        return actual*100f/max;
+        return isComplete;
+    }
+
+    public float getAchievementCompletionPercent(SGMUser user, String id){
+        float completionPercent = 0f;
+
+        for (SGMAchievement achievement : achievements){
+            if(achievement.getId() == id)
+                completionPercent = achievement.getCompletionPercent(user);
+        }
+
+        return completionPercent;
     }
 
     public void setAchievements(List<SGMAchievement> achievements){

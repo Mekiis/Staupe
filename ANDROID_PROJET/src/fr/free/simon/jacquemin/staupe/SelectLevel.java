@@ -1,13 +1,17 @@
 package fr.free.simon.jacquemin.staupe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+import fr.free.simon.jacquemin.staupe.SGM.UnlockLevel;
 import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
 import fr.free.simon.jacquemin.staupe.utils.CustomScrollView;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import io.brothers.sgm.SGMStatManager;
+import io.brothers.sgm.Unlockable.SGMUnlockManager;
+import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
 import android.content.Intent;
@@ -68,15 +72,12 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 	}
 
 	public void choiceLevel() {
-		ReadLevelFile f = new ReadLevelFile();
-		ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
-				"lvl.txt");
-		allLevels = filterByIdWorld(idWorld, allLevels);
+        List<UnlockLevel> levels = SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class, SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID));
 		LinearLayout linearLay = (LinearLayout) findViewById(R.id.select_level_sv_list);
 		Button btn;
 		// Create the fond
 
-		for (int i = 0; i < allLevels.size(); i++) {
+		for (int i = 0; i < levels.size(); i++) {
 			btn = new Button(getApplicationContext());
 			// Add the font
 			btn.setTypeface(font);
@@ -90,16 +91,16 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if ( SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString()) >= allLevels.get(i).lock) {
+			if ( levels.get(i).isUnlocked(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID))) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_on);
 				Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_off);
 				ArrayList<Bitmap> a = new ArrayList<Bitmap>();
-				for (int j = 0; j < getStars(allLevels.get(i)); j++) {
+				for (int j = 0; j < getStars(levels.get(i).getLevel()); j++) {
 					a.add(bmOn);
 				}
-				for (int j = getStars(allLevels.get(i)); j < 3; j++) {
+				for (int j = getStars(levels.get(i).getLevel()); j < 3; j++) {
 					a.add(bmOff);
 				}
 				Drawable image = new BitmapDrawable(getResources(),
@@ -107,14 +108,13 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,
 						null);
 				// Add the text
-				btn.setText(allLevels.get(i).name);
-				index = allLevels.get(i).id;
+				btn.setText(levels.get(i).getLevel().name);
+				index = levels.get(i).getLevel().id;
 				btn.setOnClickListener(new OnClickListener() {
 					int level = index;
 
 					@Override
 					public void onClick(View v) {
-						Button btn = (Button) v;
 						endActivity("Ok", level);
 					}
 				});
@@ -124,13 +124,13 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = allLevels.get(i).lock - (int) SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString());
+				int numberMiss = levels.get(i).getStarToReach(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID));
 				Drawable image = new BitmapDrawable(getResources(),
 						createLockItem(a, "x"+numberMiss));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,
 						null);
 				// Add the text
-				btn.setText(allLevels.get(i).name);
+				btn.setText(levels.get(i).getLevel().name);
 				btn.setSelected(true);
 			}
 
@@ -147,8 +147,8 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 			if (idLevel != -1) {
 				int i;
 				// Search the instance to compute the position
-				for (i = 0; i < allLevels.size(); i++) {
-					if (allLevels.get(i).id == idLevel) {
+				for (i = 0; i < levels.size(); i++) {
+					if (levels.get(i).getLevel().id == idLevel) {
 						// i*size of level button+space
 						scrollLevel = i;
 						break;

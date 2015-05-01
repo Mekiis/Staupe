@@ -134,7 +134,7 @@ public class Options extends SGMActivity {
 
     public void reinitialiseStars() {
         getSharedPreferences(SGMGameManager.FILE_LEVELS, 0).edit().clear().commit();
-        SGMStatManager.getInstance().setStatDataForUser(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString(), 0);
+        SGMStatManager.getInstance().setValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString(), 0);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 2. Chain together various setter methods to set the dialog
         // characteristics

@@ -29,26 +29,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+import fr.free.simon.jacquemin.staupe.SGM.UnlockLevel;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
 import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.Tools.SGMMath;
 import fr.free.simon.jacquemin.staupe.container.Grid;
 import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
-import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import fr.free.simon.jacquemin.staupe.container.Maul;
+import io.brothers.sgm.Unlockable.SGMUnlockManager;
 import io.brothers.sgm.User.SGMUserManager;
 
-public class InGame extends SGMActivity implements View.OnTouchListener {
+public class InGame extends SGMActivity implements View.OnTouchListener, Grid.GridEventListener {
 	private static Level actualLevel;
 	private static Grid actualGrid;
 	private static Maul actualMaul;
-	private static ArrayList<Level> allLevel;
 
 	private static int[] arr = null;
 
-	private static GridLayout UIgridLevelContainer = null;
-    private static ImageView UIimageViewInsectContainer = null;
+	private static GridLayout UIGridLevelContainer = null;
+    private static Button UIResetGrid = null;
+    private static ImageView UIImageViewInsectContainer = null;
 
     // Insects
     private static LauncherInsect insectLauncher = null;
@@ -58,12 +59,9 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game);
 
-		init();
+        decodeLevel();
 
-		decodeLevel();
-		
-		UIimageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.game_root));
-        UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
+		init();
 	}
 
     @Override
@@ -82,7 +80,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
         String value = "1";
         value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_IG, value);
-        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIimageViewInsectContainer, this, metrics, value == "1" ? true : false);
+        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIImageViewInsectContainer, this, metrics, value.equals("1") );
         insectLauncher.run();
     }
 	
@@ -114,14 +112,14 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
 	public int[] constructArrayFromGame(){
 		int count = 0;
-		for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
-			count += this.actualGrid.getGrille()[i].length;
+		for (int i = 0; i < actualGrid.getGrid().length; i++) {
+			count += actualGrid.getGrid()[i].length;
 		}
 		int[] arr = new int[count];
-		for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
-			for (int j = 0; j < this.actualGrid.getGrille()[i].length; j++) {
-				arr[i * this.actualGrid.getGrille()[i].length + j] = this.actualGrid
-						.getCase(i, j).getState();
+		for (int i = 0; i < actualGrid.getGrid().length; i++) {
+			for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+				arr[i * actualGrid.getGrid()[i].length + j] = actualGrid
+						.getTile(i, j).getState();
 			}
 		}
 		
@@ -130,11 +128,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
 	public int[] getArray(String key)
 	{
-		List<Integer> array = new ArrayList<Integer>();
+		List<Integer> array = new ArrayList<>();
         int[] arr = new int[0];
         int count = 0;
-        for (int i = 0; i < this.actualGrid.getGrille().length; i++) {
-            count += this.actualGrid.getGrille()[i].length;
+        for (int i = 0; i < actualGrid.getGrid().length; i++) {
+            count += actualGrid.getGrid()[i].length;
         }
 		for(int i = 0; i < count; i++){
 			array.add(Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS, key +"_"+ actualLevel.id+"_"+i, "-1")));
@@ -151,26 +149,26 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 	}
 
 	public void constructGameFromArray(){
-		UIgridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
-				new ViewTreeObserver.OnGlobalLayoutListener() {
-	
-					@Override
-					public void onGlobalLayout() {
-                        if(arr.length == 0)
-                            return;
+		UIGridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener() {
 
-                        for (int i = 0; i < actualGrid.getGrille().length; i++) {
-                            for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-                                actualGrid.getCase(i, j).setState(
-                                        arr[i*actualGrid.getGrille()[i].length+j]);
-                            }
+                @Override
+                public void onGlobalLayout() {
+                    if(arr.length == 0)
+                        return;
+
+                    for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                        for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                            actualGrid.getTile(i, j).setState(
+                                    arr[i*actualGrid.getGrid()[i].length+j]);
                         }
-	
-						// unregister listener (this is important)
-						UIgridLevelContainer.getViewTreeObserver()
-								.removeGlobalOnLayoutListener(this);
-					}
-				});
+                    }
+
+                    // unregister listener (this is important)
+                    UIGridLevelContainer.getViewTreeObserver()
+                            .removeGlobalOnLayoutListener(this);
+                }
+            });
 	
 	}
 
@@ -179,6 +177,10 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		super.init();
 		
 		displayNbHint();
+
+        UIImageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.game_root));
+        UIGridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
+        UIResetGrid = (Button) findViewById(R.id.game_btn_reset);
 
 		((TextView) findViewById(R.id.game_tv_level_name)).setTypeface(font);
 		((TextView) findViewById(R.id.game_tv_maul_shape_title)).setTypeface(font);
@@ -190,6 +192,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
         findViewById(R.id.game_root).setOnTouchListener(this);
         findViewById(R.id.game_sub_root).setOnTouchListener(this);
+
+        if(actualGrid.getNbTileBlocked() > 0)
+            UIResetGrid.setVisibility(View.VISIBLE);
+        else
+            UIResetGrid.setVisibility(View.GONE);
 	}
 
     @Override
@@ -216,9 +223,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 			// Si probl�me avec l'intent, on fait un back
 			endActivity("Back");
 		}
-		// On charge tous les niveau
-		allLevel = new ReadLevelFile().buildLevel(getApplicationContext(),
-				"lvl.txt");
+
+        List<Level> allLevel = new ArrayList<>();
+        for (UnlockLevel level : SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class, SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID)))
+            allLevel.add(level.getLevel());
+
 		// On recherche si l'ID corresponds � un niveau
 		for (int i = 0; i < allLevel.size(); i++) {
 			if (allLevel.get(i).id == levelID) {
@@ -236,14 +245,13 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		int levelHeight = l.height;
 		int levelWidth = l.width;
 		actualGrid = new Grid(levelHeight, levelWidth, this,
-				getApplicationContext());
+				getApplicationContext(), this);
 		GridLayout grille = (GridLayout) findViewById(R.id.game_grid_level);
 		RelativeLayout rlAnim = (RelativeLayout) findViewById(R.id.game_rl_anim);
 		grille.removeAllViews();
 		grille.setColumnCount(levelWidth);
 
-		int A = 0;
-		int B = 0;
+		int A, B;
 
 		if (Configuration.ORIENTATION_LANDSCAPE == getResources()
 				.getConfiguration().orientation) {
@@ -258,15 +266,15 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 
 		for (int i = 0; i < levelHeight; i++) {
 			for (int j = 0; j < levelWidth; j++) {
-				actualGrid.getCaseArchive(i, j).setState(
+				actualGrid.getTileOrigin(i, j).setState(
 						l.rep.get(i).get(j));
-				actualGrid.getCase(i, j).setState(l.rep.get(i).get(j));
-				actualGrid.getCase(i, j).setImgBtn(
+				actualGrid.getTile(i, j).setState(l.rep.get(i).get(j));
+				actualGrid.getTile(i, j).setImgBtn(
 						new ImageButton(getApplicationContext()),
                         actualGrid, rlAnim);
-				actualGrid.getCase(i, j).getImgBtn()
+				actualGrid.getTile(i, j).getImgBtn()
 						.setLayoutParams(new LayoutParams(size, size));
-				grille.addView(actualGrid.getCase(i, j).getImgBtn());
+				grille.addView(actualGrid.getTile(i, j).getImgBtn());
 			}
 		}
 		actualMaul = convertTaupeFromLevel(l);
@@ -321,9 +329,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 				}
 				grilleTaupe.addView(img);
 
-                ImageView imageView = img;
-                GridLayout.LayoutParams lp =
-                        (GridLayout.LayoutParams) imageView.getLayoutParams();
+                GridLayout.LayoutParams lp = (GridLayout.LayoutParams) img.getLayoutParams();
                 margeSize = lp.topMargin + lp.bottomMargin;
 			}
 		}
@@ -340,124 +346,114 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
         return "Game";
     }
 
-	private void resetTimerInsect(){
-		if(insectLauncher != null)
-            insectLauncher.resetTime();
-	}
-
     @Override
 	public void actionClick(View v) {
-		resetTimerInsect();
-		
 		switch (v.getId()) {
-		case R.id.game_btn_back:
-			endActivity("Back");
-			break;
-		case R.id.game_btn_check:
-			verify();
-			break;
+            case R.id.game_btn_back:
+                endActivity("Back");
+                break;
+            case R.id.game_btn_check:
+                verify();
+                break;
 		}
+
+        clickOnScreen();
 	}
 
     public void actionTurn90Hor(View v) {
-		resetTimerInsect();
-		
-		int[][] f = this.actualMaul.rot90Hor();
-		this.actualMaul.setShape(f, true);
-		displayTaupe(this.actualMaul, actualLevel.width, actualLevel.height);
+		int[][] f = actualMaul.rot90Hor();
+		actualMaul.setShape(f, true);
+		displayTaupe(actualMaul, actualLevel.width, actualLevel.height);
 
-		UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
-		UIgridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
-				new ViewTreeObserver.OnGlobalLayoutListener() {
+		UIGridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
+		UIGridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener() {
 
-					@Override
-					public void onGlobalLayout() {
-						for (int i = 0; i < actualGrid.getGrille().length; i++) {
-							for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-								actualGrid.getCase(i, j).initAnim();
-							}
-						}
+                @Override
+                public void onGlobalLayout() {
+                    for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                        for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                            actualGrid.getTile(i, j).initAnim();
+                        }
+                    }
 
-						// unregister listener (this is important)
-						UIgridLevelContainer.getViewTreeObserver()
-								.removeGlobalOnLayoutListener(this);
-					}
-				});
+                    // unregister listener (this is important)
+                    UIGridLevelContainer.getViewTreeObserver()
+                            .removeGlobalOnLayoutListener(this);
+                }
+            });
+
+        clickOnScreen();
 	}
 
     public void actionTurn90AntiHor(View v) {
-        resetTimerInsect();
+        int[][] f = actualMaul.rot90Hor();
+        actualMaul.setShape(f, true);
+        f = actualMaul.rot90Hor();
+        actualMaul.setShape(f, true);
+        f = actualMaul.rot90Hor();
+        actualMaul.setShape(f, true);
+        displayTaupe(actualMaul, actualLevel.width, actualLevel.height);
 
-        int[][] f = this.actualMaul.rot90Hor();
-        this.actualMaul.setShape(f, true);
-        f = this.actualMaul.rot90Hor();
-        this.actualMaul.setShape(f, true);
-        f = this.actualMaul.rot90Hor();
-        this.actualMaul.setShape(f, true);
-        displayTaupe(this.actualMaul, actualLevel.width, actualLevel.height);
+        UIGridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
+        UIGridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+            new ViewTreeObserver.OnGlobalLayoutListener() {
 
-        UIgridLevelContainer = (GridLayout) findViewById(R.id.game_grid_level);
-        UIgridLevelContainer.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        for (int i = 0; i < actualGrid.getGrille().length; i++) {
-                            for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-                                actualGrid.getCase(i, j).initAnim();
-                            }
+                @Override
+                public void onGlobalLayout() {
+                    for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                        for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                            actualGrid.getTile(i, j).initAnim();
                         }
-
-                        // unregister listener (this is important)
-                        UIgridLevelContainer.getViewTreeObserver()
-                                .removeGlobalOnLayoutListener(this);
                     }
-                });
+
+                    // unregister listener (this is important)
+                    UIGridLevelContainer.getViewTreeObserver()
+                            .removeGlobalOnLayoutListener(this);
+                }
+            });
+
+        clickOnScreen();
     }
 
 	public void actionReset(View v) {
-		resetTimerInsect();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.msg_game_reset_title);
         builder.setMessage(String.format(getResources().getString(R.string.msg_game_reset_body), actualGrid.findBestSolution(actualMaul)));
 
-        // 3. Add the buttons
-        builder.setNegativeButton(R.string.msg_game_reset_ok,
+        builder.setPositiveButton(R.string.msg_game_reset_ok,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-
-                    }
-                });
-        builder.setPositiveButton(R.string.msg_game_reset_back,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User accept the dialog
-                        for (int i = 0; i < actualGrid.getGrille().length; i++) {
-                            for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-                                actualGrid.getCase(i, j).setState(
-                                        actualGrid.getCaseArchive(i, j).getState());
+                        for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                            for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                                actualGrid.getTile(i, j).setState(
+                                        actualGrid.getTileOrigin(i, j).getState());
                             }
                         }
                     }
                 });
-        // 4. Get the AlertDialog from create()
+        builder.setNegativeButton(R.string.msg_game_reset_back,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        clickOnScreen();
 	}
 
 	public void actionBest(View v) {
-		resetTimerInsect();
-
         if((arr = getArray(SGMGameManager.LVL_BEST_STATE)).length > 0){
-            for (int i = 0; i < actualGrid.getGrille().length; i++) {
-                for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-                    actualGrid.getCase(i, j).setState(
-                            arr[i*actualGrid.getGrille()[i].length+j]);
+            for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                    actualGrid.getTile(i, j).setState(
+                            arr[i*actualGrid.getGrid()[i].length+j]);
                 }
             }
         }
+
+        clickOnScreen();
 	}
 
 	public void actionHintMaul(View v) {
@@ -467,8 +463,8 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 				SGMGameManager.BONUS_DISPLAY_MAUL_NB,
 				Integer.toString(SGMGameManager.BONUS_DISPLAY_MAUL_DEFAULT)));
 		if (nbBonus > 0) {
-			this.actualGrid.clearTaupe();
-			if (this.actualGrid.displayXTaupe(this.actualMaul, 1) == 0) {
+			actualGrid.clearMaul();
+			if (actualGrid.displayXTaupe(actualMaul, 1) == 0) {
 				Toast.makeText(getApplicationContext(),
 						R.string.msg_game_bonus_no_maule, Toast.LENGTH_SHORT)
 						.show();
@@ -525,25 +521,24 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		((ImageView) findViewById(R.id.game_btn_bonus_show_taupe_nb)).setImageDrawable(GetImage(getApplicationContext(), "number_"+nbHint));
 	}
 
-    public static Drawable GetImage(Context c, String ImageName) {
+    private Drawable GetImage(Context c, String ImageName) {
         return c.getResources().getDrawable(c.getResources().getIdentifier(ImageName, "drawable", c.getPackageName()));
     }
 
 	private void verify() {
-		boolean isGridComplete = actualGrid.verifGrille(actualMaul);
+		boolean isGridComplete = actualGrid.verifyGrid(actualMaul);
 		// 1. Instantiate an AlertDialog.Builder with its constructor
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if (!isGridComplete) {
-			// LOSE
-			// Statistique : Nb de partie perdue
+			/* RESULT : LOSE */
+			/* STATISTICS */
+            // Statistics : Nb of games lose
             SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_GAMES_LOST.toString(), 1);
 
-			// 2. Chain together various setter methods to set the dialog
-			// characteristics
+			/* DISPLAY*/
 			builder.setMessage(R.string.dlg_loseMsg);
 			builder.setTitle(R.string.dlg_loseTitle);
 
-			// 3. Add the buttons
 			builder.setNegativeButton(R.string.dlg_lose_quit,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
@@ -562,49 +557,64 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							// User clicked Continue button
-							for (int i = 0; i < actualGrid.getGrille().length; i++) {
-								for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-									actualGrid.getCase(i, j).setState(
-											actualGrid.getCaseArchive(i, j)
+							for (int i = 0; i < actualGrid.getGrid().length; i++) {
+								for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+									actualGrid.getTile(i, j).setState(
+											actualGrid.getTileOrigin(i, j)
 													.getState());
 								}
 							}
+
+                            if(actualGrid.getNbTileBlocked() > 0)
+                                UIResetGrid.setVisibility(View.VISIBLE);
+                            else
+                                UIResetGrid.setVisibility(View.GONE);
 						}
 					});
 		} else {
-			// WIN
+			/* RESULT : WIN */
+            /* STATISTICS */
             int nbStars = 0;
             if (actualLevel != null) {
                 nbStars = Integer.parseInt(getPref(SGMGameManager.FILE_LEVELS,
                         SGMGameManager.LVL_STARS + actualLevel.id, "0"));
             }
-			// 2. Chain together various setter methods to set the dialog
 			int nbStarThisRound = checkNbStars(
                     actualGrid.findBestSolution(actualMaul),
-                    actualGrid.countNbMine(actualGrid.getGrille(), 2));
+                    actualGrid.countNbMine(actualGrid.getGrid(), 2));
 
 			// Statistics : Nb of games win
             SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_GAMES_WIN.toString());
 			// Statistics : Nb of mines
-            SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_MINES.toString(), actualGrid.countNbMine(actualGrid.getGrille(), 2));
+            SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_MINES.toString(), actualGrid.countNbMine(actualGrid.getGrid(), 2));
 			// Statistics : Nb of maul blocked
             SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_UNIQUE_MAUL.toString(), actualMaul.getWeight());
 
-			String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
-			displayNbHint();
+            /* BEST SCORE */
+            int[] best = getArray(SGMGameManager.LVL_BEST_STATE);
+            int countPreviousBestScoreTileBlocked = -1;
+            if(best.length > 0) {
+                countPreviousBestScoreTileBlocked = 0;
+                for (int t : best) {
+                    if(t == 2)
+                        countPreviousBestScoreTileBlocked++;
+                }
+            }
+            if(nbStarThisRound >= nbStars && (countPreviousBestScoreTileBlocked == -1 || actualGrid.getNbTileBlocked() <= countPreviousBestScoreTileBlocked)){
+                setArray(SGMGameManager.LVL_BEST_STATE, constructArrayFromGame());
+            }
 
-            // New best score
 			if (nbStarThisRound > nbStars) {
 				// Statistics : Nb of stars
                 SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString(), nbStarThisRound - nbStars);
-
-				// Save : Stars for this level
+                // Save : Stars for this level
                 setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.LVL_STARS + actualLevel.id, Integer.toString(nbStarThisRound));
+            }
 
-                setArray(SGMGameManager.LVL_BEST_STATE, constructArrayFromGame());
-			}
+			/* DISPLAY */
+            String msgWinNbBonusShowTaupe = constructMsgHint(nbStarThisRound, nbStars);
+            displayNbHint();
 
-			// characteristics
 			builder.setMessage(getString(R.string.dlg_winMsg)
 					+ msgWinNbBonusShowTaupe);
 			builder.setTitle(R.string.dlg_winTitle);
@@ -612,7 +622,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 					R.drawable.star_on);
 			Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
 					R.drawable.star_off);
-			ArrayList<Bitmap> a = new ArrayList<Bitmap>();
+			ArrayList<Bitmap> a = new ArrayList<>();
 			for (int j = 0; j < nbStarThisRound; j++) {
 				a.add(bmOn);
 			}
@@ -623,14 +633,13 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 					combineImageIntoOne(a));
 			builder.setIcon(image);
 
-			// 3. Add the buttons
 			builder.setPositiveButton(R.string.dlg_win_return,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							// User clicked OK button
-                            for (int i = 0; i < actualGrid.getGrille().length; i++) {
-                                for (int j = 0; j < actualGrid.getGrille()[i].length; j++) {
-                                    actualGrid.getCase(i, j).setState(actualGrid.getCaseArchive(i, j).getState());
+                            for (int i = 0; i < actualGrid.getGrid().length; i++) {
+                                for (int j = 0; j < actualGrid.getGrid()[i].length; j++) {
+                                    actualGrid.getTile(i, j).setState(actualGrid.getTileOrigin(i, j).getState());
                                 }
                             }
 							endActivity("Back");
@@ -645,7 +654,6 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 					});
 
 		}
-		// 4. Get the AlertDialog from create()
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
@@ -703,8 +711,6 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		} else if (nbMineActual <= Math.round(nbMineMinimum
 				+ (50.0 / 100.0 * nbMineMinimum))) {
 			nbStarsThisRound = 1;
-		} else {
-			nbStarsThisRound = 0;
 		}
 
 		return nbStarsThisRound;
@@ -731,10 +737,31 @@ public class InGame extends SGMActivity implements View.OnTouchListener {
 		return temp;
 	}
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    private void clickOnScreen(){
         this.resetTimerInsect();
 
+        if(actualGrid.getNbTileBlocked() > 0)
+            UIResetGrid.setVisibility(View.VISIBLE);
+        else
+            UIResetGrid.setVisibility(View.GONE);
+    }
+
+    private void resetTimerInsect(){
+        if(insectLauncher != null)
+            insectLauncher.resetTime();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        clickOnScreen();
+
         return false;
+    }
+
+    @Override
+    public void onTileClick() {
+        actualGrid.clearMaul();
+
+        clickOnScreen();
     }
 }

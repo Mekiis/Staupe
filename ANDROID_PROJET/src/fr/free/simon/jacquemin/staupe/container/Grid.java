@@ -7,52 +7,77 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 
-public class Grid {
-	private int largeur;
-	private int hauteur;
-	private Case[][] grille;
-	private Case[][] grilleArchive;
+public class Grid implements Tile.TileEventListener{
+    @Override
+    public void onTileClick() {
+        if (listener != null)
+            listener.onTileClick();
+    }
+
+    public interface GridEventListener{
+        public void onTileClick();
+    }
+
+	private int width;
+	private int height;
+	private Tile[][] grid;
+	private Tile[][] gridOrigin;
 	private Activity parent;
 	private Context ctx;
+    private GridEventListener listener = null;
 
-	public Grid(int hauteur, int largeur, Activity parent, Context ctx) {
-		this.largeur = largeur;
-		this.hauteur = hauteur;
+	public Grid(int height, int width, Activity parent, Context ctx, GridEventListener listener) {
+		this.width = width;
+		this.height = height;
 		this.parent = parent;
 		this.ctx = ctx;
+        this.listener = listener;
 		
-		setGrille(new Case[this.hauteur][this.largeur]);
-		grilleArchive = new Case[this.hauteur][this.largeur];
+		setGrid(new Tile[this.height][this.width]);
+		gridOrigin = new Tile[this.height][this.width];
 		
-		for (int i = 0; i < this.hauteur; i++) {
-			for (int j = 0; j < this.largeur; j++) {
-				grilleArchive[i][j] =  new Case(1, this.parent, this.ctx);
-				getGrille()[i][j] = new Case(1, this.parent, this.ctx);
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				gridOrigin[i][j] =  new Tile(1, this.parent, this.ctx, this);
+				getGrid()[i][j] = new Tile(1, this.parent, this.ctx, this);
 			}
 		}
 	}
 
-	public Case getCase(int hauteur, int largeur) {
-		return getGrille()[hauteur][largeur];
+	public Tile getTile(int height, int width) {
+		return getGrid()[height][width];
 	}
 	
-	public Case getCaseArchive(int hauteur, int largeur) {
-		return grilleArchive[hauteur][largeur];
+	public Tile getTileOrigin(int height, int width) {
+		return gridOrigin[height][width];
 	}
-	
-	public int displayXTaupe(Maul t, int nbTaupeToDisplay) {
-		int nbTaupeCanFit = 0;
-		ArrayList<Integer> listTaupe = new ArrayList<Integer>();
+
+    public int getNbTileBlocked(){
+        int nbTileBlocked = 0;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if(getTile(i, j).getState() == 2)
+                    nbTileBlocked++;
+            }
+        }
+
+        return nbTileBlocked;
+    }
+
+	public int displayXTaupe(Maul t, int nbMaulToDisplay) {
+		int nbMaulCanFit = 0;
+		ArrayList<Integer> listMaul = new ArrayList<Integer>();
 		
-		t.setOriginaleTaupe(true);
+		t.setOriginalMaul(true);
 		
 		// Compter le nombre de taupe encore possible
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				// Pour chaque case de la grille
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				// Pour chaque case de la grid
 				for (int r = 0; r < 4; r++) {
-					if (taupeCanFit(t, i, j, getGrille(), hauteur, largeur) == true) {
-						nbTaupeCanFit++;
+					if (maulCanFit(t, i, j, getGrid(), height, width) == true) {
+						nbMaulCanFit++;
 					}
 					// Rotation de la taupe
 					t.setShape(t.rot90Hor(), false);
@@ -60,39 +85,39 @@ public class Grid {
 			}
 		}
 		
-		if(nbTaupeCanFit == 0){
+		if(nbMaulCanFit == 0){
 			return 0;
 		}
 		
 		// Choisir les taupes � afficher
-		if(nbTaupeToDisplay >= nbTaupeCanFit){
-			for(int i = 0; i < nbTaupeCanFit; i++){
-				listTaupe.add(i);
+		if(nbMaulToDisplay >= nbMaulCanFit){
+			for(int i = 0; i < nbMaulCanFit; i++){
+				listMaul.add(i);
 			}
 		} else {
 			List<Integer> l = new ArrayList<Integer>();
-			for(int i = 0; i < nbTaupeCanFit; i++){
+			for(int i = 0; i < nbMaulCanFit; i++){
 				l.add(i);
 			}
-			l = pickRandom(l, nbTaupeToDisplay);
+			l = pickNRandomElementsInList(l, nbMaulToDisplay);
 			for(int i = 0; i < l.size(); i++){
-				listTaupe.add(l.get(i));
+				listMaul.add(l.get(i));
 			}
 		}
 		
 		// Afficher les taupes
 		int idTaupe = 0;
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				// Pour chaque case de la grille
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				// Pour chaque case de la grid
 				for (int r = 0; r < 4; r++) {
-					if (taupeCanFit(t, i, j, getGrille(), hauteur, largeur) == true) {
+					if (maulCanFit(t, i, j, getGrid(), height, width) == true) {
 						
-						if(listTaupe.contains(idTaupe)){
+						if(listMaul.contains(idTaupe)){
 							for (int iTaupe = 0; iTaupe < t.getHeight(); iTaupe++) {
 								for (int jTaupe = 0; jTaupe < t.getWidth(); jTaupe++) {
 									if(t.getCase(iTaupe, jTaupe) == 1){
-										getGrille()[i + iTaupe][j + jTaupe].setState(5);
+										getGrid()[i + iTaupe][j + jTaupe].setState(5);
 									}
 									
 								}
@@ -106,40 +131,44 @@ public class Grid {
 			}
 		}
 		
-		t.setOriginaleTaupe(false);
+		t.setOriginalMaul(false);
 		
-		return Math.min(nbTaupeCanFit, nbTaupeToDisplay);
+		return Math.min(nbMaulCanFit, nbMaulToDisplay);
 	}
 	
-	public void clearTaupe(){
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				if(getGrille()[i][j].getState() == 5){
-					getGrille()[i][j].setState(1);
+	public void clearMaul(){
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if(getGrid()[i][j].getState() == 5){
+					getGrid()[i][j].setState(1);
 				}
 			}
 		}
 	}
 	
-	public List<Integer> pickRandom(List<Integer> array, int number) {
+	public <T> List<T> pickNRandomElementsInList(List<T> array, int numberOfElements) {
 	    Collections.shuffle(array);
-	    array = array.subList(0, number);
-	    Collections.sort(array);
-	    return array;
+	    array = array.subList(0, numberOfElements);
+
+        List<T> list = new ArrayList<>();
+        for (T ele : array)
+	        list.add(ele);
+
+	    return list;
 	}
 
-	public boolean verifGrille(Maul t) {
+	public boolean verifyGrid(Maul t) {
 		// Si taupe.possibilte == true => return false
 		
-		t.setOriginaleTaupe(true);
+		t.setOriginalMaul(true);
 		
-		// Algo de v�rification de la grille
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				// Pour chaque case de la grille
+		// Algo de v�rification de la grid
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				// Pour chaque case de la grid
 				boolean hasFindSolution = false;
 				for (int r = 0; r < 4; r++) {
-					if (taupeCanFit(t, i, j, getGrille(), hauteur, largeur) == true) {
+					if (maulCanFit(t, i, j, getGrid(), height, width) == true) {
 						hasFindSolution = true;
 					}
 					// Rotation de la taupe
@@ -153,21 +182,21 @@ public class Grid {
 			}
 		}
 		
-		t.setOriginaleTaupe(false);
+		t.setOriginalMaul(false);
 		
 		return true;
 	}
 
-	private boolean taupeCanFit(Maul t, int x, int y, Case[][] g, int h, int l) {
+	private boolean maulCanFit(Maul t, int x, int y, Tile[][] g, int h, int l) {
 		boolean canFit = true;
 				
 		for (int iTaupe = 0; iTaupe < t.getHeight(); iTaupe++) {
 			for (int jTaupe = 0; jTaupe < t.getWidth(); jTaupe++) {
 				if (x + iTaupe >= h || y + jTaupe >= l) {
-					// La case actuelle de la taupe est en dehors de la grille
+					// La case actuelle de la taupe est en dehors de la grid
 					canFit = false;
 				} else {
-					// La case actuelle de la taupe est dans la grille
+					// La case actuelle de la taupe est dans la grid
 					if (t.getCase(iTaupe, jTaupe) == 0) {
 						// La case actuelle de la taupe est vide
 					} else {
@@ -183,24 +212,24 @@ public class Grid {
 	}
 
 	public int findBestSolution(Maul t) {
-		Case[][] field = new Case[hauteur][largeur];
+		Tile[][] field = new Tile[height][width];
 		
-		t.setOriginaleTaupe(true);
+		t.setOriginalMaul(true);
 		
-		// On recopie la grille initiale
-		for(int i = 0; i < hauteur; i++){
-			for(int j = 0; j < largeur; j++){
-				field[i][j] = new Case(grilleArchive[i][j].getState(), this.parent, this.ctx);
+		// On recopie la grid initiale
+		for(int i = 0; i < height; i++){
+			for(int j = 0; j < width; j++){
+				field[i][j] = new Tile(gridOrigin[i][j].getState(), this.parent, this.ctx, this);
 			}
 		}
 
-		// Algo de v�rification de la grille
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				// Pour chaque case de la grille
+		// Algo de v�rification de la grid
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				// Pour chaque case de la grid
 				boolean hasFindSolution = false;
 				for (int r = 0; r < 4; r++) {
-					if (taupeCanFit(t, i, j, field, hauteur, largeur) == true) {
+					if (maulCanFit(t, i, j, field, height, width) == true) {
 						hasFindSolution = true;
 					}
 					// Rotation de la taupe
@@ -215,14 +244,14 @@ public class Grid {
 			}
 		}
 		
-		for (int j = largeur - 1; j >= 0; j--) {
-			for (int i = hauteur - 1; i >= 0; i--) {
+		for (int j = width - 1; j >= 0; j--) {
+			for (int i = height - 1; i >= 0; i--) {
 				// Pour les cases contenant un 1 en partant de la case en bas �
 				// droite et en remontant
 				if(field[i][j].getState() == 1){
 					boolean hasFindSolution = false;
 					for (int r = 0; r < 4; r++) {
-						if (taupeCanFit(t, i, j, field, hauteur, largeur) == true) {
+						if (maulCanFit(t, i, j, field, height, width) == true) {
 							hasFindSolution = true;
 						}
 						// Rotation de la taupe
@@ -238,17 +267,17 @@ public class Grid {
 			}
 		}
 		
-		t.setOriginaleTaupe(false);
+		t.setOriginalMaul(false);
 		
 		// On compte le nombre de mine pos� (case = 4)
 		return countNbMine(field, 4);
 	}
 	
-	public int countNbMine(Case[][] field, int idMine){
+	public int countNbMine(Tile[][] field, int idMine){
 		int nbMine = 0;
 		
-		for(int i = 0; i < hauteur; i++){
-			for(int j = 0; j < largeur; j++){
+		for(int i = 0; i < height; i++){
+			for(int j = 0; j < width; j++){
 				if(field[i][j].getState() == idMine){
 					nbMine++;
 				}
@@ -258,11 +287,11 @@ public class Grid {
 		return nbMine;
 	}
 
-	public Case[][] getGrille() {
-		return grille;
+	public Tile[][] getGrid() {
+		return grid;
 	}
 
-	public void setGrille(Case[][] grille) {
-		this.grille = grille;
+	public void setGrid(Tile[][] grid) {
+		this.grid = grid;
 	}
 }

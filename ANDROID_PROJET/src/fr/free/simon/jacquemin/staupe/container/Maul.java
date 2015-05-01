@@ -4,7 +4,7 @@ import io.brothers.sgm.Tools.SGMMath;
 
 public class Maul {
 	private int[][] shape;
-	private int[][] shapePure;
+	private int[][] shapeOrigin;
 	private int width;
 	private int height;
 
@@ -25,7 +25,7 @@ public class Maul {
 			}
 		}
 		
-		shapePure = shape;
+		shapeOrigin = shape;
 		
 		if(needCompleteShape){
 			shape = completeForme(shape);
@@ -49,7 +49,7 @@ public class Maul {
 
 	public void setShape(int[][] f, boolean completeForme) {
 		shape = f;
-		shapePure = f;
+		shapeOrigin = f;
 		getSize();
 		
 		if(completeForme){
@@ -58,9 +58,9 @@ public class Maul {
 		}
 	}
 	
-	public void setOriginaleTaupe(boolean a_value){
+	public void setOriginalMaul(boolean a_value){
 		if(a_value){
-			shape = shapePure;
+			shape = shapeOrigin;
 			getSize();
 		} else {
 			shape = completeForme(shape);
@@ -74,7 +74,7 @@ public class Maul {
 			return null;
 		}
 
-        return shapePure;
+        return shapeOrigin;
         /*
 		int maxSize = Math.max(f.length, f[0].length);
 		
@@ -129,11 +129,11 @@ public class Maul {
 	}
 
 	public int[][] rot90Hor() {
-		int[][] rotate = new int[shapePure[0].length][shapePure.length];
+		int[][] rotate = new int[shapeOrigin[0].length][shapeOrigin.length];
 
-		for (int i = 0; i < shapePure[0].length; i++) {
-			for (int j = 0; j < shapePure.length; j++) {
-				rotate[i][shapePure.length - 1 - j] = shapePure[j][i];
+		for (int i = 0; i < shapeOrigin[0].length; i++) {
+			for (int j = 0; j < shapeOrigin.length; j++) {
+				rotate[i][shapeOrigin.length - 1 - j] = shapeOrigin[j][i];
 			}
 		}
 

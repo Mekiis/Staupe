@@ -1,6 +1,7 @@
 package io.brothers.sgm.Unlockable;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.brothers.sgm.SGMStatManager;
@@ -11,7 +12,7 @@ import io.brothers.sgm.User.SGMUserManager;
  * Created by Simon on 19/03/2015.
  */
 public class SGMUnlockManager {
-    private static final String KEY_UNLOCK_ALREADY_DONE = "KEY_UNLOCK_ALREADY_DONE";
+    public static final String KEY_UNLOCK_COUNT = "KEY_ULCK_COUNT";
 
     public interface SGMUnlockEventListener {
         public void unlock(SGMUnlock unlocked);
@@ -29,43 +30,59 @@ public class SGMUnlockManager {
 
     public void majUnlockForData(String key, SGMUser user){
         for(SGMUnlock unlock : unlocked){
-            boolean needToCheck = false;
-            for (SGMCondition condition : unlock.conditions){
-                if(condition.key == key)
-                    needToCheck = true;
-            }
+            boolean needToCheck = unlock.isKeyNeeded(key);
 
             if(needToCheck){
-                boolean conditionsValidated = true;
-                if(SGMStatManager.getInstance().isStatExistForUser(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE)
-                        && SGMStatManager.getInstance().getStatValueForUser(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE) > 0)
-                    conditionsValidated = false;
+                boolean isNeverDone = true;
+                if(SGMStatManager.getInstance().isStatExistForUser(user, unlock.getId() + KEY_UNLOCK_COUNT)
+                        && SGMStatManager.getInstance().getStatValueForUser(user, unlock.getId() + KEY_UNLOCK_COUNT) > 0)
+                    isNeverDone = false;
 
-                for (SGMCondition condition : unlock.conditions){
-                    if( !SGMStatManager.getInstance().isStatExistForUser(SGMUserManager.getInstance().getUser(user.id), key) ||
-                            SGMStatManager.getInstance().getStatValueForUser(SGMUserManager.getInstance().getUser(user.id), key) < condition.value){
-                        conditionsValidated = false;
-                    }
-                }
+                boolean isUnlocked = (isNeverDone && unlock.isUnlocked(user) ? true : false);
 
-                if (conditionsValidated){
+                if (isUnlocked){
                     if(SGMUserManager.getInstance().getUser(user.id).getSGMUnlockEventListener() != null){
                         SGMUserManager.getInstance().getUser(user.id).getSGMUnlockEventListener().unlock(unlock);
-                        SGMStatManager.getInstance().addOneForStat(user, unlock.getId() + KEY_UNLOCK_ALREADY_DONE);
                     }
-
+                    SGMStatManager.getInstance().addOneForInternalStat(user, unlock.getId() + KEY_UNLOCK_COUNT);
                 }
             }
         }
     }
 
-    public void resetUnlocked(String id, SGMUser user){
-        if(SGMStatManager.getInstance().isStatExistForUser(user, id + KEY_UNLOCK_ALREADY_DONE))
-            SGMStatManager.getInstance().setStatDataForUser(user, id + KEY_UNLOCK_ALREADY_DONE, 0);
+    public <T extends SGMUnlock> List<T> getAllUnlockOf(Class<T> type, SGMUser user){
+        List<T> list = new LinkedList<>();
+
+        for (SGMUnlock unlock : unlocked){
+            if(unlock.getClass() == type){
+                list.add((T) unlock);
+            }
+        }
+
+        return list;
     }
 
-    public void resetAllUnlocked(){
+    public <T extends SGMUnlock> List<T> getAllUnlockUnlockedOf(Class<T> type, SGMUser user){
+        List<T> list = new LinkedList<>();
 
+        for (SGMUnlock unlock : unlocked){
+            if(unlock.getClass() == type && unlock.isUnlocked(user)){
+                list.add((T) unlock);
+            }
+        }
+
+        return list;
+    }
+
+    public void resetUnlocked(String id, SGMUser user){
+        if(SGMStatManager.getInstance().isStatExistForUser(user, id + KEY_UNLOCK_COUNT))
+            SGMStatManager.getInstance().setValueForInternalStat(user, id + KEY_UNLOCK_COUNT, 0);
+    }
+
+    public void resetAllUnlocked(SGMUser user){
+        for (SGMUnlock unlock : unlocked){
+            resetUnlocked(unlock.getId(), user);
+        }
     }
 
     public void addUnlocked(SGMUnlock unlock){

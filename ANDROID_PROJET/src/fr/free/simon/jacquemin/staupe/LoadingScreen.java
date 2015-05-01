@@ -11,15 +11,21 @@ import android.view.KeyEvent;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
+import fr.free.simon.jacquemin.staupe.SGM.UnlockLevel;
+import fr.free.simon.jacquemin.staupe.container.Level;
 import fr.free.simon.jacquemin.staupe.container.data.EData;
+import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import io.brothers.sgm.SGMADisplayableStat;
 import io.brothers.sgm.SGMStatManager;
-import io.brothers.sgm.Unlockable.Conditions.SGMCondAnd;
 import io.brothers.sgm.Unlockable.Conditions.SGMCondOr;
 import io.brothers.sgm.Unlockable.Conditions.SGMCondValue;
+import io.brothers.sgm.Unlockable.SGMAchievement;
+import io.brothers.sgm.Unlockable.SGMAchievementManager;
+import io.brothers.sgm.Unlockable.SGMUnlockManager;
 import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
@@ -60,21 +66,159 @@ public class LoadingScreen extends SGMActivity {
 		myHandler = new Handler();
 	    myHandler.postDelayed(myRunnable,10);
 
-        // Todo Resolve the bug that player stats is not correctly registered
-
         // Create Achievement
-        // Todo Create the achievements
-        /*
         SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
-                "TEST",
-                "Test",
-                "Ceci est un test",
-                new ArrayList<SGMCondition>(Arrays.asList(
-                        new SGMCondition(EData.PLAYED.toString(), 6),
-                        new SGMCondition("MARK", 0)
-                )), false));
+            "J_1",
+            "Jardinier en herbe",
+            "Obtenir 1 étoile sur au moins 1 niveau",
+            new SGMCondOr(
+                    new SGMCondValue(EData.STATS_LEVEL_ONE_STAR.toString(), 1),
+                    new SGMCondValue(EData.STATS_LEVEL_TWO_STAR.toString(), 1),
+                    new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 1)
+            ),
+            false)
+        );
 
-        */
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "J_2",
+            "Jardinier du dimanche",
+            "Obtenir 2 étoiles sur au moins 2 niveaux",
+            new SGMCondOr(
+                    new SGMCondValue(EData.STATS_LEVEL_TWO_STAR.toString(), 2),
+                    new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 2)
+            ),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "J_3",
+            "Jardinier expert",
+            "Obtenir 3 étoile sur au moins 3 niveaux",
+            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 3),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "C_1",
+            "Début du défi",
+            "Finir au moins 5 niveaux différents avec 3 étoiles",
+            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 5),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "C_2",
+            "La routine",
+            "Finir au moins 15 niveaux différents avec 3 étoiles",
+            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 15),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "C_3",
+            "Interminable mission",
+            "Finir au moins 20 niveaux différents avec 3 étoiles",
+            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 20),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "S_1",
+            "Etoile naissante",
+            "Obtenir au moins 10 étoiles",
+            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 10),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "S_2",
+            "Etoile filante",
+            "Obtenir au moins 25 étoiles",
+            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 25),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "S_3",
+            "Etoile brillante",
+            "Obtenir au moins 50 étoiles",
+            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 50),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "B_1",
+            "Formation",
+            "Empecher 5 taupes de sortir",
+            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 5),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "B_2",
+            "Blocus",
+            "Empecher 20 taupes de sortir",
+            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 20),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "B_3",
+            "Stratège",
+            "Empecher 40 taupes de sortir",
+            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 40),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "R_INIT",
+            "Challenger",
+            "Réinitilializer au moins 1 fois les étoiles",
+            new SGMCondValue(EData.STATS_NB_REINITIALIZE.toString(), 1),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "I_FLY",
+            "Tapette",
+            "Ecrasez au moins 20 mouches",
+            new SGMCondValue(EData.STATS_NB_FLY_KILL.toString(), 20),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "I_KILL_1",
+            "Nettoyeur",
+            "Ecrasez au moins 1 insecte",
+            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 1),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "I_KILL_2",
+            "Insecticide",
+            "Ecrasez au moins 10 insectes",
+            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 10),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "I_KILL_3",
+            "Ecrabouillator",
+            "Ecrasez au moins 50 insecte",
+            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 50),
+            false)
+        );
+
+        SGMAchievementManager.getInstance().addAchievement(new SGMAchievement(
+            "F",
+            "Avoir la main verte",
+            "Finir tous les niveaux avoir 3 étoiles",
+            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 22),
+            false)
+        );
+
+
         // Create stats
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
                 "INFESTATION",
@@ -195,21 +339,22 @@ public class LoadingScreen extends SGMActivity {
             }
         });
 
-        new SGMCondAnd(
-                new SGMCondOr(
-                        new SGMCondValue("TEST", 1),
-                        new SGMCondValue("TEST", 1)),
-                new SGMCondValue("TEST", 1)
-        );
-
         SGMUser user = SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID);
         if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID) == null)
             user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
 
         if(!SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
-            SGMStatManager.getInstance().setStatDataForUser(user, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
+            SGMStatManager.getInstance().setValueForStat(user, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
         }
-		
+
+        ReadLevelFile f = new ReadLevelFile();
+        ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
+                "lvl.txt");
+        for (Level level : allLevels){
+            UnlockLevel unlockLevel = new UnlockLevel(level, new SGMCondValue(EData.STATS_ALL_STARS.toString(), level.lock));
+            SGMUnlockManager.getInstance().addUnlocked(unlockLevel);
+        }
+
 		new LoadingImages(getPackageName(), getResources()).execute();
 	}
 	
