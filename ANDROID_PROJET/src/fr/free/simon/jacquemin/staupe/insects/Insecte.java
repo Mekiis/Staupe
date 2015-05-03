@@ -108,7 +108,7 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 							image.setX(image.getX()+eventX-(image.getWidth()/2f));
 							image.setY(image.getY()+eventY-(image.getHeight()/2f));
 
-                            SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_INSECT_KILL.toString());
+                            SGMStatManager.getInstance().addOneForStat(SGMGameManager.USER_ID, EData.STATS_NB_INSECT_KILL.toString());
 						
 							death.stop();
 							death.selectDrawable(0);
@@ -149,7 +149,7 @@ public class Insecte extends AsyncTask<Object, Integer, Void> {
 					image.setBackground(null);
 				}
 			});
-            SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_INSECT_NOT_KILL.toString());
+            SGMStatManager.getInstance().addOneForStat(SGMGameManager.USER_ID, EData.STATS_NB_INSECT_NOT_KILL.toString());
 			return null;
 		}
 

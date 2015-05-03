@@ -21,8 +21,8 @@ import fr.free.simon.jacquemin.staupe.container.data.EData;
 import fr.free.simon.jacquemin.staupe.utils.ReadLevelFile;
 import io.brothers.sgm.SGMADisplayableStat;
 import io.brothers.sgm.SGMStatManager;
-import io.brothers.sgm.Unlockable.Conditions.SGMCondOr;
-import io.brothers.sgm.Unlockable.Conditions.SGMCondValue;
+import io.brothers.sgm.Unlockable.Conditions.SGMCValue;
+import io.brothers.sgm.Unlockable.Conditions.SGMCOr;
 import io.brothers.sgm.Unlockable.SGMAchievement;
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.Unlockable.SGMUnlockManager;
@@ -71,10 +71,10 @@ public class LoadingScreen extends SGMActivity {
             "J_1",
             "Jardinier en herbe",
             "Obtenir 1 étoile sur au moins 1 niveau",
-            new SGMCondOr(
-                    new SGMCondValue(EData.STATS_LEVEL_ONE_STAR.toString(), 1),
-                    new SGMCondValue(EData.STATS_LEVEL_TWO_STAR.toString(), 1),
-                    new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 1)
+            new SGMCOr(
+                    new SGMCValue(EData.STATS_LEVEL_ONE_STAR.toString(), 1),
+                    new SGMCValue(EData.STATS_LEVEL_TWO_STAR.toString(), 1),
+                    new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 1)
             ),
             false)
         );
@@ -83,9 +83,9 @@ public class LoadingScreen extends SGMActivity {
             "J_2",
             "Jardinier du dimanche",
             "Obtenir 2 étoiles sur au moins 2 niveaux",
-            new SGMCondOr(
-                    new SGMCondValue(EData.STATS_LEVEL_TWO_STAR.toString(), 2),
-                    new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 2)
+            new SGMCOr(
+                    new SGMCValue(EData.STATS_LEVEL_TWO_STAR.toString(), 2),
+                    new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 2)
             ),
             false)
         );
@@ -94,7 +94,7 @@ public class LoadingScreen extends SGMActivity {
             "J_3",
             "Jardinier expert",
             "Obtenir 3 étoile sur au moins 3 niveaux",
-            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 3),
+            new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 3),
             false)
         );
 
@@ -102,7 +102,7 @@ public class LoadingScreen extends SGMActivity {
             "C_1",
             "Début du défi",
             "Finir au moins 5 niveaux différents avec 3 étoiles",
-            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 5),
+            new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 5),
             false)
         );
 
@@ -110,7 +110,7 @@ public class LoadingScreen extends SGMActivity {
             "C_2",
             "La routine",
             "Finir au moins 15 niveaux différents avec 3 étoiles",
-            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 15),
+            new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 15),
             false)
         );
 
@@ -118,7 +118,7 @@ public class LoadingScreen extends SGMActivity {
             "C_3",
             "Interminable mission",
             "Finir au moins 20 niveaux différents avec 3 étoiles",
-            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 20),
+            new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 20),
             false)
         );
 
@@ -126,7 +126,7 @@ public class LoadingScreen extends SGMActivity {
             "S_1",
             "Etoile naissante",
             "Obtenir au moins 10 étoiles",
-            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 10),
+            new SGMCValue(EData.STATS_ALL_STARS.toString(), 10),
             false)
         );
 
@@ -134,7 +134,7 @@ public class LoadingScreen extends SGMActivity {
             "S_2",
             "Etoile filante",
             "Obtenir au moins 25 étoiles",
-            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 25),
+            new SGMCValue(EData.STATS_ALL_STARS.toString(), 25),
             false)
         );
 
@@ -142,7 +142,7 @@ public class LoadingScreen extends SGMActivity {
             "S_3",
             "Etoile brillante",
             "Obtenir au moins 50 étoiles",
-            new SGMCondValue(EData.STATS_ALL_STARS.toString(), 50),
+            new SGMCValue(EData.STATS_ALL_STARS.toString(), 50),
             false)
         );
 
@@ -150,7 +150,7 @@ public class LoadingScreen extends SGMActivity {
             "B_1",
             "Formation",
             "Empecher 5 taupes de sortir",
-            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 5),
+            new SGMCValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 5),
             false)
         );
 
@@ -158,7 +158,7 @@ public class LoadingScreen extends SGMActivity {
             "B_2",
             "Blocus",
             "Empecher 20 taupes de sortir",
-            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 20),
+            new SGMCValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 20),
             false)
         );
 
@@ -166,7 +166,7 @@ public class LoadingScreen extends SGMActivity {
             "B_3",
             "Stratège",
             "Empecher 40 taupes de sortir",
-            new SGMCondValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 40),
+            new SGMCValue(EData.STATS_ALL_UNIQUE_MAUL.toString(), 40),
             false)
         );
 
@@ -174,7 +174,7 @@ public class LoadingScreen extends SGMActivity {
             "R_INIT",
             "Challenger",
             "Réinitilializer au moins 1 fois les étoiles",
-            new SGMCondValue(EData.STATS_NB_REINITIALIZE.toString(), 1),
+            new SGMCValue(EData.STATS_NB_REINITIALIZE.toString(), 1),
             false)
         );
 
@@ -182,7 +182,7 @@ public class LoadingScreen extends SGMActivity {
             "I_FLY",
             "Tapette",
             "Ecrasez au moins 20 mouches",
-            new SGMCondValue(EData.STATS_NB_FLY_KILL.toString(), 20),
+            new SGMCValue(EData.STATS_NB_FLY_KILL.toString(), 20),
             false)
         );
 
@@ -190,7 +190,7 @@ public class LoadingScreen extends SGMActivity {
             "I_KILL_1",
             "Nettoyeur",
             "Ecrasez au moins 1 insecte",
-            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 1),
+            new SGMCValue(EData.STATS_NB_INSECT_KILL.toString(), 1),
             false)
         );
 
@@ -198,7 +198,7 @@ public class LoadingScreen extends SGMActivity {
             "I_KILL_2",
             "Insecticide",
             "Ecrasez au moins 10 insectes",
-            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 10),
+            new SGMCValue(EData.STATS_NB_INSECT_KILL.toString(), 10),
             false)
         );
 
@@ -206,7 +206,7 @@ public class LoadingScreen extends SGMActivity {
             "I_KILL_3",
             "Ecrabouillator",
             "Ecrasez au moins 50 insecte",
-            new SGMCondValue(EData.STATS_NB_INSECT_KILL.toString(), 50),
+            new SGMCValue(EData.STATS_NB_INSECT_KILL.toString(), 50),
             false)
         );
 
@@ -214,7 +214,7 @@ public class LoadingScreen extends SGMActivity {
             "F",
             "Avoir la main verte",
             "Finir tous les niveaux avoir 3 étoiles",
-            new SGMCondValue(EData.STATS_LEVEL_THREE_STAR.toString(), 22),
+            new SGMCValue(EData.STATS_LEVEL_THREE_STAR.toString(), 22),
             false)
         );
 
@@ -226,15 +226,15 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
-                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+            public float getValue(String userId) {
+                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_ALL_UNIQUE_MAUL.toString());
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_GAMES_WIN.toString());
                 return (nbLevelWin > 0f ? nbMaul / nbLevelWin * 1f : 0f);
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                return String.format("%.0f", getValue(user));
+            public String getValueFormat(String userId) {
+                return String.format("%.0f", getValue(userId));
             }
         });
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
@@ -243,15 +243,15 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
-                float nbLevelLose = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_LOST.toString());
+            public float getValue(String userId) {
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_GAMES_WIN.toString());
+                float nbLevelLose = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_GAMES_LOST.toString());
                 return ((nbLevelWin + nbLevelLose) > 0f ? (nbLevelWin / (nbLevelWin + nbLevelLose)) * 10f : 5f);
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                return String.format("%.1f", getValue(user)) + "/10.0";
+            public String getValueFormat(String userId) {
+                return String.format("%.1f", getValue(userId)) + "/10.0";
             }
         });
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
@@ -260,14 +260,14 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_GAMES_WIN.toString());
+            public float getValue(String userId) {
+                float nbLevelWin = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_GAMES_WIN.toString());
                 return nbLevelWin;
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                return String.format("%.0f", getValue(user));
+            public String getValueFormat(String userId) {
+                return String.format("%.0f", getValue(userId));
             }
         });
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
@@ -276,14 +276,14 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_ALL_UNIQUE_MAUL.toString());
+            public float getValue(String userId) {
+                float nbMaul = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_ALL_UNIQUE_MAUL.toString());
                 return nbMaul;
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                return String.format("%.0f", getValue(user));
+            public String getValueFormat(String userId) {
+                return String.format("%.0f", getValue(userId));
             }
         });
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
@@ -292,15 +292,15 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                float nbInsectKill = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_KILL.toString());
-                float nbInsectNotKill = SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_NB_INSECT_NOT_KILL.toString());
+            public float getValue(String userId) {
+                float nbInsectKill = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_INSECT_KILL.toString());
+                float nbInsectNotKill = SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_NB_INSECT_NOT_KILL.toString());
                 return (nbInsectKill + nbInsectNotKill > 0f ? (nbInsectKill / (nbInsectKill + nbInsectNotKill)) * 10f : 0f);
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                return String.format("%.1f", getValue(user)) + "/10.0";
+            public String getValueFormat(String userId) {
+                return String.format("%.1f", getValue(userId)) + "/10.0";
             }
         });
         SGMStatManager.getInstance().addStatDisplayable(new SGMADisplayableStat(
@@ -309,14 +309,14 @@ public class LoadingScreen extends SGMActivity {
                 ""
         ) {
             @Override
-            public float getValue(SGMUser user) {
-                long dateInstallation = (long) SGMStatManager.getInstance().getStatValueForUser(user, EData.STATS_DATE_INSTALLATION.toString());
+            public float getValue(String userId) {
+                long dateInstallation = (long) SGMStatManager.getInstance().getStatValueForUser(userId, EData.STATS_DATE_INSTALLATION.toString());
                 return (float) dateToLong(now()) - dateInstallation;
             }
 
             @Override
-            public String getValueFormat(SGMUser user) {
-                long seconds = (long) getValue(user) / 1000; // your date
+            public String getValueFormat(String userId) {
+                long seconds = (long) getValue(userId) / 1000; // your date
                 long day = TimeUnit.SECONDS.toDays(seconds);
                 long hours = TimeUnit.SECONDS.toHours(seconds);
                 long minute = TimeUnit.SECONDS.toMinutes(seconds);
@@ -343,15 +343,15 @@ public class LoadingScreen extends SGMActivity {
         if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID) == null)
             user = new SGMUser(getApplicationContext(), SGMGameManager.USER_ID, true);
 
-        if(!SGMStatManager.getInstance().isStatExistForUser(user, EData.STATS_DATE_INSTALLATION.toString())){
-            SGMStatManager.getInstance().setValueForStat(user, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
+        if(!SGMStatManager.getInstance().isStatExistForUser(user.id, EData.STATS_DATE_INSTALLATION.toString())){
+            SGMStatManager.getInstance().setValueForStat(user.id, EData.STATS_DATE_INSTALLATION.toString(), (float) dateToLong(now()));
         }
 
         ReadLevelFile f = new ReadLevelFile();
         ArrayList<Level> allLevels = f.buildLevel(getApplicationContext(),
                 "lvl.txt");
         for (Level level : allLevels){
-            UnlockLevel unlockLevel = new UnlockLevel(level, new SGMCondValue(EData.STATS_ALL_STARS.toString(), level.lock));
+            UnlockLevel unlockLevel = new UnlockLevel(level, new SGMCValue(EData.STATS_ALL_STARS.toString(), level.lock));
             SGMUnlockManager.getInstance().addUnlocked(unlockLevel);
         }
 

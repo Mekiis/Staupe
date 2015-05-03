@@ -1,10 +1,6 @@
 package io.brothers.sgm.Unlockable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.brothers.sgm.Unlockable.Conditions.SGMAConditionElement;
-import io.brothers.sgm.User.SGMUser;
 
 /**
  * Created by iem on 13/01/15.
@@ -27,8 +23,11 @@ public class SGMUnlock {
         return true;
     }
 
-    public boolean isUnlocked(SGMUser user){
-        // Todo compute the result of the condition to check if it's complete or not
-        return true;
+    public boolean isUnlocked(String userId){
+        return conditions.compute(userId);
+    }
+
+    public float getCompletionPercent(String userId){
+        return conditions.getPercentCompletion(userId);
     }
 }

@@ -32,17 +32,15 @@ public abstract class SGMReadFile {
             AssetManager am = context.getAssets();
             InputStream inputStream = am.open(fileName);
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String receiveString = "";
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    strFinal.add(receiveString);
-                }
-
-                inputStream.close();
+            while ( (receiveString = bufferedReader.readLine()) != null ) {
+                strFinal.add(receiveString);
             }
+
+            inputStream.close();
         }
         catch (FileNotFoundException e) {
             FileNotFoundException(e);

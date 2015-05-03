@@ -72,7 +72,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 	}
 
 	public void choiceLevel() {
-        List<UnlockLevel> levels = SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class, SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID));
+        List<UnlockLevel> levels = SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class);
 		LinearLayout linearLay = (LinearLayout) findViewById(R.id.select_level_sv_list);
 		Button btn;
 		// Create the fond
@@ -91,7 +91,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 
 			btn.setPadding(0, 15, 15, 15);
 
-			if ( levels.get(i).isUnlocked(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID))) {
+			if ( levels.get(i).isUnlocked(SGMGameManager.USER_ID)) {
 				Bitmap bmOn = BitmapFactory.decodeResource(getResources(),
 						R.drawable.star_on);
 				Bitmap bmOff = BitmapFactory.decodeResource(getResources(),
@@ -124,7 +124,7 @@ public class SelectLevel extends SGMActivity implements CustomScrollView.ScrollV
 						R.drawable.star_on));
 				a.add(BitmapFactory.decodeResource(getResources(),
 						R.drawable.lock));
-				int numberMiss = levels.get(i).getStarToReach(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID));
+				int numberMiss = levels.get(i).getStarToReach(SGMGameManager.USER_ID);
 				Drawable image = new BitmapDrawable(getResources(),
 						createLockItem(a, "x"+numberMiss));
 				btn.setCompoundDrawablesWithIntrinsicBounds(null, null, image,

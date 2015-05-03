@@ -26,7 +26,7 @@ public class SGMUserManager {
         SGMUser userFind = null;
 
         for (SGMUser user : users){
-            if(user.id == id){
+            if(user.id.equals(id)){
                 userFind = user;
             }
         }
@@ -43,7 +43,7 @@ public class SGMUserManager {
         boolean isAlreadyRegister = false;
 
         for (SGMUser user : users){
-            if(user.id == userToAdd.id){
+            if(user.id.equals(userToAdd.id)){
                 isAlreadyRegister = true;
             }
         }

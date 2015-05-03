@@ -1,7 +1,5 @@
 package io.brothers.sgm;
 
-import io.brothers.sgm.User.SGMUser;
-
 /**
  * Created by Simon on 27/03/2015.
  */
@@ -10,10 +8,10 @@ public abstract class SGMADisplayableStat {
     public String name = "";
     public String desc = "";
 
-    protected abstract float getValue(SGMUser user);
+    protected abstract float getValue(String userId);
 
-    public String getValueFormat(SGMUser user){
-        return Float.toString(getValue(user));
+    public String getValueFormat(String userId){
+        return Float.toString(getValue(userId));
     }
 
     protected SGMADisplayableStat(String id, String name, String desc) {

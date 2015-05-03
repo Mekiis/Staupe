@@ -6,6 +6,7 @@ import java.util.List;
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.Unlockable.SGMUnlockManager;
 import io.brothers.sgm.User.SGMUser;
+import io.brothers.sgm.User.SGMUserManager;
 
 /**
  * Created by SJ on 25/03/2015.
@@ -23,103 +24,119 @@ public class SGMStatManager {
 
     /**
      * This function is used to add 1 for a stat. It notify the UnlockManager and the AchievementManager for the SGMUser
-     * @param user
+     * @param userId
      * @param key
      */
-    public void addOneForStat(SGMUser user, String key){
-        addValueForStat(user, key, 1);
+    public void addOneForStat(String userId, String key){
+        addValueForStat(userId, key, 1);
     }
 
     /**
      * This function is used to add a value for a stat. It notify the UnlockManager and the AchievementManager for the SGMUser
-     * @param user
+     * @param userId
      * @param key
      * @param value
      */
-    public void addValueForStat(SGMUser user, String key, float value){
+    public void addValueForStat(String userId, String key, float value){
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user == null)
+            return;
+
         if(user.getAllSavedData().data.containsKey(key)){
-            setValueForStat(user, key, user.getAllSavedData().data.get(key) + value);
+            setValueForStat(userId, key, user.getAllSavedData().data.get(key) + value);
         } else {
-            setValueForStat(user, key, value);
+            setValueForStat(userId, key, value);
         }
     }
 
     /**
      * This function is used to set a value for a stat. It notify the UnlockManager and the AchievementManager for the SGMUser
-     * @param user
+     * @param userId
      * @param key
      * @param value
      */
-    public void setValueForStat(SGMUser user, String key, float value) {
-        user.getAllSavedData().data.put(key, value);
+    public void setValueForStat(String userId, String key, float value) {
+        setValueForInternalStat(userId, key, value);
 
-        if(user.isAutoSave())
-            user.save(user.getContext());
-
-        SGMUnlockManager.getInstance().majUnlockForData(key, user);
-        SGMAchievementManager.getInstance().majAchievementForData(key, user);
+        SGMUnlockManager.getInstance().majUnlockForData(key, userId);
+        SGMAchievementManager.getInstance().majAchievementForData(key, userId);
     }
 
     /**
      * This function is used to add 1 for a stat and don't notify UnlockManager and AchievementManager
-     * @param user
+     * @param userId
      * @param key
      */
-    public void addOneForInternalStat(SGMUser user, String key){
-        addValueForInternalStat(user, key, 1);
+    public void addOneForInternalStat(String userId, String key){
+        addValueForInternalStat(userId, key, 1);
     }
 
     /**
      * This function is used to add a value for a stat and don't notify UnlockManager and AchievementManager
-     * @param user
+     * @param userId
      * @param key
      * @param value
      */
-    public void addValueForInternalStat(SGMUser user, String key, float value){
+    public void addValueForInternalStat(String userId, String key, float value){
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user == null)
+            return;
+
         if(user.getAllSavedData().data.containsKey(key)){
-            setValueForInternalStat(user, key, user.getAllSavedData().data.get(key) + value);
+            setValueForInternalStat(userId, key, user.getAllSavedData().data.get(key) + value);
         } else {
-            setValueForInternalStat(user, key, value);
+            setValueForInternalStat(userId, key, value);
         }
     }
 
     /**
      * This function is used to set a value for a stat and don't notify UnlockManager and AchievementManager
-     * @param user
+     * @param userId
      * @param key
      * @param value
      */
-    public void setValueForInternalStat(SGMUser user, String key, float value) {
+    public void setValueForInternalStat(String userId, String key, float value) {
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user == null)
+            return;
+
         user.getAllSavedData().data.put(key, value);
 
         if(user.isAutoSave())
             user.save(user.getContext());
     }
 
-    public boolean isStatExistForUser(SGMUser user, String key){
+    public boolean isStatExistForUser(String userId, String key){
         boolean statExist = false;
+
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user == null)
+            return statExist;
+
         if(user.getAllSavedData().data.containsKey(key))
             statExist = true;
 
         for (SGMADisplayableStat stat : statsDisplayable){
-            if(stat.id == key)
+            if(stat.id.equals(key))
                 statExist = true;
         }
 
         return statExist;
     }
 
-    public float getStatValueForUser(SGMUser user, String key){
+    public float getStatValueForUser(String userId, String key){
         float value = 0.0f;
 
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user == null)
+            return value;
+
         if(user.getAllSavedData().data.containsKey(key))
-        {
             value = user.getAllSavedData().data.get(key);
-        }
 
         for (SGMADisplayableStat stat : statsDisplayable){
-            if(stat.id == key)
-                value = stat.getValue(user);
+            if(stat.id.equals(key))
+                value = stat.getValue(userId);
         }
 
         return value;

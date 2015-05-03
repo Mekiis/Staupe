@@ -83,13 +83,12 @@ public class SGMUser {
         SharedPreferences preferences = context.getSharedPreferences(file, 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getPref(Context context, String file, String key, String defaultValue) {
-        String s = key;
         SharedPreferences preferences = context.getSharedPreferences(file, 0);
-        return preferences.getString(s, defaultValue);
+        return preferences.getString(key, defaultValue);
     }
 
     public SGMUnlockManager.SGMUnlockEventListener getSGMUnlockEventListener(){

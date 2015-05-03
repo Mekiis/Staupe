@@ -33,11 +33,7 @@ public class NoDuplicatesList<E> extends LinkedList<E> {
 
     @Override
     public void add(int index, E element) {
-        if (this.contains(element)) {
-            return;
-        }
-        else {
+        if (!this.contains(element))
             super.add(index, element);
-        }
     }
 }

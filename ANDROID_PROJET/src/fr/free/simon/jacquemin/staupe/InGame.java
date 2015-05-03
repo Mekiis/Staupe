@@ -225,7 +225,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener, Grid.Gr
 		}
 
         List<Level> allLevel = new ArrayList<>();
-        for (UnlockLevel level : SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class, SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID)))
+        for (UnlockLevel level : SGMUnlockManager.getInstance().getAllUnlockOf(UnlockLevel.class))
             allLevel.add(level.getLevel());
 
 		// On recherche si l'ID corresponds � un niveau
@@ -533,7 +533,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener, Grid.Gr
 			/* RESULT : LOSE */
 			/* STATISTICS */
             // Statistics : Nb of games lose
-            SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_GAMES_LOST.toString(), 1);
+            SGMStatManager.getInstance().addValueForStat(SGMGameManager.USER_ID, EData.STATS_NB_GAMES_LOST.toString(), 1);
 
 			/* DISPLAY*/
 			builder.setMessage(R.string.dlg_loseMsg);
@@ -584,11 +584,11 @@ public class InGame extends SGMActivity implements View.OnTouchListener, Grid.Gr
                     actualGrid.countNbMine(actualGrid.getGrid(), 2));
 
 			// Statistics : Nb of games win
-            SGMStatManager.getInstance().addOneForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_NB_GAMES_WIN.toString());
+            SGMStatManager.getInstance().addOneForStat(SGMGameManager.USER_ID, EData.STATS_NB_GAMES_WIN.toString());
 			// Statistics : Nb of mines
-            SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_MINES.toString(), actualGrid.countNbMine(actualGrid.getGrid(), 2));
+            SGMStatManager.getInstance().addValueForStat(SGMGameManager.USER_ID, EData.STATS_ALL_MINES.toString(), actualGrid.countNbMine(actualGrid.getGrid(), 2));
 			// Statistics : Nb of maul blocked
-            SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_UNIQUE_MAUL.toString(), actualMaul.getWeight());
+            SGMStatManager.getInstance().addValueForStat(SGMGameManager.USER_ID, EData.STATS_ALL_UNIQUE_MAUL.toString(), actualMaul.getWeight());
 
             /* BEST SCORE */
             int[] best = getArray(SGMGameManager.LVL_BEST_STATE);
@@ -606,7 +606,7 @@ public class InGame extends SGMActivity implements View.OnTouchListener, Grid.Gr
 
 			if (nbStarThisRound > nbStars) {
 				// Statistics : Nb of stars
-                SGMStatManager.getInstance().addValueForStat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID), EData.STATS_ALL_STARS.toString(), nbStarThisRound - nbStars);
+                SGMStatManager.getInstance().addValueForStat(SGMGameManager.USER_ID, EData.STATS_ALL_STARS.toString(), nbStarThisRound - nbStars);
                 // Save : Stars for this level
                 setPref(SGMGameManager.FILE_LEVELS, SGMGameManager.LVL_STARS + actualLevel.id, Integer.toString(nbStarThisRound));
             }

@@ -22,10 +22,9 @@ public class SGMDate {
 
     public static long dateToLong(String date){
         SimpleDateFormat f = new SimpleDateFormat(SGMGameManager.DATE_FORMAT);
-        Date d = null;
         long milliseconds = 0;
         try {
-            d = f.parse(date);
+            Date d = f.parse(date);
             milliseconds = d.getTime();
         } catch (ParseException e) {
             Log.e("SGMDate", "Error - While parsing the date convert to a long millisecond value");

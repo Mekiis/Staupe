@@ -68,7 +68,7 @@ public class Stats extends SGMActivity {
 
         int i = 0;
         for (SGMADisplayableStat stat : SGMStatManager.getInstance().getStatsDisplayable()){
-            items[i] = new StatsItem(stat.id, stat.name, stat.desc, stat.getValueFormat(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID)));
+            items[i] = new StatsItem(stat.id, stat.name, stat.desc, stat.getValueFormat(SGMGameManager.USER_ID));
             i++;
         }
 
