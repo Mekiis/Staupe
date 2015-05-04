@@ -1,8 +1,17 @@
 package io.brothers.sgm.Unlockable;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.achievement.Achievement;
+import com.google.android.gms.games.achievement.AchievementBuffer;
+import com.google.android.gms.games.achievement.Achievements;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import fr.free.simon.jacquemin.staupe.AchievementsActivity;
 import io.brothers.sgm.SGMStatManager;
 import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
@@ -16,6 +25,8 @@ public class SGMAchievementManager {
 
     public interface SGMAchievementEventListener {
         public void unlock(SGMAchievement achievement);
+
+        public void achievementsSynchronized(EWaySynchronize way, boolean isSynchronized);
     }
 
     private List<SGMAchievement> achievements = new ArrayList<>();
@@ -114,5 +125,63 @@ public class SGMAchievementManager {
 
     public List<SGMAchievement> getAchievements() {
         return achievements;
+    }
+
+    public enum EWaySynchronize{
+        SrcGooglePlay,
+        SrcApp,
+        SrcGooglePlayAndApp
+    }
+
+    //http://gamedev.stackexchange.com/questions/77621/how-can-you-check-your-users-unlocked-achievements-google-play-game-services
+    //http://stackoverflow.com/questions/23848014/google-play-game-services-unlock-achievement-store-unlock-in-game-or-call-unlo/23853222#23853222
+    //https://developer.android.com/reference/com/google/android/gms/games/achievement/Achievements.LoadAchievementsResult.html
+    //https://github.com/playgameservices/android-basic-samples/blob/master/FAQ.txt
+
+    //https://developer.android.com/google/auth/api-client.html
+    /**
+     * Synchronize achievements between App and GooglePlay with an asynchronous function.
+     * An event <i>achievementsSynchronized</i> is call when the process is complete.
+     * @param way The way to synchronize data :<br/>
+     *            <b>SrcGooglePlay</b> - Get the state on the play store and set data locally<br/>
+     *            <b>SrcApp</b> - Get the state locally and set data on the GooglePlay<br/>
+     *            <b>SrcGooglePlayAndApp</b> - Get the best state for each achievements and set data on the GooglePlay and locally<br/>
+     * @param userId The id of the user
+     */
+    public void synchronizeWithGooglePlay(EWaySynchronize way, String userId){
+        //new Synchronize(way, userId).start();
+        SGMUser user = SGMUserManager.getInstance().getUser(userId);
+        if(user != null && user.getApiClient() != null)
+            Games.Achievements.load(user.getApiClient(), false).setResultCallback(new Synchronize(way, userId));
+    }
+
+    private class Synchronize implements ResultCallback<Achievements.LoadAchievementsResult> {
+        SGMUser user = null;
+        EWaySynchronize way;
+
+        public Synchronize(EWaySynchronize way, String userId){
+            user = SGMUserManager.getInstance().getUser(userId);
+            this.way = way;
+        }
+
+        @Override
+        public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
+            Achievement ach;
+            AchievementBuffer aBuffer = loadAchievementsResult.getAchievements();
+            Iterator<Achievement> aIterator = aBuffer.iterator();
+
+            while (aIterator.hasNext()) {
+                ach = aIterator.next();
+                if ("The Achievement Id you are checking".equals(ach.getAchievementId())) {
+                    if (ach.getState() == Achievement.STATE_UNLOCKED) {
+                        // it is unlocked
+                    } else {
+                        //it is not unlocked
+                    }
+                    aBuffer.close();
+                    break;
+                }
+            }
+        }
     }
 }

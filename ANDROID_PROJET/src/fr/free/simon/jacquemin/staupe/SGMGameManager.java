@@ -137,7 +137,7 @@ public class SGMGameManager extends Activity implements SGMAchievementManager.SG
             Intent intent = new Intent(this, Options.class);
             startActivityForResult(intent, CALLBACK_ID);
         } else if (nom.equalsIgnoreCase("HomeAchievements")) {
-            Intent intent = new Intent(this, Achievements.class);
+            Intent intent = new Intent(this, AchievementsActivity.class);
             startActivityForResult(intent, CALLBACK_ID);
         }
 	}

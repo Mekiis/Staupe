@@ -18,7 +18,7 @@ import io.brothers.sgm.Unlockable.SGMAchievementManager;
 import io.brothers.sgm.User.SGMUser;
 import io.brothers.sgm.User.SGMUserManager;
 
-public class Achievements extends SGMActivity {
+public class AchievementsActivity extends SGMActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

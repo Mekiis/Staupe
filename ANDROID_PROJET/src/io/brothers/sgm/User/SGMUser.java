@@ -3,6 +3,7 @@ package io.brothers.sgm.User;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
@@ -19,6 +20,8 @@ public class SGMUser {
     private SGMSavedData savedData;
     private boolean autoSave;
     private Context context;
+
+    private GoogleApiClient apiClient = null;
 
     private SGMUnlockManager.SGMUnlockEventListener SGMUnlockEventListener = null;
     private SGMAchievementManager.SGMAchievementEventListener SGMAchievementEventListener = null;
@@ -118,4 +121,10 @@ public class SGMUser {
     public void setAutoSave(boolean autoSave) {
         this.autoSave = autoSave;
     }
+
+    public GoogleApiClient getApiClient() {
+        return apiClient;
+    }
+
+    // Todo Add a connect function : https://developer.android.com/google/auth/api-client.html
 }
