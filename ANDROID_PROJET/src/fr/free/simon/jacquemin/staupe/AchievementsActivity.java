@@ -39,10 +39,10 @@ public class AchievementsActivity extends SGMActivity {
 
         int i = 0;
         for (SGMAchievement achievement : SGMAchievementManager.getInstance().getAchievements()){
-            if(SGMAchievementManager.getInstance().isAchievementComplete(SGMGameManager.USER_ID, achievement.getId()))
+            if(SGMAchievementManager.getInstance().isAchievementComplete(achievement.getId(), SGMGameManager.USER_ID))
                 items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc());
             else
-                items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc(), SGMAchievementManager.getInstance().getAchievementCompletionPercent(SGMGameManager.USER_ID, achievement.getId()));
+                items[i] = new AchievementsItem(achievement.getId(), achievement.getName(), achievement.getDesc(), SGMAchievementManager.getInstance().getAchievementCompletionPercent(achievement.getId(), SGMGameManager.USER_ID));
             i++;
         }
 

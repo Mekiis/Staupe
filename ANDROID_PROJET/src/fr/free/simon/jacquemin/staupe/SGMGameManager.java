@@ -146,4 +146,9 @@ public class SGMGameManager extends Activity implements SGMAchievementManager.SG
     public void unlock(SGMAchievement achievement) {
 
     }
+
+    @Override
+    public void achievementsSynchronized(SGMAchievementManager.EWaySynchronize way, boolean isSynchronized) {
+
+    }
 }

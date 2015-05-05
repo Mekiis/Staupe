@@ -138,6 +138,8 @@ public class SGMAchievementManager {
     //https://developer.android.com/reference/com/google/android/gms/games/achievement/Achievements.LoadAchievementsResult.html
     //https://github.com/playgameservices/android-basic-samples/blob/master/FAQ.txt
 
+    // https://developers.google.com/games/services/training/signin
+
     //https://developer.android.com/google/auth/api-client.html
     /**
      * Synchronize achievements between App and GooglePlay with an asynchronous function.
