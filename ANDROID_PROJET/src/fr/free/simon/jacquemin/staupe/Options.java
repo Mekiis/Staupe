@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,20 +31,49 @@ public class Options extends SGMActivity {
 
         ((Button) findViewById(R.id.options_btn_reinitialise_stars)).setTypeface(font);
         ((Button) findViewById(R.id.options_btn_reinitialise_achievement)).setTypeface(font);
-        ((Switch) findViewById(R.id.options_cb_activate_animations_IG)).setTypeface(font);
-        ((Switch) findViewById(R.id.options_cb_activate_animations_menu)).setTypeface(font);
+        Switch comboBoxActivateAnimIG = (Switch) findViewById(R.id.options_cb_activate_animations_IG);
+        comboBoxActivateAnimIG.setTypeface(font);
+        Switch comboBoxActivateAnimInMenu = (Switch) findViewById(R.id.options_cb_activate_animations_menu);
+        comboBoxActivateAnimInMenu.setTypeface(font);
         ((TextView) findViewById(R.id.options_title)).setTypeface(font);
+        ((TextView) findViewById(R.id.options_connect_title)).setTypeface(font);
+        CheckBox checkBoxConnectAuto = (CheckBox) findViewById(R.id.options_connect_auto_connect);
+        checkBoxConnectAuto.setTypeface(font);
+        Button btnConnect = (Button) findViewById(R.id.options_connect_btn_ok);
+        btnConnect.setTypeface(font);
+        Button btnDisconnect = (Button) findViewById(R.id.options_connect_btn_disconnect);
+        btnDisconnect.setTypeface(font);
 
-        ((Switch) findViewById(R.id.options_cb_activate_animations_IG)).setOnCheckedChangeListener(new OnChangeListener());
-        ((Switch) findViewById(R.id.options_cb_activate_animations_menu)).setOnCheckedChangeListener(new OnChangeListener());
+        if(SGMStatManager.getInstance().getStatValueForUser(SGMGameManager.USER_ID, "CONNECT_AUTO") == 0)
+            checkBoxConnectAuto.setChecked(false);
+        else
+            checkBoxConnectAuto.setChecked(true);
 
-        String value = "1";
+        checkBoxConnectAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SGMStatManager.getInstance().setValueForInternalStat(SGMGameManager.USER_ID, "CONNECT_AUTO", isChecked == true ? 1 : 0);
+            }
+        });
+
+        if(SGMUserManager.getInstance().getUser(SGMGameManager.USER_ID).isConnectedToGooglePlay()){
+            btnConnect.setVisibility(View.GONE);
+            btnDisconnect.setVisibility(View.VISIBLE);
+        } else {
+            btnConnect.setVisibility(View.VISIBLE);
+            btnDisconnect.setVisibility(View.GONE);
+        }
+
+        comboBoxActivateAnimIG.setOnCheckedChangeListener(new OnChangeListener());
+        comboBoxActivateAnimInMenu.setOnCheckedChangeListener(new OnChangeListener());
+
+        String value;
 
         value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_IG, "1");
-        ((Switch) findViewById(R.id.options_cb_activate_animations_IG)).setChecked(value == "1" ? true : false);
+        comboBoxActivateAnimIG.setChecked(value == "1" ? true : false);
 
         value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_MENU, "1");
-        ((Switch) findViewById(R.id.options_cb_activate_animations_menu)).setChecked(value == "1" ? true : false);
+        comboBoxActivateAnimInMenu.setChecked(value == "1" ? true : false);
 
 
     }

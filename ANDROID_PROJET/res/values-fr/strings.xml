@@ -40,4 +40,9 @@
     <string name="stats_ratioMaulPerLevel">Infestation</string>
     <string name="stats_nbLevelWin">Garden saved</string>
     <string name="stats_ratioInsectKill">Insecticide</string>
+    <string name="connection_gps_title">Connection to Google Play</string>
+    <string name="connect_gps_text">You can log in with your Google Account PLay to automatically synchronize your achievements with your account.\nYour progress is saved locally on the phone.\n\nTo access the login / logout menu, please access the Options menu.</string>
+    <string name="connect_gps_auto_connect">Auto-connection</string>
+    <string name="connect_gps_cancel">Cancel</string>
+    <string name="connect_gps_connect">Connect</string>
 </resources>

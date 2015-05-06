@@ -59,6 +59,11 @@
     <string msgid="5000919058582214855" name="commono_google_play_services_api_unavailable_text">"Cette application nécessite un ou plusieurs services Google Play qui ne sont pas disponibles actuellement. Veuillez contacter le développeur pour obtenir de l\'aide."</string>
     <!-- From: file:/D:/Documents/PROGRAMMATION/STAUPE/GIT/ANDROID_PROJET/res/values-fr/strings.xml -->
     <eat-comment/>
+    <string name="connect_gps_auto_connect">Auto-connection</string>
+    <string name="connect_gps_cancel">Cancel</string>
+    <string name="connect_gps_connect">Connect</string>
+    <string name="connect_gps_text">You can log in with your Google Account PLay to automatically synchronize your achievements with your account.\nYour progress is saved locally on the phone.\n\nTo access the login / logout menu, please access the Options menu.</string>
+    <string name="connection_gps_title">Connection to Google Play</string>
     <string name="dlg_loseMsg">Les taupes ont envahi le jardin...</string>
     <string name="dlg_loseTitle">Perdu</string>
     <string name="dlg_lose_continue">Continuer le niveau</string>

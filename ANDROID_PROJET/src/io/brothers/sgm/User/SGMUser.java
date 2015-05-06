@@ -126,5 +126,8 @@ public class SGMUser {
         return apiClient;
     }
 
+    public boolean isConnectedToGooglePlay(){
+        return getApiClient() != null;
+    }
     // Todo Add a connect function : https://developer.android.com/google/auth/api-client.html
 }

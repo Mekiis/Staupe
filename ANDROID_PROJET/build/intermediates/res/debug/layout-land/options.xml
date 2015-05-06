@@ -74,35 +74,75 @@
 
                 <Button
                     android:id="@+id/options_btn_reinitialise_achievement"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/selector"
                     android:onClick="actionClick"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:text="@string/options_btn_reinitialise_achievements"
                     android:textSize="@dimen/text_Normal"
                     android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/options_btn_reinitialise_stars"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/selector"
                     android:onClick="actionClick"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:text="@string/btn_reinitialise_stars"
                     android:textSize="@dimen/text_Normal"
                     android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/options_connect_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/title"
+                    android:textColor="@color/black"
+                    android:text="@string/connection_gps_title"/>
+
+                <CheckBox
+                    android:id="@+id/options_connect_auto_connect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_below="@+id/connect_popup_text"
+                    android:text="@string/connect_gps_auto_connect"
+                    android:textSize="@dimen/text_Normal"
+                    android:checked="true"/>
+
+                <Button
+                    android:id="@+id/options_connect_btn_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Normal"
+                    android:textColor="@color/black"
+                    android:background="@drawable/selector"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/connect_gps_connect"/>
+
+                <Button
+                    android:id="@+id/options_connect_btn_disconnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Normal"
+                    android:textColor="@color/black"
+                    android:background="@drawable/selector"
+                    android:padding="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/connect_gps_disconnect"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

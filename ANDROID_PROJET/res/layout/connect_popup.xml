@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/staupe_bg">
+
+    <TextView
+        android:id="@+id/connect_popup_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_Small"
+        android:text="@string/connect_gps_text"/>
+
+    <CheckBox
+        android:id="@+id/connect_popup_auto_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connect_popup_text"
+        android:text="@string/connect_gps_auto_connect"
+        android:textSize="@dimen/text_Small"
+        android:checked="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/connect_popup_auto_connect">
+
+        <Button
+            android:id="@+id/connect_popup_btn_cancel"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_Small"
+            android:text="@string/connect_gps_cancel"/>
+
+        <Button
+            android:id="@+id/connect_popup_btn_ok"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_Small"
+            android:text="@string/connect_gps_connect"/>
+    </LinearLayout>
+</RelativeLayout>

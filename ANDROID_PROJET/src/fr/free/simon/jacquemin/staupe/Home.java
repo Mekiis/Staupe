@@ -1,20 +1,27 @@
 package fr.free.simon.jacquemin.staupe;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import fr.free.simon.jacquemin.staupe.SGM.SGMActivity;
 import fr.free.simon.jacquemin.staupe.insects.LauncherInsect;
+import io.brothers.sgm.SGMStatManager;
 
 public class Home extends SGMActivity implements View.OnTouchListener{
-	private static ImageView UIimageViewInsectContainer = null;
+	private static ImageView UIImageViewInsectContainer = null;
 	private static LauncherInsect insectLauncher = null;
+
+    private static Dialog dialog = null;
+    private static CheckBox checkBoxConnectAuto = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,48 @@ public class Home extends SGMActivity implements View.OnTouchListener{
 		this.behaviorQuitButton = 1;
 		init();
 
-        UIimageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.home_root));
+        UIImageViewInsectContainer = createImageView((RelativeLayout) findViewById(R.id.home_root));
+
+        if(SGMStatManager.getInstance().getStatValueForUser(SGMGameManager.USER_ID, "DISPLAY_HOME") == 0){
+            dialog = new Dialog(Home.this);
+            dialog.setContentView(R.layout.connect_popup);
+            dialog.setTitle(R.string.connection_gps_title);
+
+            Button dialogOkButton = (Button) dialog.findViewById(R.id.connect_popup_btn_ok);
+            dialogOkButton.setTypeface(font);
+            dialogOkButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            Button dialogCancelButton = (Button) dialog.findViewById(R.id.connect_popup_btn_cancel);
+            dialogCancelButton.setTypeface(font);
+            dialogCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+                }
+            });
+
+            checkBoxConnectAuto = (CheckBox) dialog.findViewById(R.id.connect_popup_auto_connect);
+            checkBoxConnectAuto.setTypeface(font);
+            ((TextView) dialog.findViewById(R.id.connect_popup_text)).setTypeface(font);
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    SGMStatManager.getInstance().setValueForInternalStat(SGMGameManager.USER_ID, "CONNECT_AUTO", checkBoxConnectAuto.isChecked() == true ? 1 : 0);
+                    insectLauncher.run();
+                }
+            });
+
+            dialog.show();
+            SGMStatManager.getInstance().addOneForInternalStat(SGMGameManager.USER_ID, "DISPLAY_HOME");
+        }
+
 	}
 	
 	@Override
@@ -39,8 +87,10 @@ public class Home extends SGMActivity implements View.OnTouchListener{
 
         String value = "1";
         value = getPref(SGMGameManager.FILE_OPTIONS, SGMGameManager.OPTION_ANIM_MENU, value);
-        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIimageViewInsectContainer, this, metrics, value == "1" ? true : false);
-        insectLauncher.run();
+        insectLauncher = new fr.free.simon.jacquemin.staupe.insects.LauncherInsect(5, 7, UIImageViewInsectContainer, this, metrics, value == "1" ? true : false);
+
+        if(dialog == null || !dialog.isShowing())
+            insectLauncher.run();
 	}
 	
 	@Override

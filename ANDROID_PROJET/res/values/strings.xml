@@ -60,5 +60,11 @@
     <string name="msg_game_reset_body">Do you really want to reset the level</string>
     <string name="msg_game_reset_ok">Reset</string>
     <string name="msg_game_reset_back">Back</string>
+    <string name="connection_gps_title">Connection to Google Play</string>
+    <string name="connect_gps_text">You can log in with your Google Account PLay to automatically synchronize your achievements with your account.\nYour progress is saved locally on the phone.\n\nTo access the login / logout menu, please access the Options menu.</string>
+    <string name="connect_gps_auto_connect">Auto-connection</string>
+    <string name="connect_gps_cancel">Cancel</string>
+    <string name="connect_gps_connect">Connect</string>
+    <string name="connect_gps_disconnect">Disconnect</string>
 
 </resources>
