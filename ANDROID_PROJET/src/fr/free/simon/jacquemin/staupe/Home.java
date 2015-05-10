@@ -43,6 +43,7 @@ public class Home extends SGMActivity implements View.OnTouchListener{
             dialogOkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //SGMGameManager.this.connectUser(SGMGameManager.USER_ID);
                     dialog.dismiss();
                 }
             });

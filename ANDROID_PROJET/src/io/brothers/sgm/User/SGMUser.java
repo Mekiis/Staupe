@@ -2,8 +2,10 @@ package io.brothers.sgm.User;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.browse.MediaBrowser;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.google.gson.Gson;
 
 import io.brothers.sgm.Unlockable.SGMAchievementManager;
@@ -129,5 +131,15 @@ public class SGMUser {
     public boolean isConnectedToGooglePlay(){
         return getApiClient() != null;
     }
-    // Todo Add a connect function : https://developer.android.com/google/auth/api-client.html
+
+    public void connectToGooglePlay(Context context, GoogleApiClient.ConnectionCallbacks callbacks, GoogleApiClient.OnConnectionFailedListener connectionFailed){
+        apiClient = new GoogleApiClient.Builder(context)
+                .addApi(Drive.API)
+                .addScope(Drive.SCOPE_FILE)
+                .addConnectionCallbacks(callbacks)
+                .addOnConnectionFailedListener(connectionFailed)
+                .build();
+
+        apiClient.connect();
+    }
 }
